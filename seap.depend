@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1318363803 source:/home/ernesto/seap/src/ParamParser.cpp
+	"ParamParser.h"
+
+1318350181 source:/home/ernesto/seap/src/main.cpp
+	<iostream>
+	"ParamParser.h"
+
+1318363731 /home/ernesto/seap/src/ParamParser.h
+	<set>
+	<map>
+	<string>
+	<iostream>
+	<cstring>
+	<cstdlib>
+
