@@ -20,8 +20,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="src/ParamParser.cpp" />
-		<Unit filename="src/ParamParser.h" />
+		<Unit filename="src/config.cpp" />
+		<Unit filename="src/config.h" />
 		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<code_completion />
