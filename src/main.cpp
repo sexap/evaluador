@@ -29,6 +29,12 @@ int main(int argc, char* argv[]) {
 		if (cfg.getValue("s", var3) == Config::SUCCESS) cout << "success" << endl;
 		else cout << "not set" << endl;
 		cout << var3 << endl;
+
+		cout << "lista: " << endl;
+		while(cfg.hasMoreItems("l")) {
+			cfg.getNextItem("l", var3);
+			cout << var3 << endl;
+		}
 	}
     return 0;
 }

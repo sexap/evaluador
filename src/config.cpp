@@ -120,10 +120,12 @@ namespace seap_implement {
 					if(!(dest->isSet)) {
 						dest->v_list = new list<string>();
 						dest->v_list->push_back(argv[k]);
+						dest->listIt = dest->v_list->begin();
 						dest->isSet = true;
 					}
 					else {
 						dest->v_list->push_back(argv[k]);
+						dest->listIt = dest->v_list->begin();
 					}
 				}
 			}
@@ -158,9 +160,7 @@ namespace seap_implement {
 	//  SETTERS  //
 	///////////////
 	Config::Status Config::setValue(string name, bool value) {
-		map<string, Data>::iterator it;
-		cout << " llamado a set value bool" << endl;
-		it = variables.find(name);
+		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) return NOTFOUND;
 		if (it->second.type != T_BOOL) return BADTYPE;
 		it->second.v_bool = value;
@@ -168,9 +168,7 @@ namespace seap_implement {
 	}
 
 	Config::Status Config::setValue(string name, int value) {
-		map<string, Data>::iterator it;
-		cout << " llamado a set value int" << endl;
-		it = variables.find(name);
+		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) return NOTFOUND;
 		if (it->second.type != T_INT) return BADTYPE;
 		it->second.v_int = value;
@@ -178,22 +176,15 @@ namespace seap_implement {
 	}
 
 	Config::Status Config::setValue(string name, const char* value) {
-		cout << " llamado a set value char*" << endl;
 		return setValue(name, string(value));
 	}
 
 	Config::Status Config::setValue(string name, string value) {
-		map<string, Data>::iterator it;
-		cout << " llamado a set value string" << endl;
-		it = variables.find(name);
+		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) return NOTFOUND;
 		if (it->second.type != T_STRING) return BADTYPE;
-		cout << "a punto de borrar anterior" << endl;
 		delete it->second.v_string;
-		cout << "borrardo anterior" << endl;
-		cout << "a punto de poner nueva" << endl;
 		it->second.v_string = new string(value);
-		cout << "puesta nueva" << endl;
 		return SUCCESS;
 	}
 
@@ -229,5 +220,27 @@ namespace seap_implement {
 		if (it->second.v_string == NULL) return ERROR;
 		var = *(it->second.v_string);
 		return (it->second.isSet)?SUCCESS:NOTSET;
+	}
+
+	bool Config::hasMoreItems(string name) {
+		map<string, Data>::iterator it;
+
+		it = variables.find(name);
+		if (it == variables.end()) return false;
+		if (it->second.type != T_LIST) return false;
+		if (it->second.v_list == NULL) return false;
+		return (it->second.listIt != it->second.v_list->end());
+	}
+
+	Config::Status Config::getNextItem(string name, string& var) {
+		map<string, Data>::iterator it;
+
+		it = variables.find(name);
+		if (it == variables.end()) return NOTFOUND;
+		if (it->second.type != T_LIST) return BADTYPE;
+		if (it->second.v_list == NULL) return ERROR;
+		var = *(it->second.listIt);
+		it->second.listIt ++;
+		return SUCCESS;
 	}
 }

@@ -27,6 +27,9 @@ namespace seap_implement{
 			Status getValue(string name, int& var);
 			Status getValue(string name, string& var);
 
+			bool hasMoreItems(string name);
+			Status getNextItem(string name, string& var);
+
 			Config();
 			~Config();
 		protected:
@@ -37,6 +40,7 @@ namespace seap_implement{
 				bool isSet;
 				bool isMandatory;
 				int timesSeen;
+				list<string>::iterator listIt;
 				union {
 					bool v_bool;
 					int v_int;
