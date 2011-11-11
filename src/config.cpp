@@ -26,10 +26,11 @@ namespace seap_implement {
 	////////////////////////////////
 	//  TRATAMIENTO DE VARIABLES  //
 	////////////////////////////////
-	void Config::registerVariable(string name, Type type, bool mandatory) {
+	void Config::registerVariable(string name, Type type, bool mandatory, Source source) {
 		Data tmpData;
 
 		tmpData.type = type;
+		tmpData.source = source;
 		tmpData.isMandatory = mandatory;
 		tmpData.isSet = false;
 		tmpData.timesSeen = 0;
@@ -42,9 +43,9 @@ namespace seap_implement {
 
 	bool Config::parseArgs(int argc, char* argv[], int begin) {
 		enum {W_ID, W_INT, W_STR, W_LST};
-		map<string, Data>::iterator it;
 		int k, status = W_ID;
 		Data* dest = NULL;
+		map<string, Data>::iterator it;
 		bool error = false;
 
 		for (k = begin; k < argc; k++) {
@@ -58,19 +59,24 @@ namespace seap_implement {
 					else {
 						dest = &(it->second);
 
-						dest->timesSeen += 1;
-						if (dest->timesSeen > 1) {
-							cout << "Ya se había definido " << argv[k] << endl;
-							error = true;
-						}
+						if (dest->source == S_ARGV || dest->source == S_BOTH) {
+							dest->timesSeen += 1;
+							if (dest->timesSeen > 1) {
+								cout << "Ya se había definido " << argv[k] << endl;
+								error = true;
+							}
 
-						if (dest->type == T_BOOL) {
-							dest->v_bool = true;
-							dest->isSet = true;
+							if (dest->type == T_BOOL) {
+								dest->v_bool = true;
+								dest->isSet = true;
+							}
+							else if (dest->type == T_INT) status = W_INT;
+							else if (dest->type == T_STRING) status = W_STR;
+							else if (dest->type == T_LIST) status = W_LST;
 						}
-						else if (dest->type == T_INT) status = W_INT;
-						else if (dest->type == T_STRING) status = W_STR;
-						else if (dest->type == T_LIST) status = W_LST;
+						else {
+							cout << "El id " << argv[k] << " se debe especificar en archivo" << endl;
+						}
 					}
 				}
 				else {
@@ -144,17 +150,96 @@ namespace seap_implement {
 			error = true;
 		}
 
-		//if (error) return false;
+		return !error;
+	} // Fin parseArgs()
 
-		for (it = variables.begin(); it != variables.end(); it++) {
-			if (it->second.isMandatory && it->second.timesSeen == 0) {
-				cout << "El id -" << (it->first) << " es obligatorio" << endl;
+	bool Config::parseFile(const char* filename) {
+		using namespace libconfig;
+
+		libconfig::Config config;
+		libconfig::Setting::Type sType;
+		map<string, Data>::iterator it;
+		Data* dest = NULL;
+		int k, total;
+		const char* varName;
+		bool error = false;
+
+		try {
+			config.readFile(filename);
+		}
+		catch (FileIOException e) {
+			cout << "No se pudo abrir el archivo " << filename << endl;
+			return false;
+		}
+		catch (ParseException e) {
+			cout << "Archivo " << filename << " mal formado" << endl;
+			cout << "Línea " << e.getLine() << ": " << e.getError() << endl;
+			return false;
+		}
+
+		libconfig::Setting& root = config.getRoot();
+		total = root.getLength();
+		for (k = 0; k < total; k++) {
+			varName = root[k].getName();
+			it = variables.find(varName);
+
+			if (it == variables.end()) {
+				cout << "No existe la variable " << varName << endl;
 				error = true;
+			}
+			else {
+				dest = &(it->second);
+
+				if (dest->source == S_FILE || dest->source == S_BOTH) {
+					dest->timesSeen += 1;
+					sType = root[k].getType();
+
+					if (dest->type == T_BOOL) {
+						if (sType != Setting::TypeBoolean) {
+							cout << "Se esperaba un valor booleano para " << varName << endl;
+						}
+						else {
+							cout << "asignando " << varName << "=" << boolalpha << bool(root[k]) << endl;
+							dest->v_bool = root[k];
+							dest->isSet = true;
+						}
+					}
+					else if (dest->type == T_INT) {
+					}
+					else if (dest->type == T_STRING) {
+					}
+					else if (dest->type == T_LIST) {
+					}
+				}
+				else {
+					cout << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
+				}
 			}
 		}
 
+		return true;
+	} // Fin parseFile()
+
+	bool Config::validate() {
+		map<string, Data>::iterator it;
+		bool error = false;
+
+		for (it = variables.begin(); it != variables.end(); it++) {
+			if (it->second.isMandatory && it->second.timesSeen == 0) {
+				if(it->second.source == S_ARGV) {
+					cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+				}
+				else if(it->second.source == S_FILE) {
+					cout << "La variable " << (it->first) << " es obligatoria" << endl;
+				}
+				else {
+					cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
+				}
+				error = true;
+			}
+		}
 		return !error;
-	} // Fin parseArgs()
+	}
 
 	///////////////
 	//  SETTERS  //

@@ -2,7 +2,7 @@
 1318363803 source:/home/ernesto/seap/src/ParamParser.cpp
 	"ParamParser.h"
 
-1320959569 source:/home/ernesto/seap/src/main.cpp
+1321049931 source:/home/ernesto/seap/src/main.cpp
 	<iostream>
 	"config.h"
 
@@ -14,13 +14,14 @@
 	<cstring>
 	<cstdlib>
 
-1320959423 /home/ernesto/seap/src/config.h
+1321046571 /home/ernesto/seap/src/config.h
 	<iostream>
 	<cstdlib>
 	<string>
 	<list>
 	<map>
+	<libconfig.h++>
 
-1320959496 source:/home/ernesto/seap/src/config.cpp
+1321050134 source:/home/ernesto/seap/src/config.cpp
 	"config.h"
 

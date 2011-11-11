@@ -8,15 +8,21 @@
 #include <map>
 using namespace std;
 
+#include <libconfig.h++>
+
 namespace seap_implement{
+
 	class Config
 	{
 		public:
 			enum Status {SUCCESS, BADTYPE, NOTFOUND, NOTSET, ERROR};
 			enum Type {T_BOOL, T_INT, T_STRING, T_LIST};
+			enum Source {S_ARGV, S_FILE, S_BOTH};
 
-			void registerVariable(string name, Type type, bool mandatory = false);
+			void registerVariable(string name, Type type, bool mandatory = false, Source source = S_BOTH);
 			bool parseArgs(int argc, char* argv[], int begin = 1);
+			bool parseFile(const char* filename);
+			bool validate();
 
 			Status setValue(string name, bool value);
 			Status setValue(string name, int value);
@@ -36,6 +42,7 @@ namespace seap_implement{
 
 		private:
 			struct Data {
+				Source source;
 				Type type;
 				bool isSet;
 				bool isMandatory;
