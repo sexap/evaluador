@@ -40,6 +40,14 @@ int main(int argc, char* argv[]) {
 	cfg.setValue("strict_eval", false); // No es estricto
 	cfg.setValue("ignore_white", true); // Ignora espacios extra
 
+//	try {
+		cfg.getValue("x", lang);
+/*	}
+	catch (...) {
+		cout << "cacahado" << endl;
+	}
+*/
+
 	// Procesa argv[]
 	cfg.parseFile("eval.conf");
 	cfg.parseArgs(argc, argv);

@@ -10,34 +10,38 @@ using namespace std;
 
 #include <libconfig.h++>
 
+#include "config_exceptions.h"
+
 namespace seap_implement{
 
 	class Config
 	{
 		public:
-			enum Status {SUCCESS, BADTYPE, NOTFOUND, NOTSET, ERROR};
+			Config();
+			~Config();
+			//enum Status {SUCCESS, BADTYPE, NOTFOUND, NOTSET, ERROR};
 			enum Type {T_BOOL, T_INT, T_STRING, T_LIST};
 			enum Source {S_ARG, S_FILE, S_BOTH};
 
-			void registerVariable(string name, Type type, bool mandatory = false, Source source = S_BOTH);
+			//registerArgVar
+			//registerFileVar
+			//registerVar
+			void registerVariable(string name, Type type, bool mandatory, Source source);
 			bool parseArgs(int argc, char* argv[], int begin = 1);
 			bool parseFile(const char* filename);
 			bool validate();
 
-			Status setValue(string name, bool value);
-			Status setValue(string name, int value);
-			Status setValue(string name, const char* value);
-			Status setValue(string name, string value);
+			void setValue(string name, bool value);
+			void setValue(string name, int value);
+			void setValue(string name, const char* value);
+			void setValue(string name, string value);
 
-			Status getValue(string name, bool& var);
-			Status getValue(string name, int& var);
-			Status getValue(string name, string& var);
+			void getValue(string name, bool& var);
+			void getValue(string name, int& var);
+			void getValue(string name, string& var);
 
 			bool hasMoreItems(string name);
-			Status getNextItem(string name, string& var);
-
-			Config();
-			~Config();
+			void getNextItem(string name, string& var);
 		protected:
 
 		private:

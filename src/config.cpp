@@ -2,6 +2,8 @@
 
 //TODO: Implementar listas desde archivos.
 //TODO: Implemenar el destructor, liberando cadenas y listas.
+//TODO: Mejorar lectura de una avriable desde varias fuentes.
+//TODO: Mejorar mensajes de error.
 
 namespace seap_implement {
 	Config::Config() {
@@ -281,88 +283,71 @@ namespace seap_implement {
 	///////////////
 	//  SETTERS  //
 	///////////////
-	Config::Status Config::setValue(string name, bool value) {
+	void Config::setValue(string name, bool value) {
 		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_BOOL) return BADTYPE;
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_BOOL) throw ConfigExceptionBadType();
 		it->second.v_bool = value;
-		return SUCCESS;
 	}
 
-	Config::Status Config::setValue(string name, int value) {
+	void Config::setValue(string name, int value) {
 		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_INT) return BADTYPE;
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_INT) throw ConfigExceptionBadType();
 		it->second.v_int = value;
-		return SUCCESS;
 	}
 
-	Config::Status Config::setValue(string name, const char* value) {
-		return setValue(name, string(value));
-	}
-
-	Config::Status Config::setValue(string name, string value) {
+	void Config::setValue(string name, string value) {
 		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_STRING) return BADTYPE;
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_STRING) throw ConfigExceptionBadType();
 		delete it->second.v_string;
 		it->second.v_string = new string(value);
-		return SUCCESS;
+	}
+
+	void Config::setValue(string name, const char* value) {
+		setValue(name, string(value));
 	}
 
 	///////////////
 	//  GETTERS  //
 	///////////////
-	Config::Status Config::getValue(string name, bool& var) {
-		map<string, Data>::iterator it;
-
-		it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_BOOL) return BADTYPE;
+	void Config::getValue(string name, bool& var) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_BOOL) throw ConfigExceptionBadType();
 		var = it->second.v_bool;
-		return (it->second.isSet)?SUCCESS:NOTSET;
 	}
 
-	Config::Status Config::getValue(string name, int& var) {
-		map<string, Data>::iterator it;
-
-		it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_INT) return BADTYPE;
+	void Config::getValue(string name, int& var) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_INT) throw ConfigExceptionBadType();
 		var = it->second.v_int;
-		return (it->second.isSet)?SUCCESS:NOTSET;
 	}
 
-	Config::Status Config::getValue(string name, string& var) {
-		map<string, Data>::iterator it;
-
-		it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_STRING) return BADTYPE;
-		if (it->second.v_string == NULL) return ERROR;
+	void Config::getValue(string name, string& var) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_STRING) throw ConfigExceptionBadType();
+		if (it->second.v_string == NULL) throw ConfigExceptionNoData();
 		var = *(it->second.v_string);
-		return (it->second.isSet)?SUCCESS:NOTSET;
 	}
 
 	bool Config::hasMoreItems(string name) {
-		map<string, Data>::iterator it;
-
-		it = variables.find(name);
-		if (it == variables.end()) return false;
-		if (it->second.type != T_LIST) return false;
-		if (it->second.v_list == NULL) return false;
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
+		if (it->second.v_list == NULL) throw ConfigExceptionNoData();
 		return (it->second.listIt != it->second.v_list->end());
 	}
 
-	Config::Status Config::getNextItem(string name, string& var) {
-		map<string, Data>::iterator it;
-
-		it = variables.find(name);
-		if (it == variables.end()) return NOTFOUND;
-		if (it->second.type != T_LIST) return BADTYPE;
-		if (it->second.v_list == NULL) return ERROR;
+	void Config::getNextItem(string name, string& var) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
+		if (it->second.v_list == NULL) throw ConfigExceptionNoData();
 		var = *(it->second.listIt);
 		it->second.listIt ++;
-		return SUCCESS;
 	}
 }
