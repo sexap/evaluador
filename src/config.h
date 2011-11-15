@@ -17,7 +17,7 @@ namespace seap_implement{
 		public:
 			enum Status {SUCCESS, BADTYPE, NOTFOUND, NOTSET, ERROR};
 			enum Type {T_BOOL, T_INT, T_STRING, T_LIST};
-			enum Source {S_ARGV, S_FILE, S_BOTH};
+			enum Source {S_ARG, S_FILE, S_BOTH};
 
 			void registerVariable(string name, Type type, bool mandatory = false, Source source = S_BOTH);
 			bool parseArgs(int argc, char* argv[], int begin = 1);

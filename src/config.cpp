@@ -1,5 +1,8 @@
 #include "config.h"
 
+//TODO: Implementar listas desde archivos.
+//TODO: Implemenar el destructor, liberando cadenas y listas.
+
 namespace seap_implement {
 	Config::Config() {
 	}
@@ -49,6 +52,7 @@ namespace seap_implement {
 		bool error = false;
 
 		for (k = begin; k < argc; k++) {
+			// Busca identicadores y verifica su validez.
 			if (status == W_ID) {
 				if (isValidId(argv[k])) {
 					it = variables.find(argv[k] + 1);
@@ -59,15 +63,15 @@ namespace seap_implement {
 					else {
 						dest = &(it->second);
 
-						if (dest->source == S_ARGV || dest->source == S_BOTH) {
+						if (dest->source == S_ARG || dest->source == S_BOTH) {
 							dest->timesSeen += 1;
 							if (dest->timesSeen > 1) {
-								cout << "Ya se había definido " << argv[k] << endl;
+								cout << "Se repite el parámetro " << argv[k] << endl;
 								error = true;
 							}
 
 							if (dest->type == T_BOOL) {
-								dest->v_bool = true;
+								dest->v_bool = !(dest->v_bool);
 								dest->isSet = true;
 							}
 							else if (dest->type == T_INT) status = W_INT;
@@ -84,6 +88,7 @@ namespace seap_implement {
 					error = true;
 				}
 			}
+			// Se espera un valor entero.
 			else if (status == W_INT) {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
@@ -100,6 +105,7 @@ namespace seap_implement {
 				}
 				status = W_ID;
 			}
+			// Se espera una cadena.
 			else if (status == W_STR) {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
@@ -113,6 +119,7 @@ namespace seap_implement {
 				}
 				status = W_ID;
 			}
+			// Se espera una lista.
 			else if (status == W_LST) {
 				if (isValidId(argv[k])) {
 					if (dest->v_list == NULL) {
@@ -137,6 +144,7 @@ namespace seap_implement {
 			}
 		} // Fin for
 
+		// Se verifica el estado final.
 		if (status == W_INT) {
 			cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
 			error = true;
@@ -157,13 +165,14 @@ namespace seap_implement {
 		using namespace libconfig;
 
 		libconfig::Config config;
-		libconfig::Setting::Type sType;
+		libconfig::Setting::Type settingType;
 		map<string, Data>::iterator it;
 		Data* dest = NULL;
 		int k, total;
 		const char* varName;
 		bool error = false;
 
+		// Abrir y parsear el archivo.
 		try {
 			config.readFile(filename);
 		}
@@ -172,11 +181,12 @@ namespace seap_implement {
 			return false;
 		}
 		catch (ParseException e) {
+			cout << filename << ":" << e.getLine() << " ";
 			cout << "Archivo " << filename << " mal formado" << endl;
-			cout << "Línea " << e.getLine() << ": " << e.getError() << endl;
 			return false;
 		}
 
+		// Analizar las variables
 		libconfig::Setting& root = config.getRoot();
 		total = root.getLength();
 		for (k = 0; k < total; k++) {
@@ -184,40 +194,65 @@ namespace seap_implement {
 			it = variables.find(varName);
 
 			if (it == variables.end()) {
+				cout << filename << ":" << root[k].getSourceLine() << " ";
 				cout << "No existe la variable " << varName << endl;
 				error = true;
 			}
 			else {
 				dest = &(it->second);
 
-				if (dest->source == S_FILE || dest->source == S_BOTH) {
-					dest->timesSeen += 1;
-					sType = root[k].getType();
+				if (dest->source != S_FILE && dest->source != S_BOTH) {
+					cout << filename << ":" << root[k].getSourceLine() << " ";
+					cout << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
+					error = true;
+				}
+				else {
+					settingType = root[k].getType();
 
+					// Verifica tipos y realiza asignación.
 					if (dest->type == T_BOOL) {
-						if (sType != Setting::TypeBoolean) {
+						if (settingType != Setting::TypeBoolean) {
+							cout << filename << ":" << root[k].getSourceLine() << " ";
 							cout << "Se esperaba un valor booleano para " << varName << endl;
+							error = true;
 						}
 						else {
-							cout << "asignando " << varName << "=" << boolalpha << bool(root[k]) << endl;
 							dest->v_bool = root[k];
 							dest->isSet = true;
 						}
 					}
 					else if (dest->type == T_INT) {
+						if (settingType != Setting::TypeInt) {
+							cout << filename << ":" << root[k].getSourceLine() << " ";
+							cout << "Se esperaba un valor entero para " << varName << endl;
+							error = true;
+						}
+						else {
+							dest->v_int = root[k];
+							dest->isSet = true;
+						}
 					}
 					else if (dest->type == T_STRING) {
+						if (settingType != Setting::TypeString) {
+							cout << filename << ":" << root[k].getSourceLine() << " ";
+							cout << "Se esperaba un valor de cadena para " << varName << endl;
+							error = true;
+						}
+						else {
+							delete dest->v_string;
+							dest->v_string = new string(root[k].c_str());
+							dest->isSet = true;
+						}
 					}
 					else if (dest->type == T_LIST) {
+						cout << filename << ":" << root[k].getSourceLine() << " ";
+						cout << "AVISO. Listas en archivos no soportadas ¿aún?" << endl;
 					}
-				}
-				else {
-					cout << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
 				}
 			}
 		}
 
-		return true;
+		return !error;
 	} // Fin parseFile()
 
 	bool Config::validate() {
@@ -225,17 +260,19 @@ namespace seap_implement {
 		bool error = false;
 
 		for (it = variables.begin(); it != variables.end(); it++) {
-			if (it->second.isMandatory && it->second.timesSeen == 0) {
-				if(it->second.source == S_ARGV) {
-					cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
-				}
-				else if(it->second.source == S_FILE) {
-					cout << "La variable " << (it->first) << " es obligatoria" << endl;
-				}
-				else {
-					cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
-				}
+			if (it->second.isMandatory && !it->second.isSet) {
 				error = true;
+				if (it->second.timesSeen == 0) {
+					if(it->second.source == S_ARG) {
+						cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+					}
+					else if(it->second.source == S_FILE) {
+						cout << "La variable " << (it->first) << " es obligatoria" << endl;
+					}
+					else {
+						cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
+					}
+				}
 			}
 		}
 		return !error;
