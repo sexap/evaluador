@@ -1,15 +1,26 @@
 #include "config.h"
 
-//TODO: Implementar listas desde archivos.
-//TODO: Implemenar el destructor, liberando cadenas y listas.
-//TODO: Mejorar lectura de una avriable desde varias fuentes.
+//TODO: Mejorar la función validate()
+
 //TODO: Mejorar mensajes de error.
+//TODO: Documentar
+
+//TODO: Implementar listas desde archivos. (Opcional)
+//TODO: Mejorar lectura de una avriable desde varias fuentes. (Opcional)
 
 namespace seap_implement {
+
 	Config::Config() {
+		sourceId = 0;
 	}
 
 	Config::~Config() {
+		map<string, Data>::iterator it;
+
+		for (it = variables.begin(); it != variables.end(); it++) {
+			if(it->second.type == T_STRING) delete it->second.v_string;
+			else if (it->second.type == T_LIST) delete it->second.v_list;
+		}
 	}
 
 	////////////////////
@@ -28,24 +39,9 @@ namespace seap_implement {
 		return true;
 	}
 
-	////////////////////////////////
-	//  TRATAMIENTO DE VARIABLES  //
-	////////////////////////////////
-	void Config::registerVariable(string name, Type type, bool mandatory, Source source) {
-		Data tmpData;
-
-		tmpData.type = type;
-		tmpData.source = source;
-		tmpData.isMandatory = mandatory;
-		tmpData.isSet = false;
-		tmpData.timesSeen = 0;
-
-		if (type == T_STRING) tmpData.v_string = NULL;
-		else if (type == T_LIST) tmpData.v_list = NULL;
-
-		variables[name] = tmpData;
-	}
-
+	//////////////
+	//  PARSEO  //
+	//////////////
 	bool Config::parseArgs(int argc, char* argv[], int begin) {
 		enum {W_ID, W_INT, W_STR, W_LST};
 		int k, status = W_ID;
@@ -53,10 +49,16 @@ namespace seap_implement {
 		map<string, Data>::iterator it;
 		bool error = false;
 
+		sourceId ++;
+
 		for (k = begin; k < argc; k++) {
 			// Busca identicadores y verifica su validez.
 			if (status == W_ID) {
-				if (isValidId(argv[k])) {
+				if (!isValidId(argv[k])) {
+					cout << "Se esperaba un id en vez de " << argv[k] << endl;
+					error = true;
+				}
+				else {
 					it = variables.find(argv[k] + 1);
 					if (it == variables.end()) {
 						cout << "No existe el id " << argv[k] << endl;
@@ -65,11 +67,16 @@ namespace seap_implement {
 					else {
 						dest = &(it->second);
 
-						if (dest->source == S_ARG || dest->source == S_BOTH) {
-							dest->timesSeen += 1;
-							if (dest->timesSeen > 1) {
+						if (dest->source != S_ARG && dest->source != S_BOTH) {
+							cout << "El id " << argv[k] << " se debe especificar en archivo" << endl;
+						}
+						else {
+							if (dest->lastSeenBy == sourceId) {
 								cout << "Se repite el parámetro " << argv[k] << endl;
 								error = true;
+							}
+							else {
+								dest->lastSeenBy = sourceId;
 							}
 
 							if (dest->type == T_BOOL) {
@@ -80,14 +87,7 @@ namespace seap_implement {
 							else if (dest->type == T_STRING) status = W_STR;
 							else if (dest->type == T_LIST) status = W_LST;
 						}
-						else {
-							cout << "El id " << argv[k] << " se debe especificar en archivo" << endl;
-						}
 					}
-				}
-				else {
-					cout << "Se esperaba un id en vez de " << argv[k] << endl;
-					error = true;
 				}
 			}
 			// Se espera un valor entero.
@@ -97,13 +97,13 @@ namespace seap_implement {
 					error = true;
 					k -= 1;
 				}
-				else if (isValidInt(argv[k])) {
-					dest->v_int = atoi(argv[k]);
-					dest->isSet = true;
-				}
-				else {
+				else if (!isValidInt(argv[k])) {
 					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
 					error = true;
+				}
+				else {
+					dest->v_int = atoi(argv[k]);
+					dest->isSet = true;
 				}
 				status = W_ID;
 			}
@@ -174,6 +174,8 @@ namespace seap_implement {
 		const char* varName;
 		bool error = false;
 
+		sourceId ++;
+
 		// Abrir y parsear el archivo.
 		try {
 			config.readFile(filename);
@@ -210,6 +212,7 @@ namespace seap_implement {
 				}
 				else {
 					settingType = root[k].getType();
+					dest->lastSeenBy = sourceId;
 
 					// Verifica tipos y realiza asignación.
 					if (dest->type == T_BOOL) {
@@ -262,27 +265,42 @@ namespace seap_implement {
 		bool error = false;
 
 		for (it = variables.begin(); it != variables.end(); it++) {
-			if (it->second.isMandatory && !it->second.isSet) {
+			if (it->second.isMandatory && it->second.lastSeenBy == 0) {
 				error = true;
-				if (it->second.timesSeen == 0) {
-					if(it->second.source == S_ARG) {
-						cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
-					}
-					else if(it->second.source == S_FILE) {
-						cout << "La variable " << (it->first) << " es obligatoria" << endl;
-					}
-					else {
-						cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
-					}
+				if(it->second.source == S_ARG) {
+					cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+				}
+				else if(it->second.source == S_FILE) {
+					cout << "La variable " << (it->first) << " es obligatoria" << endl;
+				}
+				else {
+					cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
 				}
 			}
 		}
 		return !error;
 	}
 
-	///////////////
-	//  SETTERS  //
-	///////////////
+	////////////////////////////////
+	//  TRATAMIENTO DE VARIABLES  //
+	////////////////////////////////
+	void Config::registerVariable(string name, Type type, bool mandatory, Source source) {
+		Data tmpData;
+
+		variables.erase(name);
+
+		tmpData.type = type;
+		tmpData.source = source;
+		tmpData.isMandatory = mandatory;
+		tmpData.isSet = false;
+		tmpData.lastSeenBy = 0;
+
+		if (type == T_STRING) tmpData.v_string = NULL;
+		else if (type == T_LIST) tmpData.v_list = NULL;
+
+		variables[name] = tmpData;
+	}
+
 	void Config::setValue(string name, bool value) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
@@ -338,7 +356,7 @@ namespace seap_implement {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
-		if (it->second.v_list == NULL) throw ConfigExceptionNoData();
+		if (it->second.v_list == NULL) return false;
 		return (it->second.listIt != it->second.v_list->end());
 	}
 
@@ -350,4 +368,5 @@ namespace seap_implement {
 		var = *(it->second.listIt);
 		it->second.listIt ++;
 	}
+
 }

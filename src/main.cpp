@@ -6,7 +6,7 @@ using namespace seap_implement;
 
 int main(int argc, char* argv[]) {
 	Config cfg;
-	string sourceFile, lang, jType, jExe;
+	string sourceFile, lang, jType, jExe, caseFile;
 	int fileSize, compTime, compMem, outSize, runTime, runMem;
 	bool verbose, strict, iWhite;
 
@@ -39,14 +39,6 @@ int main(int argc, char* argv[]) {
 	cfg.setValue("judge_exe", "judge"); // Ejecutable del juez
 	cfg.setValue("strict_eval", false); // No es estricto
 	cfg.setValue("ignore_white", true); // Ignora espacios extra
-
-//	try {
-		cfg.getValue("x", lang);
-/*	}
-	catch (...) {
-		cout << "cacahado" << endl;
-	}
-*/
 
 	// Procesa argv[]
 	cfg.parseFile("eval.conf");
@@ -81,9 +73,15 @@ int main(int argc, char* argv[]) {
 	cout << "Durante su ejecución no podrá generar más de " << outSize << "kB de salida" << endl;
 	cout << endl;
 	cout << "Se eveluará con el juez " << jType << " (ejecutable " << jExe << ")" << endl;
-	cout << "Tiene " << runTime << "ms y " << runMem << "kB para su ejecución" << endl;
+	cout << "Tiene " << runTime << "ms y " << runMem << "kB para la ejecución de cada caso" << endl;
 	cout << "La salida " << (iWhite?"":"NO ") << "ignorará espacios en blanco" << endl;
 	cout << "La calificación será " << (strict?"todo o nada":"normal") << endl;
+	cout << endl;
+	cout << "Los casos son:" << endl;
+	while(cfg.hasMoreItems("tc")) {
+		cfg.getNextItem("tc", caseFile);
+		cout << caseFile << endl;
+	}
 
     return 0;
 }

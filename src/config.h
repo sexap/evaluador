@@ -19,7 +19,7 @@ namespace seap_implement{
 		public:
 			Config();
 			~Config();
-			//enum Status {SUCCESS, BADTYPE, NOTFOUND, NOTSET, ERROR};
+
 			enum Type {T_BOOL, T_INT, T_STRING, T_LIST};
 			enum Source {S_ARG, S_FILE, S_BOTH};
 
@@ -50,7 +50,7 @@ namespace seap_implement{
 				Type type;
 				bool isSet;
 				bool isMandatory;
-				int timesSeen;
+				int lastSeenBy;
 				list<string>::iterator listIt;
 				union {
 					bool v_bool;
@@ -65,6 +65,7 @@ namespace seap_implement{
 			bool isValidInt(const char* s);
 
 			map<string,Data> variables;
+			int sourceId;
 	};
 
 }
