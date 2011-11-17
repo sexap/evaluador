@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/config.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="7302" topLine="259" />
+	<File name="src/config.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="10389" topLine="344" />
 	</File>
 	<File name="src/config.h" open="1" top="0" tabpos="2">
-		<Cursor position="139" topLine="0" />
+		<Cursor position="2296" topLine="54" />
 	</File>
-	<File name="src/config_exceptions.h" open="0" top="0" tabpos="4">
-		<Cursor position="148" topLine="0" />
+	<File name="src/config_exceptions.h" open="1" top="1" tabpos="4">
+		<Cursor position="104" topLine="0" />
 	</File>
 	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="0" topLine="0" />
+		<Cursor position="3409" topLine="58" />
 	</File>
 </CodeBlocks_layout_file>

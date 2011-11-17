@@ -15,15 +15,15 @@
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add library="/usr/local/lib/libconfig++.a" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Linker>
+			<Add library="/usr/local/lib/libconfig++.a" />
+		</Linker>
 		<Unit filename="src/config.cpp" />
 		<Unit filename="src/config.h" />
 		<Unit filename="src/config_exceptions.h" />

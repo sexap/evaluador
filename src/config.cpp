@@ -365,6 +365,7 @@ namespace seap_implement {
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
 		if (it->second.v_list == NULL) throw ConfigExceptionNoData();
+		if (it->second.listIt == it->second.v_list->end()) throw ConfigExceptionNoData();
 		var = *(it->second.listIt);
 		it->second.listIt ++;
 	}
