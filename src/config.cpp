@@ -3,7 +3,6 @@
 //TODO: Mejorar la función validate()
 
 //TODO: Mejorar mensajes de error.
-//TODO: Documentar
 
 //TODO: Implementar listas desde archivos. (Opcional)
 //TODO: Mejorar lectura de una avriable desde varias fuentes. (Opcional)
@@ -12,6 +11,7 @@ namespace seap_implement {
 
 	Config::Config() {
 		sourceId = 0;
+		hasFailed = false;
 	}
 
 	Config::~Config() {
@@ -160,6 +160,7 @@ namespace seap_implement {
 			error = true;
 		}
 
+		hasFailed = hasFailed || error;
 		return !error;
 	} // Fin parseArgs()
 
@@ -180,11 +181,11 @@ namespace seap_implement {
 		try {
 			config.readFile(filename);
 		}
-		catch (FileIOException e) {
+		catch (FileIOException& e) {
 			cout << "No se pudo abrir el archivo " << filename << endl;
 			return false;
 		}
-		catch (ParseException e) {
+		catch (ParseException& e) {
 			cout << filename << ":" << e.getLine() << " ";
 			cout << "Archivo " << filename << " mal formado" << endl;
 			return false;
@@ -257,6 +258,7 @@ namespace seap_implement {
 			}
 		}
 
+		hasFailed = hasFailed || error;
 		return !error;
 	} // Fin parseFile()
 
@@ -278,7 +280,8 @@ namespace seap_implement {
 				}
 			}
 		}
-		return !error;
+
+		return !(hasFailed || error);
 	}
 
 	////////////////////////////////
@@ -368,6 +371,14 @@ namespace seap_implement {
 		if (it->second.listIt == it->second.v_list->end()) throw ConfigExceptionNoData();
 		var = *(it->second.listIt);
 		it->second.listIt ++;
+	}
+
+	void Config::rewind(string name) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
+		if (it->second.v_list == NULL) return;
+		it->second.listIt  = it->second.v_list->begin();
 	}
 
 }

@@ -133,6 +133,12 @@ namespace seap_implement{
 				\throw ConfigExceptionNoData Si no ya no hay elementos en la lista.
 			*/
 			void getNextItem(string name, string& var);
+			//! Rebobina una lista para poder obtener todos los elementos de nuevo.
+			/*! \param name El nombre de la variable.
+				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
+				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
+			*/
+			void rewind(string name);
 		protected:
 
 		private:
@@ -159,6 +165,7 @@ namespace seap_implement{
 
 			map<string,Data> variables;
 			int sourceId;
+			bool hasFailed;
 	};
 
 }
