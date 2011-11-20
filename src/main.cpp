@@ -2,6 +2,7 @@
 using namespace std;
 
 #include "config.h"
+#include "validation.h"
 using namespace seap_implement;
 
 int main(int argc, char* argv[]) {
@@ -45,7 +46,7 @@ int main(int argc, char* argv[]) {
 	cfg.parseArgs(argc, argv);
 	if (!cfg.validate()) {
 		cout << "Consulte el manual" << endl;
-		return 0;
+		return 1;
 	}
 
 	// Ya están los valores
@@ -63,6 +64,24 @@ int main(int argc, char* argv[]) {
 	cfg.getValue("judge_exe", jExe);
 	cfg.getValue("strict_eval", strict);
 	cfg.getValue("ignore_white", iWhite);
+
+	// Automaticamente obtiene el lenguaje
+	if (lang == "auto") {
+		if(!forceValidLang(lang, sourceFile)) {
+			cout << "No se reconoce el lenguaje del archivo " << sourceFile << endl;
+			return 1;
+		}
+	}
+	else if (!isValidLang(lang)) {
+		cout << lang << " no es un lenguaje válido" << endl;
+		return 1;
+	}
+
+	// Valida el tipo de juez
+	if (!isValidJudgeType(jType)) {
+		cout << jType << " no es un tipo de juez válido" << endl;
+		return 1;
+	}
 
 	cout << "¿Mostrar información extra? " << boolalpha << verbose << endl;
 	cout << endl;
