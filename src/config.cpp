@@ -1,7 +1,5 @@
 #include "config.h"
 
-//TODO: Mejorar la función validate()
-
 //TODO: Mejorar mensajes de error.
 
 //TODO: Implementar listas desde archivos. (Opcional)
@@ -46,7 +44,8 @@ namespace seap_implement {
 		enum {W_ID, W_INT, W_STR, W_LST};
 		int k, status = W_ID;
 		Data* dest = NULL;
-		map<string, Data>::iterator it;
+		map<string,Data>::iterator it;
+		map<int,Data*>::iterator f_it;
 		bool error = false;
 
 		sourceId ++;
@@ -54,7 +53,25 @@ namespace seap_implement {
 		for (k = begin; k < argc; k++) {
 			// Busca identicadores y verifica su validez.
 			if (status == W_ID) {
-				if (!isValidId(argv[k])) {
+				//Verifica si es una variable fixed
+				f_it = fixedVariables.find(k);
+				if (f_it != fixedVariables.end()) {
+					dest = f_it->second;
+					dest->lastSeenBy = sourceId;
+
+					if (dest->type == T_INT) {
+						status = W_INT;
+						k -= 1;
+					}
+					else if (dest->type == T_STRING) {
+						status = W_STR;
+						k -= 1;
+					}
+					else if (dest->type == T_BOOL) cout << "AVISO. Booleanos fixed no soportados" << endl;
+					else if (dest->type == T_LIST) cout << "AVISO. Listas fixed no soportadas" << endl;
+				}
+				// Es una variable con nombre
+				else if (!isValidId(argv[k])) {
 					cout << "Se esperaba un id en vez de " << argv[k] << endl;
 					error = true;
 				}
@@ -287,7 +304,7 @@ namespace seap_implement {
 	////////////////////////////////
 	//  TRATAMIENTO DE VARIABLES  //
 	////////////////////////////////
-	void Config::registerVariable(string name, Type type, bool mandatory, Source source) {
+	void Config::registerVariable(string name, Type type, int position, bool mandatory, Source source) {
 		Data tmpData;
 
 		variables.erase(name);
@@ -302,6 +319,25 @@ namespace seap_implement {
 		else if (type == T_LIST) tmpData.v_list = NULL;
 
 		variables[name] = tmpData;
+		if (position > 0) {
+			fixedVariables[position] = &variables[name];
+		}
+	}
+
+	void Config::registerArgVar(string name, Type type, int position, bool mandatory) {
+		registerVariable(name, type, position, mandatory, S_ARG);
+	}
+
+	void Config::registerArgVar(string name, Type type, bool mandatory) {
+		registerVariable(name, type, -1, mandatory, S_ARG);
+	}
+
+	void Config::registerFileVar(string name, Type type, bool mandatory) {
+		registerVariable(name, type, -1, mandatory, S_FILE);
+	}
+
+	void Config::registerVar(string name, Type type, bool mandatory) {
+		registerVariable(name, type, -1, mandatory, S_BOTH);
 	}
 
 	void Config::setValue(string name, bool value) {

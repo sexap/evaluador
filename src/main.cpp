@@ -7,26 +7,29 @@ using namespace seap_implement;
 
 int main(int argc, char* argv[]) {
 	Config cfg;
-	string sourceFile, lang, jType, jExe, caseFile;
+	string sourceFile, lang, jType, jExe, caseFile, action, problem;
 	int fileSize, compTime, compMem, outSize, runTime, runMem;
 	bool verbose, strict, iWhite;
 
 	// Registra variables
-	cfg.registerVariable("f", Config::T_STRING, true, Config::S_ARG);
-	cfg.registerVariable("l", Config::T_STRING, false, Config::S_ARG);
-	cfg.registerVariable("fz", Config::T_INT, false, Config::S_ARG);
-	cfg.registerVariable("T", Config::T_INT, false, Config::S_ARG);
-	cfg.registerVariable("M", Config::T_INT, false, Config::S_ARG);
-	cfg.registerVariable("OZ", Config::T_INT, false, Config::S_ARG);
-	cfg.registerVariable("tc", Config::T_LIST, false, Config::S_ARG);
-	cfg.registerVariable("v", Config::T_BOOL, false, Config::S_ARG);
+	cfg.registerArgVar("action", Config::T_STRING, 1);
+	cfg.registerArgVar("problem", Config::T_STRING, 2);
 
-	cfg.registerVariable("max_time", Config::T_INT, true, Config::S_FILE);
-	cfg.registerVariable("max_mem", Config::T_INT, false, Config::S_FILE);
-	cfg.registerVariable("judge_type", Config::T_STRING, true, Config::S_FILE);
-	cfg.registerVariable("judge_exe", Config::T_STRING, false, Config::S_FILE);
-	cfg.registerVariable("strict_eval", Config::T_BOOL, false, Config::S_FILE);
-	cfg.registerVariable("ignore_white", Config::T_BOOL, false, Config::S_FILE);
+	cfg.registerArgVar("f", Config::T_STRING, true);
+	cfg.registerArgVar("l", Config::T_STRING, false);
+	cfg.registerArgVar("fz", Config::T_INT, false);
+	cfg.registerArgVar("T", Config::T_INT, false);
+	cfg.registerArgVar("M", Config::T_INT, false);
+	cfg.registerArgVar("OZ", Config::T_INT, false);
+	cfg.registerArgVar("tc", Config::T_LIST, false);
+	cfg.registerArgVar("v", Config::T_BOOL, false);
+
+	cfg.registerFileVar("max_time", Config::T_INT, true);
+	cfg.registerFileVar("max_mem", Config::T_INT, false);
+	cfg.registerFileVar("judge_type", Config::T_STRING, true);
+	cfg.registerFileVar("judge_exe", Config::T_STRING, false);
+	cfg.registerFileVar("strict_eval", Config::T_BOOL, false);
+	cfg.registerFileVar("ignore_white", Config::T_BOOL, false);
 
 	// Valores por default
 	cfg.setValue("l", "auto"); // Lenguaje auto
@@ -50,6 +53,9 @@ int main(int argc, char* argv[]) {
 	}
 
 	// Ya están los valores
+	cfg.getValue("action", action);
+	cfg.getValue("problem", problem);
+
 	cfg.getValue("f", sourceFile);
 	cfg.getValue("l", lang);
 	cfg.getValue("fz", fileSize);
@@ -83,7 +89,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	cout << "¿Mostrar información extra? " << boolalpha << verbose << endl;
+	cout << "La acción es " << action << " y el problema es " << problem << endl;
 	cout << endl;
 	cout << "Se compilará el archivo \"" << sourceFile << "\" en lenguaje " << lang << endl;
 	cout << "El archivo debe pesar máximo " << fileSize << "kB" << endl;
@@ -95,6 +101,8 @@ int main(int argc, char* argv[]) {
 	cout << "Tiene " << runTime << "ms y " << runMem << "kB para la ejecución de cada caso" << endl;
 	cout << "La salida " << (iWhite?"":"NO ") << "ignorará espacios en blanco" << endl;
 	cout << "La calificación será " << (strict?"todo o nada":"normal") << endl;
+	cout << endl;
+	cout << "¿Mostrar información extra? " << boolalpha << verbose << endl;
 	cout << endl;
 	cout << "Los casos son:" << endl;
 	while(cfg.hasMoreItems("tc")) {

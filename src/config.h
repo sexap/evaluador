@@ -60,19 +60,18 @@ namespace seap_implement{
 				//! Tipo de dato lista de cadenas de caracteres.
 				T_LIST
 			};
-			enum Source {S_ARG, S_FILE, S_BOTH};
-
-			//registerArgVar
-			//registerFileVar
-			//registerVar
 
 			//! Registra una variable.
 			/*! \param name El nombre de la variable.
 				\param type El tipo de dato de la variable.
+				\param position Si está presente indica una posición fija en los
+					argumentos del programa donde se espera esta variable.
 				\param mandatory Especifica si es obligatorio que el usuario defina la variable.
-				\param source El origen de donde se leerá la variable.
 			*/
-			void registerVariable(string name, Type type, bool mandatory, Source source);
+			void registerArgVar(string name, Type type, bool mandatory = false);
+			void registerArgVar(string name, Type type, int position, bool mandatory = true);
+			void registerFileVar(string name, Type type, bool mandatory = false);
+			void registerVar(string name, Type type, bool mandatory = false);
 			//! Procesa los argumentos.
 			/*! \param argc, argv Es la cantidad de argumentos pasados al programa
 				y el vector de argumentos. Estos parámetros pueden ser pasados
@@ -142,6 +141,9 @@ namespace seap_implement{
 		protected:
 
 		private:
+			//!Origenes de las variables
+			enum Source {S_ARG, S_FILE, S_BOTH};
+
 			//! Los datos necesarios para cada variable registrada
 			struct Data {
 				Source source;
@@ -158,12 +160,16 @@ namespace seap_implement{
 				};
 			};
 
+			//! Registra de verdad las variables
+			void registerVariable(string name, Type type, int position, bool mandatory, Source source);
+
 			//! Indica si s es un identificador válido
 			bool isValidId(const char* s);
 			//! Indica si s es un entero válido
 			bool isValidInt(const char* s);
 
 			map<string,Data> variables;
+			map<int,Data*> fixedVariables;
 			int sourceId;
 			bool hasFailed;
 	};
