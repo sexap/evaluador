@@ -304,7 +304,7 @@ namespace seap_implement {
 	////////////////////////////////
 	//  TRATAMIENTO DE VARIABLES  //
 	////////////////////////////////
-	void Config::registerVariable(string name, Type type, int position, bool mandatory, Source source) {
+	void Config::registerVariable(const string& name, Type type, int position, bool mandatory, Source source) {
 		Data tmpData;
 
 		variables.erase(name);
@@ -324,37 +324,40 @@ namespace seap_implement {
 		}
 	}
 
-	void Config::registerArgVar(string name, Type type, int position, bool mandatory) {
+	void Config::registerArgVar(const string& name, Type type, int position, bool mandatory) {
 		registerVariable(name, type, position, mandatory, S_ARG);
 	}
 
-	void Config::registerArgVar(string name, Type type, bool mandatory) {
+	void Config::registerArgVar(const string& name, Type type, bool mandatory) {
 		registerVariable(name, type, -1, mandatory, S_ARG);
 	}
 
-	void Config::registerFileVar(string name, Type type, bool mandatory) {
+	void Config::registerFileVar(const string& name, Type type, bool mandatory) {
 		registerVariable(name, type, -1, mandatory, S_FILE);
 	}
 
-	void Config::registerVar(string name, Type type, bool mandatory) {
+	void Config::registerVar(const string& name, Type type, bool mandatory) {
 		registerVariable(name, type, -1, mandatory, S_BOTH);
 	}
 
-	void Config::setValue(string name, bool value) {
+	///////////////
+	//  SETTERS  //
+	///////////////
+	void Config::setValue(const string& name, bool value) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_BOOL) throw ConfigExceptionBadType();
 		it->second.v_bool = value;
 	}
 
-	void Config::setValue(string name, int value) {
+	void Config::setValue(const string& name, int value) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_INT) throw ConfigExceptionBadType();
 		it->second.v_int = value;
 	}
 
-	void Config::setValue(string name, string value) {
+	void Config::setValue(const string& name, const string& value) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_STRING) throw ConfigExceptionBadType();
@@ -362,28 +365,28 @@ namespace seap_implement {
 		it->second.v_string = new string(value);
 	}
 
-	void Config::setValue(string name, const char* value) {
+	void Config::setValue(const string& name, const char* value) {
 		setValue(name, string(value));
 	}
 
 	///////////////
 	//  GETTERS  //
 	///////////////
-	void Config::getValue(string name, bool& var) {
+	void Config::getValue(const string& name, bool& var) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_BOOL) throw ConfigExceptionBadType();
 		var = it->second.v_bool;
 	}
 
-	void Config::getValue(string name, int& var) {
+	void Config::getValue(const string& name, int& var) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_INT) throw ConfigExceptionBadType();
 		var = it->second.v_int;
 	}
 
-	void Config::getValue(string name, string& var) {
+	void Config::getValue(const string& name, string& var) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_STRING) throw ConfigExceptionBadType();
@@ -391,7 +394,7 @@ namespace seap_implement {
 		var = *(it->second.v_string);
 	}
 
-	bool Config::hasMoreItems(string name) {
+	bool Config::hasMoreItems(const string& name) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
@@ -399,7 +402,7 @@ namespace seap_implement {
 		return (it->second.listIt != it->second.v_list->end());
 	}
 
-	void Config::getNextItem(string name, string& var) {
+	void Config::getNextItem(const string& name, string& var) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
@@ -409,7 +412,7 @@ namespace seap_implement {
 		it->second.listIt ++;
 	}
 
-	void Config::rewind(string name) {
+	void Config::rewind(const string& name) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
 		if (it->second.type != T_LIST) throw ConfigExceptionBadType();

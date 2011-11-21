@@ -68,10 +68,10 @@ namespace seap_implement{
 					argumentos del programa donde se espera esta variable.
 				\param mandatory Especifica si es obligatorio que el usuario defina la variable.
 			*/
-			void registerArgVar(string name, Type type, bool mandatory = false);
-			void registerArgVar(string name, Type type, int position, bool mandatory = true);
-			void registerFileVar(string name, Type type, bool mandatory = false);
-			void registerVar(string name, Type type, bool mandatory = false);
+			void registerArgVar(const string& name, Type type, bool mandatory = false);
+			void registerArgVar(const string& name, Type type, int position, bool mandatory = true);
+			void registerFileVar(const string& name, Type type, bool mandatory = false);
+			void registerVar(const string& name, Type type, bool mandatory = false);
 			//! Procesa los argumentos.
 			/*! \param argc, argv Es la cantidad de argumentos pasados al programa
 				y el vector de argumentos. Estos parámetros pueden ser pasados
@@ -98,10 +98,10 @@ namespace seap_implement{
 				\throw ConfigExceptionBadType Si la variable no es del mismo tipo
 				que el nuevo valor que se trata de asignar.
 			*/
-			void setValue(string name, bool value);
-			void setValue(string name, int value);
-			void setValue(string name, const char* value);
-			void setValue(string name, string value);
+			void setValue(const string& name, bool value);
+			void setValue(const string& name, int value);
+			void setValue(const string& name, const char* value);
+			void setValue(const string& name, const string& value);
 
 			//! Obtiene el valor actual de la variable.
 			/*! \param name El nombre de la variable.
@@ -112,9 +112,9 @@ namespace seap_implement{
 				\throw ConfigExceptionNoData Si no se puede devolver ningún dato
 				(únicamente en variables tipo cadena).
 			*/
-			void getValue(string name, bool& var);
-			void getValue(string name, int& var);
-			void getValue(string name, string& var);
+			void getValue(const string& name, bool& var);
+			void getValue(const string& name, int& var);
+			void getValue(const string& name, string& var);
 
 			//! Indica si quedan más elementos en una lista
 			/*! \param name El nombre de la variable.
@@ -123,7 +123,7 @@ namespace seap_implement{
 				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
 				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
 			*/
-			bool hasMoreItems(string name);
+			bool hasMoreItems(const string& name);
 			//! Obtiene el valor del alemento actual de la lista.
 			/*! \param name El nombre de la variable.
 				\param var La variable destino donde se almacenará una copia del elemento actual.
@@ -131,13 +131,13 @@ namespace seap_implement{
 				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
 				\throw ConfigExceptionNoData Si no ya no hay elementos en la lista.
 			*/
-			void getNextItem(string name, string& var);
+			void getNextItem(const string& name, string& var);
 			//! Rebobina una lista para poder obtener todos los elementos de nuevo.
 			/*! \param name El nombre de la variable.
 				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
 				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
 			*/
-			void rewind(string name);
+			void rewind(const string& name);
 		protected:
 
 		private:
@@ -161,7 +161,7 @@ namespace seap_implement{
 			};
 
 			//! Registra de verdad las variables
-			void registerVariable(string name, Type type, int position, bool mandatory, Source source);
+			void registerVariable(const string& name, Type type, int position, bool mandatory, Source source);
 
 			//! Indica si s es un identificador válido
 			bool isValidId(const char* s);
