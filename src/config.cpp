@@ -1,9 +1,9 @@
 #include "config.h"
 
 //TODO: Mejorar mensajes de error.
-
+//TODO: Implementar BOOL y LIST de posición fija  o bien generar exepciones adecuadas.
 //TODO: Implementar listas desde archivos. (Opcional)
-//TODO: Mejorar lectura de una avriable desde varias fuentes. (Opcional)
+
 
 namespace seap_implement {
 
@@ -40,7 +40,7 @@ namespace seap_implement {
 	//////////////
 	//  PARSEO  //
 	//////////////
-	bool Config::parseArgs(int argc, char* argv[], int begin) {
+	bool Config::parseArgs(int argc, char* argv[]) {
 		enum {W_ID, W_INT, W_STR, W_LST};
 		int k, status = W_ID;
 		Data* dest = NULL;
@@ -50,7 +50,7 @@ namespace seap_implement {
 
 		sourceId ++;
 
-		for (k = begin; k < argc; k++) {
+		for (k = 1; k < argc; k++) {
 			// Busca identicadores y verifica su validez.
 			if (status == W_ID) {
 				//Verifica si es una variable fixed

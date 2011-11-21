@@ -1,10 +1,28 @@
 #ifndef VALIDATION_H
 #define VALIDATION_H
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 #include <string>
 using namespace std;
 
 namespace seap_implement {
+
+	/*! Indica si \c path existe y es un directorio.
+		\param path Ruta al directorio.
+		\return \c true si es un directorio o \c false en caso contrario
+		o si hay algun error al abrir el archivo.
+	*/
+	bool isDir(const char* path);
+	/*! Indica si \c path existe y es un archivo ordinario.
+		\param path Ruta al archivo.
+		\return \c true si es un archivo ordinario o \c false en caso contrario
+		o si hay algun error al abrir el archivo.
+	*/
+	bool isFile(const char* path);
+	bool isFileSmaller(const char* path, int maxSize);
 
 	/*! Indica si \c s describe un lenguaje válido. Los lenguajes válidos son
 		\c c \c c++ y  c\ java

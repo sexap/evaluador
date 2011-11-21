@@ -11,6 +11,18 @@ int main(int argc, char* argv[]) {
 	int fileSize, compTime, compMem, outSize, runTime, runMem;
 	bool verbose, strict, iWhite;
 
+	/*
+	cout << isDir(".") << endl;
+	cout << isDir("test_dir") << endl;
+	cout << isDir("no_existe") << endl;
+	cout << isDir("eval.conf") << endl;
+	cout << endl;
+	cout << isFile("test_dir") << endl;
+	cout << isFile("no_existe") << endl;
+	cout << isFile("eval.conf") << endl;
+	cout << isFile("test_dir/hola") << endl;
+	*/
+
 	// Registra variables
 	cfg.registerArgVar("action", Config::T_STRING, 1);
 	cfg.registerArgVar("problem", Config::T_STRING, 2);

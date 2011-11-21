@@ -2,6 +2,25 @@
 
 namespace seap_implement {
 
+	bool isDir(const char* path) {
+		struct stat datos;
+		if (stat(path, &datos) != 0) return false;
+		return S_ISDIR(datos.st_mode);
+	}
+
+	bool isFile(const char* path) {
+		struct stat datos;
+		if (stat(path, &datos) != 0) return false;
+		return S_ISREG(datos.st_mode);
+	}
+
+	bool isFileSmaller(const char* path, int maxSize) {
+		struct stat datos;
+		if (stat(path, &datos) != 0) return false;
+		if (!S_ISREG(datos.st_mode)) return false;
+		return datos.st_size <= maxSize;
+	}
+
 	bool isValidJudgeType(const string& s) {
 		return (s == "standard" || s == "special" || s == "interactive");
 	}

@@ -79,7 +79,7 @@ namespace seap_implement{
 				\param begin Sólo este argumento y los siguientes serán analizados.
 				\return \c true si no ocurrió ningún error.
 			*/
-			bool parseArgs(int argc, char* argv[], int begin = 1);
+			bool parseArgs(int argc, char* argv[]);
 			//! Procesa un archivo.
 			/*! \param filename La ruta y nmbre del archivo a analizar.
 				\return \c true si no ocurrió ningún error.
