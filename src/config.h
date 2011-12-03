@@ -8,7 +8,10 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include <dirent.h>
+
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <string>
 #include <list>
@@ -84,7 +87,7 @@ namespace seap_implement{
 			/*! \param filename La ruta y nmbre del archivo a analizar.
 				\return \c true si no ocurrió ningún error.
 			*/
-			bool parseFile(const char* filename);
+			bool parseFile(const string& filename);
 			//! Valida las variables
 			/*! Valida que todas las variables necesarias se hayan leido.
 				\return \c true si todas las variables obligatorias se leyeron correctamente.
@@ -115,6 +118,7 @@ namespace seap_implement{
 			void getValue(const string& name, bool& var);
 			void getValue(const string& name, int& var);
 			void getValue(const string& name, string& var);
+			void getValue(const string& name, list<string>& var);
 
 			//! Indica si quedan más elementos en una lista
 			/*! \param name El nombre de la variable.
@@ -138,6 +142,9 @@ namespace seap_implement{
 				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
 			*/
 			void rewind(const string& name);
+
+			static list<string> getSet(const string& path);
+			static list<string> getDir(const string& path, const string& ext = "");
 		protected:
 
 		private:
@@ -151,6 +158,7 @@ namespace seap_implement{
 				bool isSet;
 				bool isMandatory;
 				int lastSeenBy;
+				int fixedPos;
 				list<string>::iterator listIt;
 				union {
 					bool v_bool;

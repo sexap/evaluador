@@ -2,8 +2,9 @@
 1318363803 source:/home/ernesto/seap/src/ParamParser.cpp
 	"ParamParser.h"
 
-1321837266 source:/home/ernesto/seap/src/main.cpp
+1322882282 source:/home/ernesto/seap/src/main.cpp
 	<iostream>
+	<list>
 	"config.h"
 	"validation.h"
 
@@ -15,8 +16,10 @@
 	<cstring>
 	<cstdlib>
 
-1321836212 /home/ernesto/seap/src/config.h
+1322881422 /home/ernesto/seap/src/config.h
+	<dirent.h>
 	<iostream>
+	<fstream>
 	<cstdlib>
 	<string>
 	<list>
@@ -24,16 +27,16 @@
 	<libconfig.h++>
 	"config_exceptions.h"
 
-1321836353 source:/home/ernesto/seap/src/config.cpp
+1322881550 source:/home/ernesto/seap/src/config.cpp
 	"config.h"
 
 1321571702 /home/ernesto/seap/src/config_exceptions.h
 	<exception>
 
-1321836998 source:/home/ernesto/seap/src/validation.cpp
+1322894219 source:/home/ernesto/seap/src/validation.cpp
 	"validation.h"
 
-1321837678 /home/ernesto/seap/src/validation.h
+1322882590 /home/ernesto/seap/src/validation.h
 	<sys/types.h>
 	<sys/stat.h>
 	<unistd.h>

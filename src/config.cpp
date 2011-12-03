@@ -1,6 +1,7 @@
 #include "config.h"
 
 //TODO: Mejorar mensajes de error.
+//TODO: Corregir fallos con variables de posición fija.
 //TODO: Implementar BOOL y LIST de posición fija  o bien generar exepciones adecuadas.
 //TODO: Implementar listas desde archivos. (Opcional)
 
@@ -78,7 +79,7 @@ namespace seap_implement {
 				else {
 					it = variables.find(argv[k] + 1);
 					if (it == variables.end()) {
-						cout << "No existe el id " << argv[k] << endl;
+						cout << "No existe el id -" << argv[k] << endl;
 						error = true;
 					}
 					else {
@@ -86,6 +87,9 @@ namespace seap_implement {
 
 						if (dest->source != S_ARG && dest->source != S_BOTH) {
 							cout << "El id " << argv[k] << " se debe especificar en archivo" << endl;
+						}
+						else if (dest->fixedPos > 0) {
+							cout << "El id " << argv[k] << " debe ir directamente en pos " << dest->fixedPos << endl;
 						}
 						else {
 							if (dest->lastSeenBy == sourceId) {
@@ -112,7 +116,7 @@ namespace seap_implement {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
 					error = true;
-					k -= 1;
+					if (dest->fixedPos <= 0) k -= 1;
 				}
 				else if (!isValidInt(argv[k])) {
 					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
@@ -129,7 +133,7 @@ namespace seap_implement {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
 					error = true;
-					k -= 1;
+					if (dest->fixedPos <= 0) k -= 1;
 				}
 				else {
 					delete dest->v_string;
@@ -146,7 +150,7 @@ namespace seap_implement {
 						error = true;
 					}
 					status = W_ID;
-					k -= 1;
+					if (dest->fixedPos <= 0) k -= 1;
 				}
 				else {
 					if(!(dest->isSet)) {
@@ -181,7 +185,7 @@ namespace seap_implement {
 		return !error;
 	} // Fin parseArgs()
 
-	bool Config::parseFile(const char* filename) {
+	bool Config::parseFile(const string& filename) {
 		using namespace libconfig;
 
 		libconfig::Config config;
@@ -196,7 +200,7 @@ namespace seap_implement {
 
 		// Abrir y parsear el archivo.
 		try {
-			config.readFile(filename);
+			config.readFile(filename.c_str());
 		}
 		catch (FileIOException& e) {
 			cout << "No se pudo abrir el archivo " << filename << endl;
@@ -287,7 +291,12 @@ namespace seap_implement {
 			if (it->second.isMandatory && it->second.lastSeenBy == 0) {
 				error = true;
 				if(it->second.source == S_ARG) {
-					cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+					if (it->second.fixedPos > 0) {
+						cout << "El argumento en la posición " << it->second.fixedPos << " es obligatorio" << endl;
+					}
+					else {
+						cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+					}
 				}
 				else if(it->second.source == S_FILE) {
 					cout << "La variable " << (it->first) << " es obligatoria" << endl;
@@ -314,6 +323,7 @@ namespace seap_implement {
 		tmpData.isMandatory = mandatory;
 		tmpData.isSet = false;
 		tmpData.lastSeenBy = 0;
+		tmpData.fixedPos = position;
 
 		if (type == T_STRING) tmpData.v_string = NULL;
 		else if (type == T_LIST) tmpData.v_list = NULL;
@@ -394,6 +404,14 @@ namespace seap_implement {
 		var = *(it->second.v_string);
 	}
 
+	void Config::getValue(const string& name, list<string>& var) {
+		map<string, Data>::iterator it = variables.find(name);
+		if (it == variables.end()) throw ConfigExceptionNotFound();
+		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
+		if (it->second.v_list == NULL) var = list<string>();
+		else var = *(it->second.v_list);
+	}
+
 	bool Config::hasMoreItems(const string& name) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();
@@ -420,4 +438,42 @@ namespace seap_implement {
 		it->second.listIt  = it->second.v_list->begin();
 	}
 
+	///////////////////////////////
+	//  CONJUNTOS Y DIRECTORIOS  //
+	///////////////////////////////
+	list<string> Config::getSet(const string& path){
+		string line;
+		ifstream file;
+		list<string> result;
+
+		file.open(path.c_str());
+		if(file.fail()) return result;
+
+		while(getline(file, line)) {
+			if (line != "") result.push_back(line);
+		}
+		return result;
+	}
+
+	list<string> Config::getDir(const string& path, const string& ext) {
+		list<string> result;
+		string filename;
+		size_t p;
+
+		DIR *dirp;
+		struct dirent *dp;
+
+		if ((dirp = opendir(path.c_str())) == NULL) {
+			return result;
+		}
+
+		while ((dp = readdir(dirp)) != NULL) {
+			if(dp->d_name[0] != '.') {
+				filename = dp->d_name;
+				p = filename.rfind('.');
+				if (ext == "" || (p != string::npos && filename.substr(p) == "." + ext)) result.push_back(dp->d_name);
+			}
+		}
+		return result;
+	}
 }

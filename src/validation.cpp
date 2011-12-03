@@ -2,27 +2,39 @@
 
 namespace seap_implement {
 
-	bool isDir(const char* path) {
+	bool isDir(const string& path) {
 		struct stat datos;
-		if (stat(path, &datos) != 0) return false;
+		if (stat(path.c_str(), &datos) != 0) return false;
 		return S_ISDIR(datos.st_mode);
 	}
 
-	bool isFile(const char* path) {
+	bool isFile(const string& path) {
 		struct stat datos;
-		if (stat(path, &datos) != 0) return false;
+		if (stat(path.c_str(), &datos) != 0) return false;
 		return S_ISREG(datos.st_mode);
 	}
 
-	bool isFileSmaller(const char* path, int maxSize) {
+	bool isFileSmaller(const string& path, int maxSize) {
 		struct stat datos;
-		if (stat(path, &datos) != 0) return false;
+		if (stat(path.c_str(), &datos) != 0) return false;
 		if (!S_ISREG(datos.st_mode)) return false;
 		return datos.st_size <= maxSize;
 	}
 
 	bool isValidJudgeType(const string& s) {
 		return (s == "standard" || s == "special" || s == "interactive");
+	}
+
+	bool judgeNeedsExe(const string& s) {
+		return (s == "special" || s == "interactive");
+	}
+
+	bool judgeNeedsOutput(const string& s) {
+		return (s == "standard");
+	}
+
+	bool isValidAction(const string& s) {
+		return (s == "eval");
 	}
 
 	bool isValidLang(const string& s) {
@@ -51,6 +63,17 @@ namespace seap_implement {
 		}
 
 		return false;
+	}
+
+	bool hasExtension(const string& s, const string& ext) {
+		size_t p;
+		string realExt;
+
+		p = s.rfind('.');
+		if (p == string::npos) return false;
+
+		realExt = s.substr(p);
+		return (realExt == "." + ext);
 	}
 
 	bool isBetween(int n, int min, int max) {
