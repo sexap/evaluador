@@ -412,32 +412,6 @@ namespace seap_implement {
 		else var = *(it->second.v_list);
 	}
 
-	bool Config::hasMoreItems(const string& name) {
-		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) throw ConfigExceptionNotFound();
-		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
-		if (it->second.v_list == NULL) return false;
-		return (it->second.listIt != it->second.v_list->end());
-	}
-
-	void Config::getNextItem(const string& name, string& var) {
-		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) throw ConfigExceptionNotFound();
-		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
-		if (it->second.v_list == NULL) throw ConfigExceptionNoData();
-		if (it->second.listIt == it->second.v_list->end()) throw ConfigExceptionNoData();
-		var = *(it->second.listIt);
-		it->second.listIt ++;
-	}
-
-	void Config::rewind(const string& name) {
-		map<string, Data>::iterator it = variables.find(name);
-		if (it == variables.end()) throw ConfigExceptionNotFound();
-		if (it->second.type != T_LIST) throw ConfigExceptionBadType();
-		if (it->second.v_list == NULL) return;
-		it->second.listIt  = it->second.v_list->begin();
-	}
-
 	///////////////////////////////
 	//  CONJUNTOS Y DIRECTORIOS  //
 	///////////////////////////////

@@ -120,29 +120,6 @@ namespace seap_implement{
 			void getValue(const string& name, string& var);
 			void getValue(const string& name, list<string>& var);
 
-			//! Indica si quedan más elementos en una lista
-			/*! \param name El nombre de la variable.
-				\return \c true Si quedan más elementos en la lista.
-				\return \c false Si no.
-				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
-				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
-			*/
-			bool hasMoreItems(const string& name);
-			//! Obtiene el valor del alemento actual de la lista.
-			/*! \param name El nombre de la variable.
-				\param var La variable destino donde se almacenará una copia del elemento actual.
-				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
-				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
-				\throw ConfigExceptionNoData Si no ya no hay elementos en la lista.
-			*/
-			void getNextItem(const string& name, string& var);
-			//! Rebobina una lista para poder obtener todos los elementos de nuevo.
-			/*! \param name El nombre de la variable.
-				\throw ConfigExceptionNotFound Si la variable no ha sido registrada.
-				\throw ConfigExceptionBadType Si la variable no es del tipo T_STRING.
-			*/
-			void rewind(const string& name);
-
 			static list<string> getSet(const string& path);
 			static list<string> getDir(const string& path, const string& ext = "");
 		protected:
