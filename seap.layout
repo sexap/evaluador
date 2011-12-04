@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="src/config.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="4358" topLine="137" />
+	<File name="src/config.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="12001" topLine="424" />
 	</File>
 	<File name="src/config.h" open="1" top="0" tabpos="2">
-		<Cursor position="5489" topLine="142" />
+		<Cursor position="4147" topLine="119" />
 	</File>
 	<File name="src/config_exceptions.h" open="1" top="0" tabpos="4">
 		<Cursor position="904" topLine="19" />
 	</File>
-	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="5119" topLine="159" />
+	<File name="src/main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="8332" topLine="242" />
 	</File>
 	<File name="src/validation.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="100" topLine="0" />
+		<Cursor position="377" topLine="2" />
 	</File>
 	<File name="src/validation.h" open="1" top="0" tabpos="5">
-		<Cursor position="2305" topLine="44" />
+		<Cursor position="0" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>

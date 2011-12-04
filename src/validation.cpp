@@ -18,7 +18,7 @@ namespace seap_implement {
 		struct stat datos;
 		if (stat(path.c_str(), &datos) != 0) return false;
 		if (!S_ISREG(datos.st_mode)) return false;
-		return datos.st_size <= maxSize;
+		return datos.st_size <= maxSize * 1024;
 	}
 
 	bool isValidJudgeType(const string& s) {
