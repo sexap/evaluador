@@ -154,18 +154,28 @@ int main(int argc, char* argv[]) {
 	}
 	else {
 		for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) {
-			if (!isFile(*it)) {
-				cout << "No existe el caso " << *it << endl;
-				hasError = true;
+			// Es archivo set
+			if (hasExtension(*it, "set")) {
+				if (!isFile(problem + "/" + *it)) {
+					cout << "No existe el archivo " << *it << endl;
+					hasError = true;
+				}
+				else {
+					tmpList = Config::getSet(problem + "/" + *it);
+					testCases.insert(testCases.end(), tmpList.begin(), tmpList.end());
+					toErase.push(it);
+				}
 			}
-			else if (hasExtension(*it, "set")) {
-				tmpList = Config::getSet(problem + "/" + *it);
-				testCases.insert(testCases.end(), tmpList.begin(), tmpList.end());
-				toErase.push(it);
-			}
-			else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + ".out")) {
-				cout << "No se encuentra la salida experada para el caso " << *it << endl;
-				hasError = true;
+			// Es caso normal
+			else {
+				if (!isFile(problem + "/" + *it + ".case")) {
+					cout << "No existe el caso " << *it << endl;
+					hasError = true;
+				}
+				else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + ".out")) {
+					cout << "No se encuentra la salida experada para el caso " << *it << endl;
+					hasError = true;
+				}
 			}
 		}
 		while (!toErase.empty()) {
@@ -177,6 +187,7 @@ int main(int argc, char* argv[]) {
 	}
 	if (hasError) return 1;
 
+	//TODO: VErificar tamaños de fuentes
 	// Genera lista de codigos fuente
 	hasError = false;
 	if (sourceFiles.size() == 1 && isDir(*sourceFiles.begin())) {
@@ -191,6 +202,10 @@ int main(int argc, char* argv[]) {
 			else if (hasExtension(*it, "set")) {
 				tmpList = Config::getSet(*it);
 				sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
+				toErase.push(it);
+			}
+			else if (!isFileSmaller(*it, maxSourceSize)) {
+				cout << "El archivo " << *it << " es muy grande" << endl;
 				toErase.push(it);
 			}
 		}
@@ -228,10 +243,14 @@ int main(int argc, char* argv[]) {
 	cout << "¿Mostrar información extra? " << (verbose?"Sí":"No") << endl;
 	cout << endl;*/
 
+	//En este punto:
+	//testCases: lista con todos los casos y verificada su existencia
+	//sourceFiles: Todos los archivos por compilar, verificada su existencia y su tamaño
+
 	///////////////////////////////////////////////////////////////////////////
 	///////////// Rafael, se encarga de compilacion y ejecucion////////////////
 	///////////////////////////////////////////////////////////////////////////
-	#ifdef COMPREADY
+	#ifdef COMPREADY //TODO: Quitar al actualizar
 	int programa;
 	pid_t pID;
 	int status;
@@ -311,6 +330,6 @@ int main(int argc, char* argv[]) {
 //	for(it = testCases.begin(); it != testCases.end(); it++){
 //		cout << "Compilando " << *it << endl;
 //	}
-	#endif
+	#endif //TODO: Quitar al actualizar
     return 0;
 }
