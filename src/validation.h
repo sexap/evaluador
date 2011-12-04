@@ -10,20 +10,20 @@ using namespace std;
 
 namespace seap_implement {
 
-	/*! Indica si \c path existe y es un directorio.
+	/*! Indica si \c path  es un directorio y es accesible.
 		\param path Ruta al directorio.
-		\return \c true si es un directorio o \c false en caso contrario
+		\return \c true si es un directorio accessible o \c false en caso contrario
 		o si hay algun error al abrir el archivo.
 	*/
 	bool isDir(const string& path);
-	/*! Indica si \c path existe y es un archivo ordinario.
+	/*! Indica si \c path es un archivo ordinario y es accesible para lectura.
 		\param path Ruta al archivo.
-		\return \c true si es un archivo ordinario,
+		\return \c true si es un archivo ordinario y es accesible para lectura,
 		\c false en caso contrario o si hay algun error al abrir el archivo.
 	*/
 	bool isFile(const string& path);
 	/*! Indica si el archivo indicado por \c path es de menor o igual tamaño
-		que maxSize
+		que maxSize en kB
 		\param path Ruta al archivo.
 		\return \c true si el archivo es de menor o igual tamaño que maxSize,
 		\c false en caso contrario o si hay algun error al abrir el archivo.

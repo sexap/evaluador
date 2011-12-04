@@ -136,13 +136,14 @@ int main(int argc, char* argv[]) {
 		hasError = true;
 	}
 	else if (judgeNeedsExe(judgeType)) {
-		if (!isFile(judgeExe)) {
+		if (!isFile(problem + "/" + judgeExe)) {
 			cout << "No se encuentra el ejecutable " << judgeExe << endl;
 			hasError = true;
 		}
 	}
 	if (hasError) return 1;
 
+	//FIXME: Posible loop infinito si un archivo set se contiene a sí mismo
 	// Genera lista de casos de prueba
 	hasError = false;
 	if (testCases.size() == 0) {
@@ -187,7 +188,6 @@ int main(int argc, char* argv[]) {
 	}
 	if (hasError) return 1;
 
-	//TODO: VErificar tamaños de fuentes
 	// Genera lista de codigos fuente
 	hasError = false;
 	if (sourceFiles.size() == 1 && isDir(*sourceFiles.begin())) {
@@ -271,9 +271,10 @@ int main(int argc, char* argv[]) {
 		struct rlimit limit;
 
 		//TODO: Establecer correctamente los limites de compilacion y hacer pruebas con Java, especialmente.
-
+		//! Las restricciones no son prioritarias
 		//limit.rlim_cur = limit.rlim_max = maxCompTime * 1000;
 		//setrlimit(RLIMIT_RTTIME, &limit);
+		//! Con menos memoria que 64M no jala, tal vez no es la restricción adecuada.
 		//limit.rlim_cur = limit.rlim_max = 64 * 1024 * 1024;
 		//setrlimit(RLIMIT_AS, &limit);
 

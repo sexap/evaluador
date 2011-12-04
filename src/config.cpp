@@ -1,6 +1,6 @@
 #include "config.h"
 
-//TODO: Mejorar mensajes de error.
+//TODO: Mejorar mensajes de error. (prioridad baja)
 //TODO: Corregir fallos con variables de posición fija.
 //TODO: Implementar BOOL y LIST de posición fija  o bien generar exepciones adecuadas.
 //TODO: Implementar listas desde archivos. (Opcional)

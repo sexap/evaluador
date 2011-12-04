@@ -5,13 +5,15 @@ namespace seap_implement {
 	bool isDir(const string& path) {
 		struct stat datos;
 		if (stat(path.c_str(), &datos) != 0) return false;
-		return S_ISDIR(datos.st_mode);
+		if (!S_ISDIR(datos.st_mode)) return false;
+		return (access(path.c_str(), R_OK | X_OK) == 0);
 	}
 
 	bool isFile(const string& path) {
 		struct stat datos;
 		if (stat(path.c_str(), &datos) != 0) return false;
-		return S_ISREG(datos.st_mode);
+		if (!S_ISREG(datos.st_mode)) return false;
+		return (access(path.c_str(), R_OK) == 0);
 	}
 
 	bool isFileSmaller(const string& path, int maxSize) {
