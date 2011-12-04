@@ -1,0 +1,7 @@
+- COMPILACIÓN
+El proyecto ya está configurado para ligar la librería libconfig pero hay que instalarla en el equipo.
+
+Hay que descargar la librería de http://www.hyperrealm.com/libconfig/ (versión 1.4.8), descomprimirla y ejecutar:
+./configure
+make
+make install
