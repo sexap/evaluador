@@ -36,6 +36,11 @@ namespace seap_implement {
 		\return \c true si la cadena s termina en \c .ext, \c false en caso contrario.
 	*/
 	bool hasExtension(const string& s, const string& ext);
+	/*! Devuelve la cadena \c s sin extensión. Si la cadena no tiene extensión se devuelve igual.
+		\param s la cadena a modificar
+		\return La cadena sin extensión.
+	*/
+	const string removeExtension(const string& s);
 
 	/*! Indica si \c s describe un lenguaje válido. Los lenguajes válidos son
 		\c c \c c++ y  c\ java

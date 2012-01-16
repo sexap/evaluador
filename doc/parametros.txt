@@ -1,0 +1,32 @@
+posición 1
+Determina la acción que se va a realizar. Actualmente sólo se reconoce la acción 'eval'
+
+posición 2
+Nombre del problema que se va a evaluar.
+
+-f lista
+Lista de archivos de código fuente que se evaluarán
+
+-l valor (obsoleto?)
+Cadena que especifica el lenguaje del archivo de código. Los posibles valores son 'c', 'c++', 'java'.
+
+-s valor
+Tamaño máximo del archivo de código fuente en kiB
+
+-T valor
+Tiempo máximo de compilación en ms
+
+-M valor
+Memoria máxima de compilación en kiB
+
+-S valor
+Tamaño máximo de la salida del programa del usuario en kiB
+
+-c lista
+Lista de casos de prueba
+
+-v
+Indica que se mostrará información extra.
+
+-o valor
+Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.

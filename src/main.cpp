@@ -17,6 +17,8 @@ using namespace seap_implement;
 #include <sys/wait.h>
 #include <cstdio>
 
+
+//TODO: Mover esta función
 bool comparacion(bool estricto, string nomArchCorr, int dArchAlum)
 {
     char buffer[128];
@@ -134,7 +136,7 @@ bool comparacion(bool estricto, string nomArchCorr, int dArchAlum)
 int main(int argc, char* argv[])
 {
     Config confArg, confFile;
-    string lang, judgeType, judgeExe, action, problem;
+    string lang, judgeType, judgeExe, action, problem, outputFile;
     int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
     bool verbose, strictEval, compareWhite, hasError;
     list<string> testCases, tmpList, sourceFiles;
@@ -152,6 +154,7 @@ int main(int argc, char* argv[])
     confArg.registerArgVar("S", Config::T_INT, false);
     confArg.registerArgVar("c", Config::T_LIST, false);
     confArg.registerArgVar("v", Config::T_BOOL, false);
+    confArg.registerArgVar("o", Config::T_STRING, false);
 
     confFile.registerFileVar("max_time", Config::T_INT, true);
     confFile.registerFileVar("max_mem", Config::T_INT, false);
@@ -167,6 +170,7 @@ int main(int argc, char* argv[])
     confArg.setValue("M", 4096); // 4MB para compilar (revisar)
     confArg.setValue("S", 8); // 8KB de salida
     confArg.setValue("v", false); // Es callado
+    confArg.setValue("o", "");
 
     confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
     confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
@@ -190,8 +194,9 @@ int main(int argc, char* argv[])
     confArg.getValue("T", maxCompTime);
     confArg.getValue("M", maxCompMem);
     confArg.getValue("S", maxOutSize);
-    confArg.getValue("v", verbose);
     confArg.getValue("c", testCases);
+    confArg.getValue("v", verbose);
+    confArg.getValue("o", outputFile);
 
     hasError = false;
     if (!isValidAction(action))
@@ -272,7 +277,7 @@ int main(int argc, char* argv[])
     }
     if (hasError) return 1;
 
-    //FIXME: Posible loop infinito si un archivo set se contiene a sí mismo
+    //TODO: Posible loop infinito si un archivo set se contiene a sí mismo
     // Genera lista de casos de prueba
     hasError = false;
     if (testCases.size() == 0)
@@ -281,7 +286,7 @@ int main(int argc, char* argv[])
         // Quita extensión
         for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++)
         {
-            *it = it->substr(0, it->rfind('.'));
+            *it = removeExtension(*it);
         }
     }
     else
@@ -332,7 +337,12 @@ int main(int argc, char* argv[])
     hasError = false;
     if (sourceFiles.size() == 1 && isDir(*sourceFiles.begin()))
     {
-        sourceFiles = Config::getDir(*sourceFiles.begin());
+    	string baseName = *sourceFiles.begin();
+        sourceFiles = Config::getDir(baseName);
+        for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++)
+        {
+        	*it = baseName + "/" + (*it);
+        }
     }
     else
     {
@@ -370,42 +380,12 @@ int main(int argc, char* argv[])
     }
     if (hasError) return 1;
 
+	//Temporal (ernesto)
     cout << "CASOS:" << endl;
     for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cout << *it << endl;
     cout << "FUENTES:" << endl;
     for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cout << *it << endl;
 
-    /*cout << "La acción es " << action << " y el problema es " << problem << endl;
-    cout << endl;
-    cout << "Se compilará el archivo \"" << sourceFile << "\" en lenguaje " << lang << endl;
-    cout << "El archivo debe pesar máximo " << maxSourceSize << "kB" << endl;
-    cout << endl;
-    cout << "Tiene " << maxCompTime << "ms y " << maxCompMem << "kB para que se compile" << endl;
-    cout << "Durante su ejecución no podrá generar más de " << maxOutSize << "kB de salida" << endl;
-    cout << endl;
-    cout << "Se eveluará con el juez " << judgeType << " (ejecutable " << judgeExe << ")" << endl;
-    cout << "Tiene " << maxRunTime << "ms y " << maxRunMem << "kB para la ejecución de cada caso" << endl;
-    cout << "La salida " << (compareWhite?"":"NO ") << "tamará en cuenta espacios en blanco" << endl;
-    cout << "La calificación será " << (strictEval?"todo o nada":"normal") << endl;
-    cout << endl;
-    cout << "¿Mostrar información extra? " << (verbose?"Sí":"No") << endl;
-    cout << endl;*/
-
-    //En este punto:
-    //testCases: lista con todos los casos y verificada su existencia
-    //sourceFiles: Todos los archivos por compilar, verificada su existencia y su tamaño
-
-    ///////////////////////////////////////////////////////////////////////////
-    ///////////// Rafael, se encarga de compilacion y ejecucion////////////////
-    ///////////////////////////////////////////////////////////////////////////
-//	#ifdef COMPREADY //TODO: Quitar al actualizar
-
-    /*
-    *   Hago la compilación y la ejecución para cada código de alumno.
-    */
-    //Para cada código
-    /*   for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)
-       {*/
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)
     {
         int programa;

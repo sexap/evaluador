@@ -55,7 +55,7 @@ namespace seap_implement {
 			s = "c";
 			return true;
 		}
-		if (ext == ".cpp" || ext == ".cxx" || ext == ".c++") {
+		if (ext == ".cpp" || ext == ".cxx" || ext == ".c++" || ext == ".cc") {
 			s = "c++";
 			return true;
 		}
@@ -76,6 +76,10 @@ namespace seap_implement {
 
 		realExt = s.substr(p);
 		return (realExt == "." + ext);
+	}
+
+	const string removeExtension(const string& s) {
+		return s.substr(0, s.rfind('.'));
 	}
 
 	bool isBetween(int n, int min, int max) {

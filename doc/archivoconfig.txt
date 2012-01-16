@@ -1,0 +1,19 @@
+Debe existir un archivo de configuración por cada problema y se llamará 'eval.conf'
+
+max_time = valor
+Tiempo máximo de ejecución por caso de prueba en ms.
+
+max_mem = valor
+Memoria máxima de ejecución por caso de prueba en kiB.
+
+judge_type = {"standard", "special", "interactive"}
+Tipo de juez
+
+judge_exe = valor
+Nombre del ejecutable que evaluará el problema en caso de que el juez sea "special" o "interavtive".
+
+strict_eval = {true, false}
+Indica si se empleará la evaluación extricta. Evaluación estricta significa que algún caso está mal se tiene 0% de calificación, sólo si todos los casos están correctos se tiene 100% de calificación.
+
+compare_white = {true, false}
+Indica si se compararán o ignorarán los espacios en blanco para la evaluación de casos.
