@@ -72,7 +72,7 @@ namespace seap_implement{
 				\param mandatory Especifica si es obligatorio que el usuario defina la variable.
 			*/
 			void registerArgVar(const string& name, Type type, bool mandatory = false);
-			void registerArgVar(const string& name, Type type, int position, bool mandatory = true);
+			void registerArgFixVar(const string& name, Type type);
 			void registerFileVar(const string& name, Type type, bool mandatory = false);
 			void registerVar(const string& name, Type type, bool mandatory = false);
 			//! Procesa los argumentos.
@@ -135,7 +135,7 @@ namespace seap_implement{
 				bool isSet;
 				bool isMandatory;
 				int lastSeenBy;
-				int fixedPos;
+				bool fixedPos;
 				list<string>::iterator listIt;
 				union {
 					bool v_bool;
@@ -154,7 +154,7 @@ namespace seap_implement{
 			bool isValidInt(const char* s);
 
 			map<string,Data> variables;
-			map<int,Data*> fixedVariables;
+			list<Data*> fixedVariables;
 			int sourceId;
 			bool hasFailed;
 	};

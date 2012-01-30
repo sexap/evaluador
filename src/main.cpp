@@ -143,8 +143,8 @@ int main(int argc, char* argv[])
     stack<list<string>::iterator> toErase;
 
     // Registra variables
-    confArg.registerArgVar("action", Config::T_STRING, 1);
-    confArg.registerArgVar("problem", Config::T_STRING, 2);
+    confArg.registerArgFixVar("action", Config::T_STRING);
+    confArg.registerArgFixVar("problem", Config::T_STRING);
 
     confArg.registerArgVar("f", Config::T_LIST, true);
     confArg.registerArgVar("l", Config::T_STRING, false);

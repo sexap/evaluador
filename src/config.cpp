@@ -1,9 +1,8 @@
 #include "config.h"
 
 //TODO: Mejorar mensajes de error. (prioridad baja)
-//TODO: Corregir fallos con variables de posición fija.
-//TODO: Implementar BOOL y LIST de posición fija  o bien generar exepciones adecuadas.
-//TODO: Implementar listas desde archivos. (Opcional)
+//TODO: Implementar BOOL y LIST de posición fija  o generar exepciones adecuadas. (Opcional)
+//TODO: Implementar LIST desde archivos o generar excepciones adecuadas. (Opcional)
 
 
 namespace seap_implement {
@@ -46,40 +45,61 @@ namespace seap_implement {
 		int k, status = W_ID;
 		Data* dest = NULL;
 		map<string,Data>::iterator it;
-		map<int,Data*>::iterator f_it;
+		list<Data*>::iterator f_it;
 		bool error = false;
 
 		sourceId ++;
 
-		for (k = 1; k < argc; k++) {
+		for (k = 1, f_it = fixedVariables.begin(); f_it != fixedVariables.end(); k++, f_it++) {
+
+			dest = (*f_it);
+
+			if (k == argc) {
+				cout << "Se esperaba un argumento después de " << argv[k-1] << endl;
+				error = true;
+				break;
+			}
+
+			dest->lastSeenBy = sourceId;
+
+			if (dest->type == T_INT) {
+				// Es de tipo entero
+				if (isValidId(argv[k]) || !isValidInt(argv[k])) {
+					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
+					error = true;
+				}
+				else {
+					dest->v_int = atoi(argv[k]);
+					dest->isSet = true;
+				}
+			}
+			else if (dest->type == T_STRING) {
+				if (isValidId(argv[k])) {
+					cout << "Se esperaba un valor de cadena en vez de " << argv[k] << endl;
+					error = true;
+				}
+				else {
+					delete dest->v_string;
+					dest->v_string = new string(argv[k]);
+					dest->isSet = true;
+				}
+			}
+			else if (dest->type == T_BOOL) cout << "AVISO. Booleanos fixed no soportados" << endl;
+			else if (dest->type == T_LIST) cout << "AVISO. Listas fixed no soportadas" << endl;
+		}
+
+		for ( ; k < argc; k++) {
 			// Busca identicadores y verifica su validez.
 			if (status == W_ID) {
-				//Verifica si es una variable fixed
-				f_it = fixedVariables.find(k);
-				if (f_it != fixedVariables.end()) {
-					dest = f_it->second;
-					dest->lastSeenBy = sourceId;
-
-					if (dest->type == T_INT) {
-						status = W_INT;
-						k -= 1;
-					}
-					else if (dest->type == T_STRING) {
-						status = W_STR;
-						k -= 1;
-					}
-					else if (dest->type == T_BOOL) cout << "AVISO. Booleanos fixed no soportados" << endl;
-					else if (dest->type == T_LIST) cout << "AVISO. Listas fixed no soportadas" << endl;
-				}
 				// Es una variable con nombre
-				else if (!isValidId(argv[k])) {
+				if (!isValidId(argv[k])) {
 					cout << "Se esperaba un id en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
 					it = variables.find(argv[k] + 1);
-					if (it == variables.end()) {
-						cout << "No existe el id -" << argv[k] << endl;
+					if (it == variables.end() || it->second.fixedPos) {
+						cout << "No existe el id " << argv[k] << endl;
 						error = true;
 					}
 					else {
@@ -116,7 +136,7 @@ namespace seap_implement {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
 					error = true;
-					if (dest->fixedPos <= 0) k -= 1;
+					k -= 1;
 				}
 				else if (!isValidInt(argv[k])) {
 					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
@@ -133,7 +153,7 @@ namespace seap_implement {
 				if (isValidId(argv[k])) {
 					cout << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
 					error = true;
-					if (dest->fixedPos <= 0) k -= 1;
+					k -= 1;
 				}
 				else {
 					delete dest->v_string;
@@ -150,7 +170,7 @@ namespace seap_implement {
 						error = true;
 					}
 					status = W_ID;
-					if (dest->fixedPos <= 0) k -= 1;
+					k -= 1;
 				}
 				else {
 					if(!(dest->isSet)) {
@@ -291,8 +311,8 @@ namespace seap_implement {
 			if (it->second.isMandatory && it->second.lastSeenBy == 0) {
 				error = true;
 				if(it->second.source == S_ARG) {
-					if (it->second.fixedPos > 0) {
-						cout << "El argumento en la posición " << it->second.fixedPos << " es obligatorio" << endl;
+					if (it->second.fixedPos) {
+						cout << "El argumento fijo " << (it->first) << " es obligatorio" << endl;
 					}
 					else {
 						cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
@@ -323,23 +343,26 @@ namespace seap_implement {
 		tmpData.isMandatory = mandatory;
 		tmpData.isSet = false;
 		tmpData.lastSeenBy = 0;
-		tmpData.fixedPos = position;
+		tmpData.fixedPos = (position > 0);
 
 		if (type == T_STRING) tmpData.v_string = NULL;
 		else if (type == T_LIST) tmpData.v_list = NULL;
 
-		variables[name] = tmpData;
 		if (position > 0) {
-			fixedVariables[position] = &variables[name];
+			variables[name] = tmpData;
+			fixedVariables.push_back(&variables[name]);
 		}
-	}
-
-	void Config::registerArgVar(const string& name, Type type, int position, bool mandatory) {
-		registerVariable(name, type, position, mandatory, S_ARG);
+		else {
+			variables[name] = tmpData;
+		}
 	}
 
 	void Config::registerArgVar(const string& name, Type type, bool mandatory) {
 		registerVariable(name, type, -1, mandatory, S_ARG);
+	}
+
+	void Config::registerArgFixVar(const string& name, Type type) {
+		registerVariable(name, type, 1, true, S_ARG);
 	}
 
 	void Config::registerFileVar(const string& name, Type type, bool mandatory) {
