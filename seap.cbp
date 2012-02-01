@@ -39,9 +39,15 @@
 		<Linker>
 			<Add library="/usr/local/lib/libconfig++.a" />
 		</Linker>
+		<Unit filename="src/JE/set.cpp">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/config.cpp" />
 		<Unit filename="src/config.h" />
 		<Unit filename="src/config_exceptions.h" />
+		<Unit filename="src/juezNormal.cpp">
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/validation.cpp" />
 		<Unit filename="src/validation.h" />

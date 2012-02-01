@@ -1,0 +1,4 @@
+bool conjunto()
+{
+    return true;
+}

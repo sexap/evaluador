@@ -1,6 +1,7 @@
--Modos de Evaluación: Normal, Estricto.
 
--Tipos de Juez: Normal, Especial, Interactivo.
+-Tipos de Juez: Standard, Especial, Interactivo.
+
+-Modos de Evaluación Standard: Normal, Estricto.
 
 - COMPILACIÓN
 El proyecto ya está configurado para ligar la librería libconfig pero hay que instalarla en el equipo.

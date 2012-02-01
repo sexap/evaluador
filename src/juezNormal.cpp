@@ -1,4 +1,4 @@
-bool comparacion(bool estricto, string nomArchCorr, int dArchAlum)
+bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
 {
     char buffer[128];
     int leidos;
@@ -7,10 +7,6 @@ bool comparacion(bool estricto, string nomArchCorr, int dArchAlum)
     {
         cout << "No pude abrir la respuesta correcta." << endl;
         return false;
-    }
-    else
-    {
-//       cout << "Abrí bien la respuesta correcta. " << endl;
     }
 
     bool accepted = true;

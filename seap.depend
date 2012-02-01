@@ -52,3 +52,50 @@
 	<unistd.h>
 	<string>
 
+1328128119 source:/home/optimusfranz/evaluador/src/config.cpp
+	"config.h"
+
+1328128119 /home/optimusfranz/evaluador/src/config.h
+	<dirent.h>
+	<iostream>
+	<fstream>
+	<cstdlib>
+	<string>
+	<list>
+	<map>
+	<libconfig.h++>
+	"config_exceptions.h"
+
+1328128119 /home/optimusfranz/evaluador/src/config_exceptions.h
+	<exception>
+
+1328129675 source:/home/optimusfranz/evaluador/src/main.cpp
+	<iostream>
+	<list>
+	<stack>
+	<string>
+	"config.h"
+	"validation.h"
+	<fstream>
+	<sys/types.h>
+	<unistd.h>
+	<cstdlib>
+	<sys/time.h>
+	<sys/resource.h>
+	<sys/wait.h>
+	<cstdio>
+	"juezNormal.cpp"
+
+1328128119 /home/optimusfranz/evaluador/src/validation.h
+	<sys/types.h>
+	<sys/stat.h>
+	<unistd.h>
+	<string>
+
+1326725234 /home/optimusfranz/evaluador/src/comparacion.cpp
+
+1328128119 source:/home/optimusfranz/evaluador/src/validation.cpp
+	"validation.h"
+
+1328129584 /home/optimusfranz/evaluador/src/juezNormal.cpp
+
