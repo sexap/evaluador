@@ -6,7 +6,7 @@ Tiempo máximo de ejecución por caso de prueba en ms.
 max_mem = valor
 Memoria máxima de ejecución por caso de prueba en kiB.
 
-judge_type = {"standard", "especial", "interactive"}
+judge_type = {"standard", "special", "interactive"}
 Tipo de juez
 
 tipo_especial = {Cualquier nombre de archivo en la carpeta "JE" de jueces especiales}
