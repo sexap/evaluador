@@ -266,13 +266,13 @@ int main(int argc, char* argv[])
     }
     if (hasError) return 1;
 
+    ofstream cout("log.txt");       //Archivo que dice paso a paso la ejecución.
+
 	//Temporal (ernesto)
     cout << "CASOS:" << endl;
     for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cout << *it << endl;
     cout << "FUENTES:" << endl;
     for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cout << *it << endl;
-
-
     //TODO: Crear variables con la ruta de los archivos y otras con los nombres de los archivos.
 
     //TODO: Recibir a partir de aquí la variable que indica el lenguaje.
@@ -280,8 +280,13 @@ int main(int argc, char* argv[])
     /*
     *   Compilación y Evaluación
     */
+    string rutaFuentes, rutaCasos;
+    string tipoResultado, archCal = "cal_" + problem + ".txt";
+    int calificacion;
 
+    ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
 
+    calificaciones << "Calificaciones de " << problem << "\n\n";
     cout << endl << endl << "Evaluando Programas...." << endl << endl;
     cout << "El tipo de juez es: " << judgeType << endl;
     /**
@@ -289,7 +294,7 @@ int main(int argc, char* argv[])
     **/
     if(judgeType == "standard")
     {
-        bool estricto = true;
+        bool estricto = false;
         cout << "El modo de evaluación es: ";
         if(estricto) cout << "estricto." << endl;
         else         cout << "normal"    << endl;
@@ -311,14 +316,15 @@ int main(int argc, char* argv[])
 
             codigoActual += *itSF;
             cout << endl << endl << "Evaluando el archivo " << codigoActual << endl;
+            calificaciones << "Programa " << codigoActual << "\t";
 
-            //Compilación
+            //TODO Agregar la compilación para los otros lenguajes.
             string nombrePuro = *itSF;
             nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
+
             string comando = "g++ " + *itSF + " -o " + nombrePuro + " -lm";
-            cout << comando << endl;
+            cout << "Intento " << comando << endl;
             compilacion = system(comando.c_str());
-            cout << "Compilo: "<< codigoActual << " " << compilacion << endl << endl;
 
             if(compilacion == 0)
             {
@@ -326,129 +332,157 @@ int main(int argc, char* argv[])
             }
             else
             {
-                cout << "Error de compilación." << endl;
-                return 0;
+                tipoResultado = "CE";
+                cout << "Falló la compilación." << endl;
             }
 
-            for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++)  //Ciclo para cada caso de prueba. (Casos)
+            if(tipoResultado != "CE")
             {
-                casoActual = problem + "/" + *itTC + ".case";
-                codigoActual = problem + "/" + *itSF;
-                nombrePuro = codigoActual;
-                nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
-
-                cout << "Probando con " << casoActual << endl;
-                if (pipe(fd_pipe) < 0)
+                for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++)  //Ciclo para cada caso de prueba. (Casos)
                 {
-                    cout << "No se pudo hacer pipe" << endl;
-                    return 1;
-                }
+                    casoActual = problem + "/" + *itTC + ".case";
+                    codigoActual = problem + "/" + *itSF;
+                    nombrePuro = codigoActual;
+                    nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
 
-                pID = fork();
-
-                //**************** Hijo *******************/
-                if(pID == 0)
-                {
-                    //cout << "Soy el hijo." << endl;
-
-                    close(fd_pipe[0]);
-                    dup2(fd_pipe[1], STDOUT_FILENO);    //Salida al pipe.
-                    close(fd_pipe[1]);
-
-                    freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
-    //            freopen("log.log", "w", stdout);
-    //            freopen("error.log", "w", stderr);
-
-                    //Ejecución
-                    comando = "./" + *itSF;
-                    comando.replace(comando.end()-4, comando.end(), "");
-                    //cout << "Ejecuto el programa C++ " << comando << endl;
-                    programa = execl(comando.c_str(), comando.c_str(), NULL);
-                    if(programa == -1)
+                    cout << "Probando con " << casoActual << endl;
+                    if (pipe(fd_pipe) < 0)
                     {
-                        cout << "Error de ejecución" << endl;
-                        return 0;
+                        cout << "No se pudo hacer pipe" << endl;
+                        return 1;
                     }
-                }   //Cierra el hijo.
-                //****************** Padre ********************/
+
+                    pID = fork();
+
+                    //**************** Hijo *******************/
+                    if(pID == 0)
+                    {
+                        //cout << "Soy el hijo." << endl;
+
+                        close(fd_pipe[0]);
+                        dup2(fd_pipe[1], STDOUT_FILENO);    //Salida al pipe.
+                        close(fd_pipe[1]);
+
+                        freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
+
+                        //Ejecución
+                        comando = "./" + *itSF;
+                        comando.replace(comando.end()-4, comando.end(), "");
+                        //cout << "Ejecuto el programa C++ " << comando << endl;
+                        programa = execl(comando.c_str(), comando.c_str(), NULL);
+                        if(programa == -1)
+                        {
+                            cout << "Error de ejecución" << endl;
+                            return 0;
+                        }
+                    }   //Cierra el hijo.
+                    //****************** Padre ********************/
+                    else
+                    {
+                        close(fd_pipe[1]);
+                        //es el padre
+                        waitpid(pID, &status, 0);
+
+                        bool exito =false;
+                        if (WIFEXITED(status))
+                        {
+                            if (WEXITSTATUS(status) == 0)
+                            {
+                                exito = true;
+                            }
+                            else
+                            {
+                                tipoResultado = "CE";
+                            }
+                        }
+                        else if (WIFSIGNALED(status))
+                        {
+                            cout << "Terminado con la señal" << WTERMSIG(status)<< endl;
+                        }
+                        else if (WIFSTOPPED(status))
+                        {
+                            cout << "Detenido por la señal" << WSTOPSIG(status) << endl;
+                        }
+                        else if (WIFCONTINUED(status))
+                        {
+                            cout << "wtf" << endl;
+                        }
+
+                        if(exito)
+                        {
+                            //el programa ya fue compilado y esta listo para ejecutarse
+                            string salidaCorr = problem + "/" + *itTC + ".out";
+                            cout << "Comparo con el archivo: " << salidaCorr << endl;
+                            //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
+
+                            /*
+                            *   Llamo al juez normal
+                            */
+                            if(juezNormal(estricto, salidaCorr, fd_pipe[0]))
+                            {
+                                cout << "Caso " << salidaCorr << " estuvo bien en modo ";
+                                if(estricto)
+                                    cout << "estricto." << endl;
+                                else
+                                    cout << "normal." << endl;
+                                casosCorrectos++;
+                            }
+                            else
+                            {
+                                cout << "Falla el caso " << salidaCorr << " en modo ";
+                                if(estricto)
+                                    cout << "estricto." << endl;
+                                else
+                                    cout << "normal." << endl;
+                            }
+                            cout << endl;
+                        }
+                        close(fd_pipe[0]);
+                    }   //Cierra el Padre
+                }   //Cierra el ciclo TC
+                if(estricto)
+                {
+                    cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    if(casosCorrectos == testCases.size())
+                    {
+
+                        cout << "ACCEPTED" << endl;
+                        cout << "La calificación es: 10" << endl;
+                        tipoResultado = "AC";
+                    }
+                    else
+                    {
+                        cout << "WRONG ANSWER" << endl;
+                        tipoResultado = "WA";
+                        cout << "La calificación es: 0" << endl;
+                    }
+                }
                 else
                 {
-                    close(fd_pipe[1]);
-                    //es el padre
-                    waitpid(pID, &status, 0);
-
-                    bool exito =false;
-                    if (WIFEXITED(status))
-                    {
-                        if (WEXITSTATUS(status) == 0)
-                        {
-                            exito = true;
-                        }
-                        else cout << "Error de compilación" << endl;
-                    }
-                    else if (WIFSIGNALED(status))
-                    {
-                        cout << "Terminado con la señal" << WTERMSIG(status)<< endl;
-                    }
-                    else if (WIFSTOPPED(status))
-                    {
-                        cout << "Detenido por la señal" << WSTOPSIG(status) << endl;
-                    }
-                    else if (WIFCONTINUED(status))
-                    {
-                        cout << "wtf" << endl;
-                    }
-
-                    if(exito)
-                    {
-                        //el programa ya fue compilado y esta listo para ejecutarse
-                        string salidaCorr = problem + "/" + *itTC + ".out";
-    //                    cout << "Comparo con el archivo: " << salidaCorr << endl;
-                        //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
-
-                        /*
-                        *   Llamo al juez normal
-                        */
-                        if(juezNormal(estricto, salidaCorr, fd_pipe[0]))
-                        {
-                            cout << "Caso " << salidaCorr << " estuvo bien en modo ";
-                            if(estricto)
-                                cout << "estricto." << endl;
-                            else
-                                cout << "blando." << endl;
-                            casosCorrectos++;
-                        }
-                        else
-                        {
-                            cout << "Falla el caso " << salidaCorr << " en modo ";
-                            if(estricto)
-                                cout << "estricto." << endl;
-                            else
-                                cout << "blando." << endl;
-                        }
-                        cout << endl;
-                    }
-                    close(fd_pipe[0]);
-                }   //Cierra el Padre
-            }   //Cierra el ciclo TC
-            if(estricto)
-            {
-                cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
-                if(casosCorrectos == testCases.size())
-                {
-                    cout << "ACCEPTED" << endl;
-                    cout << "La calificación es: 10" << endl;
-                }
-                else
-                {
-                    cout << "WRONG ANSWER" << endl;
-                    cout << "La calificación es: 0" << endl;
+                    cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60)?"AC":"WA";
+                    cout << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
                 }
             }
-            else
+            if(tipoResultado == "AC")
             {
-                cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
-                cout << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                calificaciones << "AC\tCalificación " << ((int)casosCorrectos/testCases.size()*100.0) << endl;
+            }
+            else if(tipoResultado == "WA")
+            {
+                calificaciones << "WA\tCalificación " << ((int)casosCorrectos/testCases.size()*100.0) << endl;
+            }
+            else if(tipoResultado == "CE")
+            {
+                calificaciones << "CE" << endl;
+            }
+            else if(tipoResultado == "TLE")
+            {
+
+            }
+            else if(tipoResultado == "MLE")
+            {
+
             }
         }
     }

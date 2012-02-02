@@ -1,5 +1,6 @@
 bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
 {
+    ofstream cout("logJN.txt", fstream::app);
     char buffer[128];
     int leidos;
     ifstream respCorrecta(nomArchCorr.c_str());
@@ -105,5 +106,6 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
             accepted = false;
     }
     respCorrecta.close();
+    cout.close();
     return accepted;
 }

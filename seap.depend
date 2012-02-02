@@ -69,7 +69,7 @@
 1328128119 /home/optimusfranz/evaluador/src/config_exceptions.h
 	<exception>
 
-1328129675 source:/home/optimusfranz/evaluador/src/main.cpp
+1328144796 source:/home/optimusfranz/evaluador/src/main.cpp
 	<iostream>
 	<list>
 	<stack>
@@ -85,6 +85,7 @@
 	<sys/wait.h>
 	<cstdio>
 	"juezNormal.cpp"
+	"JE/set.cpp"
 
 1328128119 /home/optimusfranz/evaluador/src/validation.h
 	<sys/types.h>
@@ -97,5 +98,7 @@
 1328128119 source:/home/optimusfranz/evaluador/src/validation.cpp
 	"validation.h"
 
-1328129584 /home/optimusfranz/evaluador/src/juezNormal.cpp
+1328144898 /home/optimusfranz/evaluador/src/juezNormal.cpp
+
+1328130191 /home/optimusfranz/evaluador/src/JE/set.cpp
 
