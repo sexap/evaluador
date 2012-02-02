@@ -1,5 +1,6 @@
 doc/html/
 obj/
+seap.layout
 
 run/seap
 run/seap_release

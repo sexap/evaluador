@@ -3,10 +3,20 @@
 
 -Modos de Evaluación Standard: Normal, Estricto.
 
-- COMPILACIÓN
+** COMPILACIÓN **
 El proyecto ya está configurado para ligar la librería libconfig pero hay que instalarla en el equipo.
-
+  
 Hay que descargar la librería de http://www.hyperrealm.com/libconfig/ (versión 1.4.8), descomprimirla y ejecutar:
-./configure
-make
-make install
+  ./configure
+  make
+  make install
+
+** main_validation.cpp **
+Como la validación es un chorizote la moví al archivo main_validation.cpp y en su lugar puse un vil #include.
+Esto puede causar problemas pues se intentará compilar main_validation.cpp como si tuviera funciones independientes o clases.
+A main_validation.cpp ya lo configuré para que no cause errores. Si quieren hacer algo similar:
+- Agreguen el archivo al proyecto como siempre.
+- En el navegador de proyecto (a la izquierda) den clic secundario al archivo y seleccionen 'Properties...'
+- En la pestaña 'Build' desactiven las opciones 'Compile file' y 'Link file'
+- Listo!
+

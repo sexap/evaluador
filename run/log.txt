@@ -47,9 +47,41 @@ El problema actual es: mi_problema
 Evaluando el archivo mi_problema/codigos/juan.cpp
 Intento g++ codigos/juan.cpp -o codigos/juan -lm
 Compilación correcta....
+Probando con mi_problema/casoc.dat
+Comparo con el archivo: mi_problema/casoc.out
+Caso mi_problema/casoc.out estuvo bien en modo normal.
+
+Probando con mi_problema/casoa.dat
+Comparo con el archivo: mi_problema/casoa.out
+Caso mi_problema/casoa.out estuvo bien en modo normal.
+
+Probando con mi_problema/casob.dat
+Comparo con el archivo: mi_problema/casob.out
+Caso mi_problema/casob.out estuvo bien en modo normal.
+
+
+Tuvo 3 casos correctos de 3 casos de prueba.
+
+La calificación es: 100
 El problema actual es: mi_problema
 
 
 Evaluando el archivo mi_problema/codigos/mitarea.cpp
 Intento g++ codigos/mitarea.cpp -o codigos/mitarea -lm
 Compilación correcta....
+Probando con mi_problema/casoc.dat
+Comparo con el archivo: mi_problema/casoc.out
+Falla el caso mi_problema/casoc.out en modo normal.
+
+Probando con mi_problema/casoa.dat
+Comparo con el archivo: mi_problema/casoa.out
+Caso mi_problema/casoa.out estuvo bien en modo normal.
+
+Probando con mi_problema/casob.dat
+Comparo con el archivo: mi_problema/casob.out
+Caso mi_problema/casob.out estuvo bien en modo normal.
+
+
+Tuvo 2 casos correctos de 3 casos de prueba.
+
+La calificación es: 66.6667

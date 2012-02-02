@@ -1,0 +1,6 @@
+Calificaciones de mi_problema
+
+Programa mi_problema/codigos/beto.cpp	WA	Calificación 0
+Programa mi_problema/codigos/chafa.cpp	CE
+Programa mi_problema/codigos/juan.cpp	AC	Calificación 100
+Programa mi_problema/codigos/mitarea.cpp	AC	Calificación 0

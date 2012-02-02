@@ -7,9 +7,6 @@ Nombre del problema que se va a evaluar.
 -f lista
 Lista de archivos de código fuente que se evaluarán
 
--l valor (obsoleto?)
-Cadena que especifica el lenguaje del archivo de código. Los posibles valores son 'c', 'c++', 'java'.
-
 -s valor
 Tamaño máximo del archivo de código fuente en kiB
 
