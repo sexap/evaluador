@@ -1,13 +1,19 @@
+// Librerias estándar
 #include <iostream>
 #include <list>
 #include <stack>
 #include <string>
 using namespace std;
 
+// Librerias propias
+#include "build_params.h"
 #include "config.h"
 #include "validation.h"
+#include "juezNormal.cpp"
+#include "JE/set.cpp"
 using namespace seap_implement;
 
+// Librerias linux
 #include <fstream>
 #include <sys/types.h>
 #include <unistd.h> //execl
@@ -16,8 +22,6 @@ using namespace seap_implement;
 #include <sys/resource.h> //setrlimit
 #include <sys/wait.h>
 #include <cstdio>
-#include "juezNormal.cpp"
-#include "JE/set.cpp"
 
 int main(int argc, char* argv[])
 {
@@ -164,11 +168,12 @@ int main(int argc, char* argv[])
     if (hasError) return 1;
 
     //TODO: Posible loop infinito si un archivo set se contiene a sí mismo
+    //TODO: Bug. Cuando no se indica -c, no verifica existencia de archivos de salida
     // Genera lista de casos de prueba
     hasError = false;
     if (testCases.size() == 0)
     {
-        testCases = Config::getDir(problem, "case");
+        testCases = Config::getDir(problem, CASE_EXTENSION);
         // Quita extensión
         for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++)
         {
@@ -197,12 +202,12 @@ int main(int argc, char* argv[])
             // Es caso normal
             else
             {
-                if (!isFile(problem + "/" + *it + ".case"))
+                if (!isFile(problem + "/" + *it + "." + CASE_EXTENSION))
                 {
                     cout << "No existe el caso " << *it << endl;
                     hasError = true;
                 }
-                else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + ".out"))
+                else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
                 {
                     cout << "No se encuentra la salida experada para el caso " << *it << endl;
                     hasError = true;
@@ -340,7 +345,7 @@ int main(int argc, char* argv[])
             {
                 for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++)  //Ciclo para cada caso de prueba. (Casos)
                 {
-                    casoActual = problem + "/" + *itTC + ".case";
+                    casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
                     nombrePuro = codigoActual;
                     nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
@@ -411,7 +416,7 @@ int main(int argc, char* argv[])
                         if(exito)
                         {
                             //el programa ya fue compilado y esta listo para ejecutarse
-                            string salidaCorr = problem + "/" + *itTC + ".out";
+                            string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
                             cout << "Comparo con el archivo: " << salidaCorr << endl;
                             //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
 

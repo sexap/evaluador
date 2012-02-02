@@ -1,4 +1,6 @@
-Debug/
-Release/
-doc/html
+doc/html/
+obj/
+
+run/seap
+run/seap_release
 
