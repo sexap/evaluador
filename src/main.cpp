@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
             int casosCorrectos = 0;
             tipoResultado = "";
             string casoActual, codigoActual, correctoActual;
-            casoActual = codigoActual = correctoActual = problem + "/";
+            //casoActual = correctoActual = problem + "/";
 
             cout << "El problema actual es: " << problem << endl;
 
@@ -89,8 +89,8 @@ int main(int argc, char* argv[])
             calificaciones << "Programa " << codigoActual << "\t";
 
             //TODO Agregar la compilación para los otros lenguajes.
-            string nombrePuro = *itSF;
-            nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
+            string nombrePuro = removeExtension(*itSF);
+            //nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
 
             string comando = "g++ " + *itSF + " -o " + nombrePuro + " -lm";
             cout << "Intento " << comando << endl;
@@ -112,8 +112,8 @@ int main(int argc, char* argv[])
                 {
                     casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
-                    nombrePuro = codigoActual;
-                    nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
+                    nombrePuro = removeExtension(codigoActual);
+                    //nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
 
                     cout << "Probando con " << casoActual << endl;
                     if (pipe(fd_pipe) < 0)
@@ -137,7 +137,8 @@ int main(int argc, char* argv[])
 
                         //Ejecución
                         comando = "./" + *itSF;
-                        comando.replace(comando.end()-4, comando.end(), "");
+                        //comando.replace(comando.end()-4, comando.end(), "");
+                        comando = removeExtension(comando);
                         //cout << "Ejecuto el programa C++ " << comando << endl;
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
@@ -230,17 +231,17 @@ int main(int argc, char* argv[])
                 else
                 {
                     cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
-                    tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60)?"AC":"WA";
+                    tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60.0)?"AC":"WA";
                     cout << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
                 }
             }
             if(tipoResultado == "AC")
             {
-                calificaciones << "AC\tCalificación " << ((int)casosCorrectos/testCases.size()*100.0) << endl;
+                calificaciones << "AC\tCalificación " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
             }
             else if(tipoResultado == "WA")
             {
-                calificaciones << "WA\tCalificación " << ((int)casosCorrectos/testCases.size()*100.0) << endl;
+                calificaciones << "WA\tCalificación " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
             }
             else if(tipoResultado == "CE")
             {
