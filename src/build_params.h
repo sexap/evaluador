@@ -1,2 +1,2 @@
-#define CASE_EXTENSION "dat"
-#define OUTPUT_EXTENSION "out"
+#define CASE_EXTENSION "ent"
+#define OUTPUT_EXTENSION "dat"

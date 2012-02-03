@@ -1,6 +1,10 @@
-Calificaciones de mi_problema
+Calificaciones de sumame
 
-Programa mi_problema/codigos/beto.cpp	WA	Calificación 0
-Programa mi_problema/codigos/chafa.cpp	CE
-Programa mi_problema/codigos/juan.cpp	AC	Calificación 100
-Programa mi_problema/codigos/mitarea.cpp	AC	Calificación 0
+Programa sumame/sumame02.cpp	WA	Calificación 27.2727
+Programa sumame/sumame13.cpp	AC	Calificación 90.9091
+Programa sumame/sumame16.cpp	WA	Calificación 27.2727
+Programa sumame/sumame17.cpp	WA	Calificación 0
+Programa sumame/sumame27.cpp	WA	Calificación 27.2727
+Programa sumame/sumame32.cpp	AC	Calificación 90.9091
+Programa sumame/sumame44.cpp	WA	Calificación 0
+Programa sumame/sumame45.cpp	WA	Calificación 0

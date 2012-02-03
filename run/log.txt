@@ -1,87 +1,429 @@
 CASOS:
-casoc
-casoa
-casob
+sumame03
+sumame06
+sumame01
+sumame08
+sumasi76
+sumame00
+sumame02
+sumame09
+sumame07
+sumame05
+sumame04
 FUENTES:
-codigos/beto.cpp
-codigos/chafa.cpp
-codigos/juan.cpp
-codigos/mitarea.cpp
+sumame/sumame02.cpp
+sumame/sumame13.cpp
+sumame/sumame16.cpp
+sumame/sumame17.cpp
+sumame/sumame27.cpp
+sumame/sumame32.cpp
+sumame/sumame44.cpp
+sumame/sumame45.cpp
 
 
 Evaluando Programas....
 
 El tipo de juez es: standard
 El modo de evaluación es: normal
-El problema actual es: mi_problema
+El problema actual es: sumame
 
 
-Evaluando el archivo mi_problema/codigos/beto.cpp
-Intento g++ codigos/beto.cpp -o codigos/beto -lm
+Evaluando el archivo sumame/sumame02.cpp
+Intento g++ sumame/sumame02.cpp -o sumame/sumame02 -lm
 Compilación correcta....
-Probando con mi_problema/casoc.dat
-Comparo con el archivo: mi_problema/casoc.out
-Falla el caso mi_problema/casoc.out en modo normal.
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Falla el caso sumame/sumame03.dat en modo normal.
 
-Probando con mi_problema/casoa.dat
-Comparo con el archivo: mi_problema/casoa.out
-Falla el caso mi_problema/casoa.out en modo normal.
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Falla el caso sumame/sumame06.dat en modo normal.
 
-Probando con mi_problema/casob.dat
-Comparo con el archivo: mi_problema/casob.out
-Falla el caso mi_problema/casob.out en modo normal.
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Falla el caso sumame/sumame01.dat en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Falla el caso sumame/sumame08.dat en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Caso sumame/sumame00.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Caso sumame/sumame02.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame09.ent
+Comparo con el archivo: sumame/sumame09.dat
+Falla el caso sumame/sumame09.dat en modo normal.
+
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Falla el caso sumame/sumame07.dat en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Caso sumame/sumame05.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Falla el caso sumame/sumame04.dat en modo normal.
 
 
-Tuvo 0 casos correctos de 3 casos de prueba.
+Tuvo 3 casos correctos de 11 casos de prueba.
+
+La calificación es: 27.2727
+El problema actual es: sumame
+
+
+Evaluando el archivo sumame/sumame13.cpp
+Intento g++ sumame/sumame13.cpp -o sumame/sumame13 -lm
+Compilación correcta....
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Caso sumame/sumame03.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Caso sumame/sumame06.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Caso sumame/sumame01.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Caso sumame/sumame08.dat estuvo bien en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Caso sumame/sumame00.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Caso sumame/sumame02.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame09.ent
+Comparo con el archivo: sumame/sumame09.dat
+Caso sumame/sumame09.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Caso sumame/sumame07.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Caso sumame/sumame05.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Caso sumame/sumame04.dat estuvo bien en modo normal.
+
+
+Tuvo 10 casos correctos de 11 casos de prueba.
+
+La calificación es: 90.9091
+El problema actual es: sumame
+
+
+Evaluando el archivo sumame/sumame16.cpp
+Intento g++ sumame/sumame16.cpp -o sumame/sumame16 -lm
+Compilación correcta....
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Falla el caso sumame/sumame03.dat en modo normal.
+
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Falla el caso sumame/sumame06.dat en modo normal.
+
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Falla el caso sumame/sumame01.dat en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Falla el caso sumame/sumame08.dat en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Caso sumame/sumame00.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Caso sumame/sumame02.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame09.ent
+Comparo con el archivo: sumame/sumame09.dat
+Falla el caso sumame/sumame09.dat en modo normal.
+
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Falla el caso sumame/sumame07.dat en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Caso sumame/sumame05.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Falla el caso sumame/sumame04.dat en modo normal.
+
+
+Tuvo 3 casos correctos de 11 casos de prueba.
+
+La calificación es: 27.2727
+El problema actual es: sumame
+
+
+Evaluando el archivo sumame/sumame17.cpp
+Intento g++ sumame/sumame17.cpp -o sumame/sumame17 -lm
+Compilación correcta....
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Falla el caso sumame/sumame03.dat en modo normal.
+
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Falla el caso sumame/sumame06.dat en modo normal.
+
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Falla el caso sumame/sumame01.dat en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Falla el caso sumame/sumame08.dat en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Falla el caso sumame/sumame00.dat en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Falla el caso sumame/sumame02.dat en modo normal.
+
+Probando con sumame/sumame09.ent
+Terminado con la señal11
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Falla el caso sumame/sumame07.dat en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Falla el caso sumame/sumame05.dat en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Falla el caso sumame/sumame04.dat en modo normal.
+
+
+Tuvo 0 casos correctos de 11 casos de prueba.
 
 La calificación es: 0
-El problema actual es: mi_problema
+El problema actual es: sumame
 
 
-Evaluando el archivo mi_problema/codigos/chafa.cpp
-Intento g++ codigos/chafa.cpp -o codigos/chafa -lm
-Falló la compilación.
-El problema actual es: mi_problema
-
-
-Evaluando el archivo mi_problema/codigos/juan.cpp
-Intento g++ codigos/juan.cpp -o codigos/juan -lm
+Evaluando el archivo sumame/sumame27.cpp
+Intento g++ sumame/sumame27.cpp -o sumame/sumame27 -lm
 Compilación correcta....
-Probando con mi_problema/casoc.dat
-Comparo con el archivo: mi_problema/casoc.out
-Caso mi_problema/casoc.out estuvo bien en modo normal.
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Falla el caso sumame/sumame03.dat en modo normal.
 
-Probando con mi_problema/casoa.dat
-Comparo con el archivo: mi_problema/casoa.out
-Caso mi_problema/casoa.out estuvo bien en modo normal.
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Falla el caso sumame/sumame06.dat en modo normal.
 
-Probando con mi_problema/casob.dat
-Comparo con el archivo: mi_problema/casob.out
-Caso mi_problema/casob.out estuvo bien en modo normal.
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Falla el caso sumame/sumame01.dat en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Falla el caso sumame/sumame08.dat en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Caso sumame/sumame00.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Caso sumame/sumame02.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame09.ent
+Terminado con la señal11
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Falla el caso sumame/sumame07.dat en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Caso sumame/sumame05.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Falla el caso sumame/sumame04.dat en modo normal.
 
 
-Tuvo 3 casos correctos de 3 casos de prueba.
+Tuvo 3 casos correctos de 11 casos de prueba.
 
-La calificación es: 100
-El problema actual es: mi_problema
+La calificación es: 27.2727
+El problema actual es: sumame
 
 
-Evaluando el archivo mi_problema/codigos/mitarea.cpp
-Intento g++ codigos/mitarea.cpp -o codigos/mitarea -lm
+Evaluando el archivo sumame/sumame32.cpp
+Intento g++ sumame/sumame32.cpp -o sumame/sumame32 -lm
 Compilación correcta....
-Probando con mi_problema/casoc.dat
-Comparo con el archivo: mi_problema/casoc.out
-Falla el caso mi_problema/casoc.out en modo normal.
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Caso sumame/sumame03.dat estuvo bien en modo normal.
 
-Probando con mi_problema/casoa.dat
-Comparo con el archivo: mi_problema/casoa.out
-Caso mi_problema/casoa.out estuvo bien en modo normal.
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Caso sumame/sumame06.dat estuvo bien en modo normal.
 
-Probando con mi_problema/casob.dat
-Comparo con el archivo: mi_problema/casob.out
-Caso mi_problema/casob.out estuvo bien en modo normal.
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Caso sumame/sumame01.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame08.ent
+Comparo con el archivo: sumame/sumame08.dat
+Caso sumame/sumame08.dat estuvo bien en modo normal.
+
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Caso sumame/sumame00.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Caso sumame/sumame02.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame09.ent
+Comparo con el archivo: sumame/sumame09.dat
+Caso sumame/sumame09.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Caso sumame/sumame07.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Caso sumame/sumame05.dat estuvo bien en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Caso sumame/sumame04.dat estuvo bien en modo normal.
 
 
-Tuvo 2 casos correctos de 3 casos de prueba.
+Tuvo 10 casos correctos de 11 casos de prueba.
 
-La calificación es: 66.6667
+La calificación es: 90.9091
+El problema actual es: sumame
+
+
+Evaluando el archivo sumame/sumame44.cpp
+Intento g++ sumame/sumame44.cpp -o sumame/sumame44 -lm
+Compilación correcta....
+Probando con sumame/sumame03.ent
+Comparo con el archivo: sumame/sumame03.dat
+Falla el caso sumame/sumame03.dat en modo normal.
+
+Probando con sumame/sumame06.ent
+Comparo con el archivo: sumame/sumame06.dat
+Falla el caso sumame/sumame06.dat en modo normal.
+
+Probando con sumame/sumame01.ent
+Comparo con el archivo: sumame/sumame01.dat
+Falla el caso sumame/sumame01.dat en modo normal.
+
+Probando con sumame/sumame08.ent
+Terminado con la señal11
+Probando con sumame/sumasi76.ent
+Comparo con el archivo: sumame/sumasi76.dat
+Falla el caso sumame/sumasi76.dat en modo normal.
+
+Probando con sumame/sumame00.ent
+Comparo con el archivo: sumame/sumame00.dat
+Falla el caso sumame/sumame00.dat en modo normal.
+
+Probando con sumame/sumame02.ent
+Comparo con el archivo: sumame/sumame02.dat
+Falla el caso sumame/sumame02.dat en modo normal.
+
+Probando con sumame/sumame09.ent
+Terminado con la señal11
+Probando con sumame/sumame07.ent
+Comparo con el archivo: sumame/sumame07.dat
+Falla el caso sumame/sumame07.dat en modo normal.
+
+Probando con sumame/sumame05.ent
+Comparo con el archivo: sumame/sumame05.dat
+Falla el caso sumame/sumame05.dat en modo normal.
+
+Probando con sumame/sumame04.ent
+Comparo con el archivo: sumame/sumame04.dat
+Falla el caso sumame/sumame04.dat en modo normal.
+
+
+Tuvo 0 casos correctos de 11 casos de prueba.
+
+La calificación es: 0
+El problema actual es: sumame
+
+
+Evaluando el archivo sumame/sumame45.cpp
+Intento g++ sumame/sumame45.cpp -o sumame/sumame45 -lm
+Compilación correcta....
+Probando con sumame/sumame03.ent
+Terminado con la señal9
+Probando con sumame/sumame06.ent
+Terminado con la señal9
+Probando con sumame/sumame01.ent
+Terminado con la señal9
+Probando con sumame/sumame08.ent
+Terminado con la señal9
+Probando con sumame/sumasi76.ent
+Terminado con la señal9
+Probando con sumame/sumame00.ent
+Terminado con la señal9
+Probando con sumame/sumame02.ent
+Terminado con la señal9
+Probando con sumame/sumame09.ent
+Terminado con la señal9
+Probando con sumame/sumame07.ent
+Terminado con la señal9
+Probando con sumame/sumame05.ent
+Terminado con la señal9
+Probando con sumame/sumame04.ent
+Terminado con la señal9
+
+Tuvo 0 casos correctos de 11 casos de prueba.
+
+La calificación es: 0
