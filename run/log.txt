@@ -104,7 +104,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor01.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor01.cpp -o divtor/divtor01
+Intento g++ divtor/divtor01.cpp -o divtor/divtor01 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor01
@@ -164,7 +164,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor02.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor02.cpp -o divtor/divtor02
+Intento g++ divtor/divtor02.cpp -o divtor/divtor02 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor02
@@ -178,7 +178,9 @@ Caso divtor/divtor09.dat estuvo bien en modo normal.
 
 Probando con divtor/divtor04.ent
 Ejecuto el programa ./divtor/divtor02
-Terminado con la señal6
+Comparo con el archivo: divtor/divtor04.dat
+Caso divtor/divtor04.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor01.ent
 Ejecuto el programa ./divtor/divtor02
 Comparo con el archivo: divtor/divtor01.dat
@@ -191,7 +193,9 @@ Caso divtor/divtor07.dat estuvo bien en modo normal.
 
 Probando con divtor/divtor06.ent
 Ejecuto el programa ./divtor/divtor02
-Terminado con la señal6
+Comparo con el archivo: divtor/divtor06.dat
+Caso divtor/divtor06.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor05.ent
 Ejecuto el programa ./divtor/divtor02
 Comparo con el archivo: divtor/divtor05.dat
@@ -199,24 +203,28 @@ Caso divtor/divtor05.dat estuvo bien en modo normal.
 
 Probando con divtor/divtor08.ent
 Ejecuto el programa ./divtor/divtor02
-Terminado con la señal6
+Comparo con el archivo: divtor/divtor08.dat
+Caso divtor/divtor08.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor02.ent
 Ejecuto el programa ./divtor/divtor02
-Terminado con la señal6
+Comparo con el archivo: divtor/divtor02.dat
+Caso divtor/divtor02.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor03.ent
 Ejecuto el programa ./divtor/divtor02
 Comparo con el archivo: divtor/divtor03.dat
 Caso divtor/divtor03.dat estuvo bien en modo normal.
 
 
-Tuvo 6 casos correctos de 10 casos de prueba.
+Tuvo 10 casos correctos de 10 casos de prueba.
 
-La calificación es: 60
+La calificación es: 100
 El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor04.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor04.cpp -o divtor/divtor04
+Intento g++ divtor/divtor04.cpp -o divtor/divtor04 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor04
@@ -276,7 +284,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor05.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor05.cpp -o divtor/divtor05
+Intento g++ divtor/divtor05.cpp -o divtor/divtor05 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor05
@@ -336,7 +344,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor07.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor07.cpp -o divtor/divtor07
+Intento g++ divtor/divtor07.cpp -o divtor/divtor07 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor07
@@ -396,13 +404,67 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor08.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor08.cpp -o divtor/divtor08
-Falló la compilación.
+Intento g++ divtor/divtor08.cpp -o divtor/divtor08 -lm
+Compilación correcta....
+Probando con divtor/divtor00.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor00.dat
+Caso divtor/divtor00.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor09.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor09.dat
+Caso divtor/divtor09.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor04.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor04.dat
+Caso divtor/divtor04.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor01.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor01.dat
+Caso divtor/divtor01.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor07.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor07.dat
+Caso divtor/divtor07.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor06.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor06.dat
+Caso divtor/divtor06.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor05.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor05.dat
+Caso divtor/divtor05.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor08.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor08.dat
+Caso divtor/divtor08.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor02.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor02.dat
+Caso divtor/divtor02.dat estuvo bien en modo normal.
+
+Probando con divtor/divtor03.ent
+Ejecuto el programa ./divtor/divtor08
+Comparo con el archivo: divtor/divtor03.dat
+Caso divtor/divtor03.dat estuvo bien en modo normal.
+
+
+Tuvo 10 casos correctos de 10 casos de prueba.
+
+La calificación es: 100
 El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor13.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor13.cpp -o divtor/divtor13
+Intento g++ divtor/divtor13.cpp -o divtor/divtor13 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor13
@@ -462,7 +524,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor16.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor16.cpp -o divtor/divtor16
+Intento g++ divtor/divtor16.cpp -o divtor/divtor16 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor16
@@ -522,7 +584,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor17.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor17.cpp -o divtor/divtor17
+Intento g++ divtor/divtor17.cpp -o divtor/divtor17 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor17
@@ -646,34 +708,54 @@ Intento gcc -lm divtor/divtor21.c -o divtor/divtor21
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor00.dat
+Falla el caso divtor/divtor00.dat en modo normal.
+
 Probando con divtor/divtor09.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor09.dat
+Falla el caso divtor/divtor09.dat en modo normal.
+
 Probando con divtor/divtor04.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor04.dat
+Falla el caso divtor/divtor04.dat en modo normal.
+
 Probando con divtor/divtor01.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor01.dat
+Falla el caso divtor/divtor01.dat en modo normal.
+
 Probando con divtor/divtor07.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor07.dat
+Falla el caso divtor/divtor07.dat en modo normal.
+
 Probando con divtor/divtor06.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor06.dat
+Falla el caso divtor/divtor06.dat en modo normal.
+
 Probando con divtor/divtor05.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor05.dat
+Falla el caso divtor/divtor05.dat en modo normal.
+
 Probando con divtor/divtor08.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor08.dat
+Falla el caso divtor/divtor08.dat en modo normal.
+
 Probando con divtor/divtor02.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor02.dat
+Falla el caso divtor/divtor02.dat en modo normal.
+
 Probando con divtor/divtor03.ent
 Ejecuto el programa ./divtor/divtor21
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor03.dat
+Falla el caso divtor/divtor03.dat en modo normal.
+
 
 Tuvo 0 casos correctos de 10 casos de prueba.
 
@@ -686,34 +768,54 @@ Intento gcc -lm divtor/divtor24.c -o divtor/divtor24
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor00.dat
+Falla el caso divtor/divtor00.dat en modo normal.
+
 Probando con divtor/divtor09.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor09.dat
+Falla el caso divtor/divtor09.dat en modo normal.
+
 Probando con divtor/divtor04.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor04.dat
+Falla el caso divtor/divtor04.dat en modo normal.
+
 Probando con divtor/divtor01.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor01.dat
+Falla el caso divtor/divtor01.dat en modo normal.
+
 Probando con divtor/divtor07.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor07.dat
+Falla el caso divtor/divtor07.dat en modo normal.
+
 Probando con divtor/divtor06.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor06.dat
+Falla el caso divtor/divtor06.dat en modo normal.
+
 Probando con divtor/divtor05.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor05.dat
+Falla el caso divtor/divtor05.dat en modo normal.
+
 Probando con divtor/divtor08.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor08.dat
+Falla el caso divtor/divtor08.dat en modo normal.
+
 Probando con divtor/divtor02.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor02.dat
+Falla el caso divtor/divtor02.dat en modo normal.
+
 Probando con divtor/divtor03.ent
 Ejecuto el programa ./divtor/divtor24
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor03.dat
+Falla el caso divtor/divtor03.dat en modo normal.
+
 
 Tuvo 0 casos correctos de 10 casos de prueba.
 
@@ -782,7 +884,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor27.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor27.cpp -o divtor/divtor27
+Intento g++ divtor/divtor27.cpp -o divtor/divtor27 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor27
@@ -842,7 +944,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor28.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor28.cpp -o divtor/divtor28
+Intento g++ divtor/divtor28.cpp -o divtor/divtor28 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor28
@@ -902,7 +1004,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor29.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor29.cpp -o divtor/divtor29
+Intento g++ divtor/divtor29.cpp -o divtor/divtor29 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor29
@@ -1022,7 +1124,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor32.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor32.cpp -o divtor/divtor32
+Intento g++ divtor/divtor32.cpp -o divtor/divtor32 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor32
@@ -1082,7 +1184,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor35.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor35.cpp -o divtor/divtor35
+Intento g++ divtor/divtor35.cpp -o divtor/divtor35 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor35
@@ -1142,7 +1244,7 @@ El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor36.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor36.cpp -o divtor/divtor36
+Intento g++ divtor/divtor36.cpp -o divtor/divtor36 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor36
@@ -1206,43 +1308,63 @@ Intento gcc -lm divtor/divtor39.c -o divtor/divtor39
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor00.dat
+Caso divtor/divtor00.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor09.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor09.dat
+Caso divtor/divtor09.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor04.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor04.dat
+Caso divtor/divtor04.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor01.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor01.dat
+Caso divtor/divtor01.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor07.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor07.dat
+Caso divtor/divtor07.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor06.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor06.dat
+Caso divtor/divtor06.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor05.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor05.dat
+Caso divtor/divtor05.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor08.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor08.dat
+Caso divtor/divtor08.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor02.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor02.dat
+Caso divtor/divtor02.dat estuvo bien en modo normal.
+
 Probando con divtor/divtor03.ent
 Ejecuto el programa ./divtor/divtor39
-WEXITSTATUS(status) diferente de 0
+Comparo con el archivo: divtor/divtor03.dat
+Caso divtor/divtor03.dat estuvo bien en modo normal.
 
-Tuvo 0 casos correctos de 10 casos de prueba.
 
-La calificación es: 0
+Tuvo 10 casos correctos de 10 casos de prueba.
+
+La calificación es: 100
 El problema actual es: divtor
 
 
 Evaluando el archivo divtor/divtor45.cpp
-Intento g++ -lm -include /usr/include/stdlib.h -Wno-deprecated divtor/divtor45.cpp -o divtor/divtor45
+Intento g++ divtor/divtor45.cpp -o divtor/divtor45 -lm
 Compilación correcta....
 Probando con divtor/divtor00.ent
 Ejecuto el programa ./divtor/divtor45

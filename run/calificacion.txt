@@ -1,26 +1,19 @@
-Calificaciones de divtor
+Calificaciones de sumame
 
-Programa divtor/divtor00.c	AC	Calificación	100
-Programa divtor/divtor01.cpp	WA	Calificación	0
-Programa divtor/divtor02.cpp	AC	Calificación	60
-Programa divtor/divtor04.cpp	WA	Calificación	0
-Programa divtor/divtor05.cpp	AC	Calificación	100
-Programa divtor/divtor07.cpp	WA	Calificación	0
-Programa divtor/divtor08.cpp	CE
-Programa divtor/divtor13.cpp	AC	Calificación	90
-Programa divtor/divtor16.cpp	AC	Calificación	100
-Programa divtor/divtor17.cpp	WA	Calificación	0
-Programa divtor/divtor20.java	AC	Calificación	100
-Programa divtor/divtor21.c	WA	Calificación	0
-Programa divtor/divtor24.c	WA	Calificación	0
-Programa divtor/divtor26.java	AC	Calificación	100
-Programa divtor/divtor27.cpp	WA	Calificación	0
-Programa divtor/divtor28.cpp	AC	Calificación	100
-Programa divtor/divtor29.cpp	AC	Calificación	100
-Programa divtor/divtor30.java	AC	Calificación	100
-Programa divtor/divtor32.cpp	AC	Calificación	100
-Programa divtor/divtor35.cpp	WA	Calificación	0
-Programa divtor/divtor36.cpp	AC	Calificación	100
-Programa divtor/divtor39.c	WA	Calificación	0
-Programa divtor/divtor45.cpp	AC	Calificación	100
-Programa divtor/divtor48.c	AC	Calificación	100
+Programa sumame/sumame.c	WA	Calificación	0
+Programa sumame/sumame00.c	AC	Calificación	100
+Programa sumame/sumame02.cpp	WA	Calificación	30
+Programa sumame/sumame07.c	WA	Calificación	0
+Programa sumame/sumame13.cpp	AC	Calificación	100
+Programa sumame/sumame16.cpp	WA	Calificación	30
+Programa sumame/sumame17.cpp	WA	Calificación	0
+Programa sumame/sumame20.java	AC	Calificación	60
+Programa sumame/sumame24.c	WA	Calificación	30
+Programa sumame/sumame26.c	CE
+Programa sumame/sumame27.cpp	WA	Calificación	30
+Programa sumame/sumame30.java	AC	Calificación	60
+Programa sumame/sumame31.c	AC	Calificación	60
+Programa sumame/sumame32.cpp	AC	Calificación	100
+Programa sumame/sumame44.cpp	WA	Calificación	0
+Programa sumame/sumame45.cpp	WA	Calificación	0
+Programa sumame/sumame48.c	AC	Calificación	60

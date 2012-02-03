@@ -32,7 +32,8 @@ int main(int argc, char* argv[])
 	// list<string> testCases, sourceFiles;
     #include "main_validation.cpp"
 
-    ofstream cerr("log.txt"); //Archivo que dice paso a paso la ejecución.
+    //ofstream cerr("log.txt"); //Archivo que dice paso a paso la ejecución.
+    system("rm logJN.txt");
 
 	//Temporal (ernesto)
     cerr << "CASOS:" << endl;
@@ -102,13 +103,11 @@ int main(int argc, char* argv[])
             }
             else if(lang == "c++")
             {
-                comando = "g++ -lm -include /usr/include/stdlib.h -Wno-deprecated " + *itSF + " -o " + nombrePuro;
+                comando = "g++ " + *itSF + " -o " + nombrePuro + " -lm";
             }
             else if(lang == "java")
             {
-                //TODO Arreglar la compilación con Java.
                 //gcj --main=divtor26 divtor26.java -o divtor26.class
-                //comando = "gcj --main=" + nombrePuro + " -Wall " + *itSF + " -o " + nombrePuro;
                 size_t found;
                 string nombreSinRuta;
                 found=nombrePuro.find_last_of("/");
@@ -136,7 +135,6 @@ int main(int argc, char* argv[])
                 {
                     casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
-                    //nombrePuro = removeExtension(codigoActual);
 
                     cerr << "Probando con " << casoActual << endl;
                     if (pipe(fd_pipe) < 0)
@@ -160,7 +158,6 @@ int main(int argc, char* argv[])
 
                         //Ejecución
                         comando = "./" + nombrePuro;
-                        //comando = removeExtension(comando);
                         cerr << "Ejecuto el programa " << comando << endl;
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
@@ -176,8 +173,8 @@ int main(int argc, char* argv[])
                         //es el padre
                         waitpid(pID, &status, 0);
 
-                        bool exito =false;
-                        if (WIFEXITED(status))
+                        bool exito =true;
+                        /*if (WIFEXITED(status))
                         {
                             if (WEXITSTATUS(status) == 0)
                             {
@@ -201,7 +198,7 @@ int main(int argc, char* argv[])
                         {
                             cerr << "wtf" << endl;
                         }
-
+                        */
                         if(exito)
                         {
                             //el programa ya fue compilado y esta listo para ejecutarse
