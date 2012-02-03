@@ -55,7 +55,7 @@ namespace seap_implement {
 			dest = (*f_it);
 
 			if (k == argc) {
-				cout << "Se esperaba un argumento después de " << argv[k-1] << endl;
+				cerr << "Se esperaba un argumento después de " << argv[k-1] << endl;
 				error = true;
 				break;
 			}
@@ -65,7 +65,7 @@ namespace seap_implement {
 			if (dest->type == T_INT) {
 				// Es de tipo entero
 				if (isValidId(argv[k]) || !isValidInt(argv[k])) {
-					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
+					cerr << "Se esperaba un entero en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
@@ -75,7 +75,7 @@ namespace seap_implement {
 			}
 			else if (dest->type == T_STRING) {
 				if (isValidId(argv[k])) {
-					cout << "Se esperaba un valor de cadena en vez de " << argv[k] << endl;
+					cerr << "Se esperaba un valor de cadena en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
@@ -84,8 +84,8 @@ namespace seap_implement {
 					dest->isSet = true;
 				}
 			}
-			else if (dest->type == T_BOOL) cout << "AVISO. Booleanos fixed no soportados" << endl;
-			else if (dest->type == T_LIST) cout << "AVISO. Listas fixed no soportadas" << endl;
+			else if (dest->type == T_BOOL) cerr << "AVISO. Booleanos fixed no soportados" << endl;
+			else if (dest->type == T_LIST) cerr << "AVISO. Listas fixed no soportadas" << endl;
 		}
 
 		for ( ; k < argc; k++) {
@@ -93,27 +93,27 @@ namespace seap_implement {
 			if (status == W_ID) {
 				// Es una variable con nombre
 				if (!isValidId(argv[k])) {
-					cout << "Se esperaba un id en vez de " << argv[k] << endl;
+					cerr << "Se esperaba un id en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
 					it = variables.find(argv[k] + 1);
 					if (it == variables.end() || it->second.fixedPos) {
-						cout << "No existe el id " << argv[k] << endl;
+						cerr << "No existe el id " << argv[k] << endl;
 						error = true;
 					}
 					else {
 						dest = &(it->second);
 
 						if (dest->source != S_ARG && dest->source != S_BOTH) {
-							cout << "El id " << argv[k] << " se debe especificar en archivo" << endl;
+							cerr << "El id " << argv[k] << " se debe especificar en archivo" << endl;
 						}
 						else if (dest->fixedPos > 0) {
-							cout << "El id " << argv[k] << " debe ir directamente en pos " << dest->fixedPos << endl;
+							cerr << "El id " << argv[k] << " debe ir directamente en pos " << dest->fixedPos << endl;
 						}
 						else {
 							if (dest->lastSeenBy == sourceId) {
-								cout << "Se repite el parámetro " << argv[k] << endl;
+								cerr << "Se repite el parámetro " << argv[k] << endl;
 								error = true;
 							}
 							else {
@@ -134,12 +134,12 @@ namespace seap_implement {
 			// Se espera un valor entero.
 			else if (status == W_INT) {
 				if (isValidId(argv[k])) {
-					cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
+					cerr << "Se esperaba un valor entero después de " << argv[k-1] << endl;
 					error = true;
 					k -= 1;
 				}
 				else if (!isValidInt(argv[k])) {
-					cout << "Se esperaba un entero en vez de " << argv[k] << endl;
+					cerr << "Se esperaba un entero en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
@@ -151,7 +151,7 @@ namespace seap_implement {
 			// Se espera una cadena.
 			else if (status == W_STR) {
 				if (isValidId(argv[k])) {
-					cout << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
+					cerr << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
 					error = true;
 					k -= 1;
 				}
@@ -166,7 +166,7 @@ namespace seap_implement {
 			else if (status == W_LST) {
 				if (isValidId(argv[k])) {
 					if (dest->v_list == NULL) {
-						cout << "Se esperaba al menos un elemento después de " << argv[k-1] << endl;
+						cerr << "Se esperaba al menos un elemento después de " << argv[k-1] << endl;
 						error = true;
 					}
 					status = W_ID;
@@ -189,15 +189,15 @@ namespace seap_implement {
 
 		// Se verifica el estado final.
 		if (status == W_INT) {
-			cout << "Se esperaba un valor entero después de " << argv[k-1] << endl;
+			cerr << "Se esperaba un valor entero después de " << argv[k-1] << endl;
 			error = true;
 		}
 		else if (status == W_STR) {
-			cout << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
+			cerr << "Se esperaba un valor de cadena después de " << argv[k-1] << endl;
 			error = true;
 		}
 		else if (status == W_LST && dest->v_list == NULL) {
-			cout << "Se esperaba al menos un elemento después de " << argv[k-1] << endl;
+			cerr << "Se esperaba al menos un elemento después de " << argv[k-1] << endl;
 			error = true;
 		}
 
@@ -223,12 +223,12 @@ namespace seap_implement {
 			config.readFile(filename.c_str());
 		}
 		catch (FileIOException& e) {
-			cout << "No se pudo abrir el archivo " << filename << endl;
+			cerr << "No se pudo abrir el archivo " << filename << endl;
 			return false;
 		}
 		catch (ParseException& e) {
-			cout << filename << ":" << e.getLine() << " ";
-			cout << "Archivo " << filename << " mal formado" << endl;
+			cerr << filename << ":" << e.getLine() << " ";
+			cerr << "Archivo " << filename << " mal formado" << endl;
 			return false;
 		}
 
@@ -240,16 +240,16 @@ namespace seap_implement {
 			it = variables.find(varName);
 
 			if (it == variables.end()) {
-				cout << filename << ":" << root[k].getSourceLine() << " ";
-				cout << "No existe la variable " << varName << endl;
+				cerr << filename << ":" << root[k].getSourceLine() << " ";
+				cerr << "No existe la variable " << varName << endl;
 				error = true;
 			}
 			else {
 				dest = &(it->second);
 
 				if (dest->source != S_FILE && dest->source != S_BOTH) {
-					cout << filename << ":" << root[k].getSourceLine() << " ";
-					cout << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
+					cerr << filename << ":" << root[k].getSourceLine() << " ";
+					cerr << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
 					error = true;
 				}
 				else {
@@ -259,8 +259,8 @@ namespace seap_implement {
 					// Verifica tipos y realiza asignación.
 					if (dest->type == T_BOOL) {
 						if (settingType != Setting::TypeBoolean) {
-							cout << filename << ":" << root[k].getSourceLine() << " ";
-							cout << "Se esperaba un valor booleano para " << varName << endl;
+							cerr << filename << ":" << root[k].getSourceLine() << " ";
+							cerr << "Se esperaba un valor booleano para " << varName << endl;
 							error = true;
 						}
 						else {
@@ -270,8 +270,8 @@ namespace seap_implement {
 					}
 					else if (dest->type == T_INT) {
 						if (settingType != Setting::TypeInt) {
-							cout << filename << ":" << root[k].getSourceLine() << " ";
-							cout << "Se esperaba un valor entero para " << varName << endl;
+							cerr << filename << ":" << root[k].getSourceLine() << " ";
+							cerr << "Se esperaba un valor entero para " << varName << endl;
 							error = true;
 						}
 						else {
@@ -281,8 +281,8 @@ namespace seap_implement {
 					}
 					else if (dest->type == T_STRING) {
 						if (settingType != Setting::TypeString) {
-							cout << filename << ":" << root[k].getSourceLine() << " ";
-							cout << "Se esperaba un valor de cadena para " << varName << endl;
+							cerr << filename << ":" << root[k].getSourceLine() << " ";
+							cerr << "Se esperaba un valor de cadena para " << varName << endl;
 							error = true;
 						}
 						else {
@@ -292,8 +292,8 @@ namespace seap_implement {
 						}
 					}
 					else if (dest->type == T_LIST) {
-						cout << filename << ":" << root[k].getSourceLine() << " ";
-						cout << "AVISO. Listas en archivos no soportadas ¿aún?" << endl;
+						cerr << filename << ":" << root[k].getSourceLine() << " ";
+						cerr << "AVISO. Listas en archivos no soportadas ¿aún?" << endl;
 					}
 				}
 			}
@@ -312,17 +312,17 @@ namespace seap_implement {
 				error = true;
 				if(it->second.source == S_ARG) {
 					if (it->second.fixedPos) {
-						cout << "El argumento fijo " << (it->first) << " es obligatorio" << endl;
+						cerr << "El argumento fijo " << (it->first) << " es obligatorio" << endl;
 					}
 					else {
-						cout << "El argumento -" << (it->first) << " es obligatorio" << endl;
+						cerr << "El argumento -" << (it->first) << " es obligatorio" << endl;
 					}
 				}
 				else if(it->second.source == S_FILE) {
-					cout << "La variable " << (it->first) << " es obligatoria" << endl;
+					cerr << "La variable " << (it->first) << " es obligatoria" << endl;
 				}
 				else {
-					cout << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
+					cerr << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
 				}
 			}
 		}

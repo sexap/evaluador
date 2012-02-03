@@ -8,8 +8,9 @@
 #include <string>
 using namespace std;
 
+//! \file
+//! \namespace seap_implement
 namespace seap_implement {
-
 	/*! Indica si \c path  es un directorio y es accesible.
 		\param path Ruta al directorio.
 		\return \c true si es un directorio accessible o \c false en caso contrario
