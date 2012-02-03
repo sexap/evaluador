@@ -22,20 +22,24 @@ int main(void)
     k = 0;
     system("rm ./" PROG);
     sprintf(codigo, "gcc -lm " PROGRAMA "%02d.c -o " PROG, i);
+    printf("%s\n", codigo);
     strcpy(lenguaje, "(gcc)");
     ok = system(codigo);
     if (ok) {
       sprintf(codigo, "g++ -lm -include /usr/include/stdlib.h -Wno-deprecated " PROGRAMA "%02d.cpp -o " PROG, i);
+	printf("%s\n", codigo);
       strcpy(lenguaje, "(g++)");
       ok = system(codigo);
     }
     if (ok) {
       sprintf(codigo, "gcj --main=" PROGRAMA "%02d -Wall " PROGRAMA "%02d.java -o " PROG, i, i);
+      printf("%s\n", codigo);
       strcpy(lenguaje, "(gcj)");
       ok = system(codigo);
     }
     if (ok) {
       sprintf(codigo, "fpc " PROGRAMA "%02d.pas -o" PROG, i);
+      printf("%s\n", codigo);
       strcpy(lenguaje, "(fpc)");
       ok = system(codigo);
     }

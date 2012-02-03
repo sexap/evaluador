@@ -1,10 +1,5 @@
-Calificaciones de sumame
+Calificaciones de divtor
 
-Programa sumame/sumame02.cpp	WA	Calificación 27.2727
-Programa sumame/sumame13.cpp	AC	Calificación 90.9091
-Programa sumame/sumame16.cpp	WA	Calificación 27.2727
-Programa sumame/sumame17.cpp	WA	Calificación 0
-Programa sumame/sumame27.cpp	WA	Calificación 27.2727
-Programa sumame/sumame32.cpp	AC	Calificación 90.9091
-Programa sumame/sumame44.cpp	WA	Calificación 0
-Programa sumame/sumame45.cpp	WA	Calificación 0
+Programa divtor/divtor20.java	CE
+Programa divtor/divtor26.java	CE
+Programa divtor/divtor30.java	CE

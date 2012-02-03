@@ -32,13 +32,13 @@ int main(int argc, char* argv[])
 	// list<string> testCases, sourceFiles;
     #include "main_validation.cpp"
 
-    ofstream cout("log.txt"); //Archivo que dice paso a paso la ejecución.
+    ofstream cerr("log.txt"); //Archivo que dice paso a paso la ejecución.
 
 	//Temporal (ernesto)
-    cout << "CASOS:" << endl;
-    for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cout << *it << endl;
-    cout << "FUENTES:" << endl;
-    for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cout << *it << endl;
+    cerr << "CASOS:" << endl;
+    for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cerr << *it << endl;
+    cerr << "FUENTES:" << endl;
+    for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cerr << *it << endl;
     //TODO: Crear variables con la ruta de los archivos y otras con los nombres de los archivos.
 
     //TODO: Recibir a partir de aquí la variable que indica el lenguaje.
@@ -56,17 +56,17 @@ int main(int argc, char* argv[])
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
 
     calificaciones << "Calificaciones de " << problem << "\n\n";
-    cout << endl << endl << "Evaluando Programas...." << endl << endl;
-    cout << "El tipo de juez es: " << judgeType << endl;
+    cerr << endl << endl << "Evaluando Programas...." << endl << endl;
+    cerr << "El tipo de juez es: " << judgeType << endl;
     /**
     *   Juez Normal
     **/
     if(judgeType == "standard")
     {
         bool estricto = false;
-        cout << "El modo de evaluación es: ";
-        if(estricto) cout << "estricto." << endl;
-        else         cout << "normal"    << endl;
+        cerr << "El modo de evaluación es: ";
+        if(estricto) cerr << "estricto." << endl;
+        else         cerr << "normal"    << endl;
 
         for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)  //Ciclo para cada programa de alumno. (Fuentes)
         {
@@ -80,30 +80,48 @@ int main(int argc, char* argv[])
             int casosCorrectos = 0;
             tipoResultado = "";
             string casoActual, codigoActual, correctoActual;
-            //casoActual = correctoActual = problem + "/";
 
-            cout << "El problema actual es: " << problem << endl;
+            cerr << "El problema actual es: " << problem << endl;
 
             codigoActual += *itSF;
-            cout << endl << endl << "Evaluando el archivo " << codigoActual << endl;
+            cerr << endl << endl << "Evaluando el archivo " << codigoActual << endl;
             calificaciones << "Programa " << codigoActual << "\t";
 
             //TODO Agregar la compilación para los otros lenguajes.
             string nombrePuro = removeExtension(*itSF);
-            //nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
 
-            string comando = "g++ " + *itSF + " -o " + nombrePuro + " -lm";
-            cout << "Intento " << comando << endl;
+            string lang;
+            if(!forceValidLang(lang, codigoActual))
+            {
+                    cerr << "No es un lenguaje válido." << endl;
+            }
+            string comando;
+            if(lang == "c")
+            {
+                comando = "gcc -lm " + *itSF + " -o " + nombrePuro;
+            }
+            else if(lang == "c++")
+            {
+                comando = "g++ -lm -include /usr/include/stdlib.h -Wno-deprecated " + *itSF + " -o " + nombrePuro;
+            }
+            else if(lang == "java")
+            {
+                //TODO Arreglar la compilación con Java.
+                //comando = "gcj --main=" + nombrePuro + " -Wall " + *itSF + " -o " + nombrePuro;
+                comando = "gcj --main=nombreClase -Wall " + *itSF + " -o nombreClase";
+            }
+
+            cerr << "Intento " << comando << endl;
             compilacion = system(comando.c_str());
 
             if(compilacion == 0)
             {
-                cout << "Compilación correcta...." << endl;
+                cerr << "Compilación correcta...." << endl;
             }
             else
             {
                 tipoResultado = "CE";
-                cout << "Falló la compilación." << endl;
+                cerr << "Falló la compilación." << endl;
             }
 
             if(tipoResultado != "CE")
@@ -113,12 +131,11 @@ int main(int argc, char* argv[])
                     casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
                     nombrePuro = removeExtension(codigoActual);
-                    //nombrePuro.replace(nombrePuro.end()-4, nombrePuro.end(), "");
 
-                    cout << "Probando con " << casoActual << endl;
+                    cerr << "Probando con " << casoActual << endl;
                     if (pipe(fd_pipe) < 0)
                     {
-                        cout << "No se pudo hacer pipe" << endl;
+                        cerr << "No se pudo hacer pipe" << endl;
                         return 1;
                     }
 
@@ -127,7 +144,7 @@ int main(int argc, char* argv[])
                     //**************** Hijo *******************/
                     if(pID == 0)
                     {
-                        //cout << "Soy el hijo." << endl;
+                        //cerr << "Soy el hijo." << endl;
 
                         close(fd_pipe[0]);
                         dup2(fd_pipe[1], STDOUT_FILENO);    //Salida al pipe.
@@ -137,13 +154,12 @@ int main(int argc, char* argv[])
 
                         //Ejecución
                         comando = "./" + *itSF;
-                        //comando.replace(comando.end()-4, comando.end(), "");
                         comando = removeExtension(comando);
-                        //cout << "Ejecuto el programa C++ " << comando << endl;
+                        cerr << "Ejecuto el programa " << comando << endl;
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
                         {
-                            cout << "Error de ejecución" << endl;
+                            cerr << "Error de ejecución" << endl;
                             return 0;
                         }
                     }   //Cierra el hijo.
@@ -163,27 +179,28 @@ int main(int argc, char* argv[])
                             }
                             else
                             {
+                                cerr << "WEXITSTATUS(status) diferente de 0" << endl;
                                 tipoResultado = "CE";
                             }
                         }
                         else if (WIFSIGNALED(status))
                         {
-                            cout << "Terminado con la señal" << WTERMSIG(status)<< endl;
+                            cerr << "Terminado con la señal" << WTERMSIG(status)<< endl;
                         }
                         else if (WIFSTOPPED(status))
                         {
-                            cout << "Detenido por la señal" << WSTOPSIG(status) << endl;
+                            cerr << "Detenido por la señal" << WSTOPSIG(status) << endl;
                         }
                         else if (WIFCONTINUED(status))
                         {
-                            cout << "wtf" << endl;
+                            cerr << "wtf" << endl;
                         }
 
                         if(exito)
                         {
                             //el programa ya fue compilado y esta listo para ejecutarse
                             string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
-                            cout << "Comparo con el archivo: " << salidaCorr << endl;
+                            cerr << "Comparo con el archivo: " << salidaCorr << endl;
                             //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
 
                             /*
@@ -191,57 +208,60 @@ int main(int argc, char* argv[])
                             */
                             if(juezNormal(estricto, salidaCorr, fd_pipe[0]))
                             {
-                                cout << "Caso " << salidaCorr << " estuvo bien en modo ";
+                                cerr << "Caso " << salidaCorr << " estuvo bien en modo ";
                                 if(estricto)
-                                    cout << "estricto." << endl;
+                                    cerr << "estricto." << endl;
                                 else
-                                    cout << "normal." << endl;
+                                    cerr << "normal." << endl;
                                 casosCorrectos++;
                             }
                             else
                             {
-                                cout << "Falla el caso " << salidaCorr << " en modo ";
+                                cerr << "Falla el caso " << salidaCorr << " en modo ";
                                 if(estricto)
-                                    cout << "estricto." << endl;
+                                    cerr << "estricto." << endl;
                                 else
-                                    cout << "normal." << endl;
+                                    cerr << "normal." << endl;
                             }
-                            cout << endl;
+                            cerr << endl;
                         }
                         close(fd_pipe[0]);
                     }   //Cierra el Padre
                 }   //Cierra el ciclo TC
                 if(estricto)
                 {
-                    cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    cerr << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
                     if(casosCorrectos == testCases.size())
                     {
 
-                        cout << "ACCEPTED" << endl;
-                        cout << "La calificación es: 10" << endl;
+                        cerr << "ACCEPTED" << endl;
+                        cerr << "La calificación es: 10" << endl;
                         tipoResultado = "AC";
                     }
                     else
                     {
-                        cout << "WRONG ANSWER" << endl;
+                        cerr << "WRONG ANSWER" << endl;
                         tipoResultado = "WA";
-                        cout << "La calificación es: 0" << endl;
+                        cerr << "La calificación es: 0" << endl;
                     }
                 }
                 else
                 {
-                    cout << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    cerr << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
                     tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60.0)?"AC":"WA";
-                    cout << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                    cerr << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
                 }
             }
             if(tipoResultado == "AC")
             {
-                calificaciones << "AC\tCalificación " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                calificaciones << "AC\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
             }
             else if(tipoResultado == "WA")
             {
-                calificaciones << "WA\tCalificación " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                if(casosCorrectos == 0)
+                    calificaciones << "WA\tCalificación\t0" << endl;
+                else
+                    calificaciones << "WA\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
             }
             else if(tipoResultado == "CE")
             {

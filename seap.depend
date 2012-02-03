@@ -56,7 +56,7 @@
 	<unistd.h>
 	<string>
 
-1328128119 source:/home/optimusfranz/evaluador/src/config.cpp
+1328245726 source:/home/optimusfranz/evaluador/src/config.cpp
 	"config.h"
 
 1328128119 /home/optimusfranz/evaluador/src/config.h
@@ -73,13 +73,16 @@
 1328128119 /home/optimusfranz/evaluador/src/config_exceptions.h
 	<exception>
 
-1328144796 source:/home/optimusfranz/evaluador/src/main.cpp
+1328247713 source:/home/optimusfranz/evaluador/src/main.cpp
 	<iostream>
 	<list>
 	<stack>
 	<string>
+	"build_params.h"
 	"config.h"
 	"validation.h"
+	"juezNormal.cpp"
+	"JE/set.cpp"
 	<fstream>
 	<sys/types.h>
 	<unistd.h>
@@ -88,10 +91,9 @@
 	<sys/resource.h>
 	<sys/wait.h>
 	<cstdio>
-	"juezNormal.cpp"
-	"JE/set.cpp"
+	"main_validation.cpp"
 
-1328128119 /home/optimusfranz/evaluador/src/validation.h
+1328245726 /home/optimusfranz/evaluador/src/validation.h
 	<sys/types.h>
 	<sys/stat.h>
 	<unistd.h>
@@ -113,4 +115,8 @@
 1328210937 /home/ernesto/seap/src/JE/set.cpp
 
 1328244303 /home/ernesto/seap/src/main_validation.cpp
+
+1328242240 /home/optimusfranz/evaluador/src/build_params.h
+
+1328245726 /home/optimusfranz/evaluador/src/main_validation.cpp
 

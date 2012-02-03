@@ -3,19 +3,17 @@ Calificaciones de sumame
 Estudiante 00 Calificacion 10 (gcc)
 Estudiante 02 Calificacion  3 (g++)
 Estudiante 07 Calificacion  0 (gcc)
-Estudiante 13 Calificacion  9 (g++)
+Estudiante 13 Calificacion 10 (g++)
 Estudiante 16 Calificacion  3 (g++)
 Estudiante 17 Calificacion  0 (g++)
-Estudiante 20 Calificacion  6 (gcj)
 Estudiante 24 Calificacion  3 (gcc)
 Estudiante 26 Calificacion  6 (gcc)
 Estudiante 27 Calificacion  3 (g++)
-Estudiante 30 Calificacion  6 (gcj)
-Estudiante 31 Calificacion  7 (gcc)
+Estudiante 31 Calificacion  6 (gcc)
 Estudiante 32 Calificacion 10 (g++)
 Estudiante 44 Calificacion  0 (g++)
-Estudiante 45 Calificacion  9 (g++)
-Estudiante 48 Calificacion  7 (gcc)
+Estudiante 45 Calificacion  0 (g++)
+Estudiante 48 Calificacion  6 (gcc)
 
 Si tu calificacion no aparece es porque no recibi tu
  programa o porque no compila con gcc, g++, gcj o fpc.
