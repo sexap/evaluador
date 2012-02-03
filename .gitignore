@@ -1,6 +1,6 @@
 doc/html/
 obj/
 run/
-seap.layout
+*.layout
 
 
