@@ -1,3 +1,9 @@
+** CARPETA run/ **
+Aquí se gurdarán los casos de prueba y se generarán los ejecutables del proyecto (seap y seap_release).
+¡NO HACER NINGÚN COMMIT DE NINGÚN ARCHIVO DE ESTA CARPETA!
+Los cambios son tan dispares que desmadra todo el git.
+PARA AGREGAR PROBLEMAS O CASOS DE PRUEBA, METERLOS EN UN ZIP EN OTRA CARPETA.
+
 
 -Tipos de Juez: Standard, Especial, Interactivo.
 
