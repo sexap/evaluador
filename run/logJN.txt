@@ -1,0 +1,1620 @@
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con g	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con g	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con g	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con g	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con g	Mal
+Caso sumame/sumame00.dat mal
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con g	Mal
+Caso sumame/sumame02.dat mal
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con g	Mal
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con g	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con g	Mal
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con g	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame06.dat correcto
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame08.dat correcto
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 6 con 6	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame09.dat correcto
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 3	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame07.dat correcto
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 2	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 2	Mal
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 2	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 9 con 1	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame00.dat mal
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 2 con 0	Mal
+Caso sumame/sumame02.dat mal
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 3 con 8	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 2 con 1	Mal
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame06.dat correcto
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame08.dat correcto
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 6 con 6	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame09.dat correcto
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 3	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame07.dat correcto
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 2	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 2	Mal
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 2	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 9 con 1	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame00.dat mal
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 0	Mal
+Caso sumame/sumame02.dat mal
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 3 con 8	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 2 con 1	Mal
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum tiene espacio.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 1	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 6	Mal
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 4	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 3	Mal
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 8	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 2	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 2	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 2	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 9	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame06.dat correcto
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame08.dat correcto
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 6 con 6	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 0 con 0	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 5 con 5	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame09.dat correcto
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 3	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 4 con 4	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame07.dat correcto
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Los 2 tienen caracteres.	Corr tiene espacio.
+Corr tiene espacio.
+Se terminón Corr.
+Corr encontró otro caracter normal.
+Alum tiene espacio.
+Se terminón Alum.
+Alum encontró otro caracter normal.
+Comparo 
+ con 
+	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 1	Mal
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 7	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 0	Mal
+Caso sumame/sumame00.dat mal
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 1	Mal
+Caso sumame/sumame02.dat mal
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 3 con 9	Mal
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 1	Mal
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 3	Mal
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame03.dat mal
+Comparo en modo normal con: sumame/sumame06.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame01.dat mal
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame00.dat mal
+Comparo en modo normal con: sumame/sumame02.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame02.dat mal
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame05.dat mal
+Comparo en modo normal con: sumame/sumame04.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame04.dat mal
+Comparo en modo normal con: sumame/sumame03.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 9 con 9	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame03.dat correcto
+Comparo en modo normal con: sumame/sumame06.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 9	Mal
+Caso sumame/sumame06.dat mal
+Comparo en modo normal con: sumame/sumame01.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame01.dat correcto
+Comparo en modo normal con: sumame/sumame08.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame08.dat mal
+Comparo en modo normal con: sumame/sumame00.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame00.dat correcto
+Comparo en modo normal con: sumame/sumame02.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame02.dat correcto
+Comparo en modo normal con: sumame/sumame09.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame09.dat mal
+Comparo en modo normal con: sumame/sumame07.dat
+Alum ya termino. Checho por sólo espacios en Corr.
+Encontré otro caracter normal en Corr cuando ya no debería.
+Caso sumame/sumame07.dat mal
+Comparo en modo normal con: sumame/sumame05.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame05.dat correcto
+Comparo en modo normal con: sumame/sumame04.dat
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 1 con 1	Bien
+Los 2 tienen caracteres.	Corr encontró otro caracter normal.
+Alum encontró otro caracter normal.
+Comparo 2 con 2	Bien
+Alum ya termino. Checho por sólo espacios en Corr.
+Caso sumame/sumame04.dat correcto

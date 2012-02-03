@@ -1,0 +1,19 @@
+Calificaciones de sumame
+
+Programa sumame/sumame.c	WA	Calificación	0
+Programa sumame/sumame00.c	AC	Calificación	100
+Programa sumame/sumame02.cpp	WA	Calificación	30
+Programa sumame/sumame07.c	WA	Calificación	0
+Programa sumame/sumame13.cpp	AC	Calificación	100
+Programa sumame/sumame16.cpp	WA	Calificación	30
+Programa sumame/sumame17.cpp	WA	Calificación	0
+Programa sumame/sumame20.java	AC	Calificación	60
+Programa sumame/sumame24.c	WA	Calificación	30
+Programa sumame/sumame26.c	CE
+Programa sumame/sumame27.cpp	WA	Calificación	30
+Programa sumame/sumame30.java	AC	Calificación	60
+Programa sumame/sumame31.c	AC	Calificación	60
+Programa sumame/sumame32.cpp	AC	Calificación	100
+Programa sumame/sumame44.cpp	WA	Calificación	0
+Programa sumame/sumame45.cpp	WA	Calificación	0
+Programa sumame/sumame48.c	AC	Calificación	60
