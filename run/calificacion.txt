@@ -1,5 +1,26 @@
 Calificaciones de divtor
 
-Programa divtor/divtor20.java	CE
-Programa divtor/divtor26.java	CE
-Programa divtor/divtor30.java	CE
+Programa divtor/divtor00.c	AC	Calificación	100
+Programa divtor/divtor01.cpp	WA	Calificación	0
+Programa divtor/divtor02.cpp	AC	Calificación	60
+Programa divtor/divtor04.cpp	WA	Calificación	0
+Programa divtor/divtor05.cpp	AC	Calificación	100
+Programa divtor/divtor07.cpp	WA	Calificación	0
+Programa divtor/divtor08.cpp	CE
+Programa divtor/divtor13.cpp	AC	Calificación	90
+Programa divtor/divtor16.cpp	AC	Calificación	100
+Programa divtor/divtor17.cpp	WA	Calificación	0
+Programa divtor/divtor20.java	AC	Calificación	100
+Programa divtor/divtor21.c	WA	Calificación	0
+Programa divtor/divtor24.c	WA	Calificación	0
+Programa divtor/divtor26.java	AC	Calificación	100
+Programa divtor/divtor27.cpp	WA	Calificación	0
+Programa divtor/divtor28.cpp	AC	Calificación	100
+Programa divtor/divtor29.cpp	AC	Calificación	100
+Programa divtor/divtor30.java	AC	Calificación	100
+Programa divtor/divtor32.cpp	AC	Calificación	100
+Programa divtor/divtor35.cpp	WA	Calificación	0
+Programa divtor/divtor36.cpp	AC	Calificación	100
+Programa divtor/divtor39.c	WA	Calificación	0
+Programa divtor/divtor45.cpp	AC	Calificación	100
+Programa divtor/divtor48.c	AC	Calificación	100

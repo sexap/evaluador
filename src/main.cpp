@@ -107,8 +107,14 @@ int main(int argc, char* argv[])
             else if(lang == "java")
             {
                 //TODO Arreglar la compilación con Java.
+                //gcj --main=divtor26 divtor26.java -o divtor26.class
                 //comando = "gcj --main=" + nombrePuro + " -Wall " + *itSF + " -o " + nombrePuro;
-                comando = "gcj --main=nombreClase -Wall " + *itSF + " -o nombreClase";
+                size_t found;
+                string nombreSinRuta;
+                found=nombrePuro.find_last_of("/");
+                nombreSinRuta = nombrePuro.substr(found+1, nombrePuro.length());
+                nombrePuro += ".class";
+                comando = "gcj --main=" + nombreSinRuta + " " + *itSF + " -Wall " + " -o " + nombrePuro;
             }
 
             cerr << "Intento " << comando << endl;
@@ -130,7 +136,7 @@ int main(int argc, char* argv[])
                 {
                     casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
-                    nombrePuro = removeExtension(codigoActual);
+                    //nombrePuro = removeExtension(codigoActual);
 
                     cerr << "Probando con " << casoActual << endl;
                     if (pipe(fd_pipe) < 0)
@@ -153,8 +159,8 @@ int main(int argc, char* argv[])
                         freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
 
                         //Ejecución
-                        comando = "./" + *itSF;
-                        comando = removeExtension(comando);
+                        comando = "./" + nombrePuro;
+                        //comando = removeExtension(comando);
                         cerr << "Ejecuto el programa " << comando << endl;
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
