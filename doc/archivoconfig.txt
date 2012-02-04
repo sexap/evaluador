@@ -5,6 +5,7 @@ Tiempo máximo de ejecución por caso de prueba en ms.
 
 max_mem = valor
 Memoria máxima de ejecución por caso de prueba en kiB.
+(cambiar a MiB)
 
 judge_type = {"standard", "special", "interactive"}
 Tipo de juez
@@ -13,7 +14,9 @@ judge_exe = valor
 Nombre del ejecutable que evaluará el problema en caso de que el juez sea "special" o "interactive".
 
 strict_eval = {true, false}
-Indica si se empleará la evaluación estricta. Evaluación estricta significa que algún caso está mal se tiene 0% de calificación, sólo si todos los casos están correctos se tiene 100% de calificación.
+Indica si se empleará la evaluación estricta. 
+Evaluación estricta significa que si algún caso está mal se tiene 0% de calificación, sólo si todos los casos están correctos se tiene 100% de calificación.
+Evaluación normal (no estricta) significa que la clificación es (casos_buenos/casos_total)*100.
 
 compare_white = {true, false}
 Indica si se compararán o ignorarán los espacios en blanco para la evaluación de casos.

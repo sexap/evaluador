@@ -5,16 +5,18 @@ posición 2
 Nombre del problema que se va a evaluar.
 
 -f lista
-Lista de archivos de código fuente que se evaluarán
+Lista de archivos de código fuente que se evaluarán. Si un elemento de la lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente)
 
 -s valor
-Tamaño máximo del archivo de código fuente en kiB
+Tamaño máximo del archivo de código fuente en kiB.
 
 -T valor
-Tiempo máximo de compilación en ms
+Tiempo máximo de compilación en ms.
+(cambiar a segs)
 
 -M valor
 Memoria máxima de compilación en kiB
+(cambiar a MiB)
 
 -S valor
 Tamaño máximo de la salida del programa del usuario en kiB
@@ -24,6 +26,8 @@ Lista de casos de prueba
 
 -v
 Indica que se mostrará información extra.
+(actualmente no usado)
 
 -o valor
 Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.
+(actualmente muestra resultados, pero no en csv)
