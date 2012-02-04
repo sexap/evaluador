@@ -2,7 +2,7 @@
 1318363803 source:/home/ernesto/seap/src/ParamParser.cpp
 	"ParamParser.h"
 
-1328332749 source:/home/ernesto/seap/src/main.cpp
+1328396643 source:/home/ernesto/seap/src/main.cpp
 	<iostream>
 	<fstream>
 	<list>
@@ -21,6 +21,7 @@
 	"juezNormal.cpp"
 	"JE/set.cpp"
 	"main_validation.cpp"
+	"main_evaluation.cpp"
 
 1318363731 /home/ernesto/seap/src/ParamParser.h
 	<set>
@@ -119,4 +120,6 @@
 1328242240 /home/optimusfranz/evaluador/src/build_params.h
 
 1328245726 /home/optimusfranz/evaluador/src/main_validation.cpp
+
+1328397141 /home/ernesto/seap/src/main_evaluation.cpp
 

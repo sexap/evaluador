@@ -50,6 +50,10 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main_evaluation.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
 		<Unit filename="src/main_validation.cpp">
 			<Option compile="0" />
 			<Option link="0" />
