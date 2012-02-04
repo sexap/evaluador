@@ -465,7 +465,7 @@ namespace seap_implement {
 		}
 
 		while ((dp = readdir(dirp)) != NULL) {
-			if(dp->d_name[0] != '.') {
+			if(dp->d_type == DT_REG && dp->d_name[0] != '.') {
 				filename = dp->d_name;
 				p = filename.rfind('.');
 				if (ext == "" || (p != string::npos && filename.substr(p) == "." + ext)) result.push_back(dp->d_name);

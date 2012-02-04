@@ -33,13 +33,8 @@ int main(int argc, char* argv[])
     #include "main_validation.cpp"
 
     //ofstream cerr("log.txt"); //Archivo que dice paso a paso la ejecución.
-    system("rm logJN.txt");
+    //system("rm logJN.txt");
 
-	//Temporal (ernesto)
-    cerr << "CASOS:" << endl;
-    for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cerr << *it << endl;
-    cerr << "FUENTES:" << endl;
-    for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cerr << *it << endl;
     //TODO: Crear variables con la ruta de los archivos y otras con los nombres de los archivos.
 
     //TODO: Recibir a partir de aquí la variable que indica el lenguaje.
@@ -297,6 +292,5 @@ int main(int argc, char* argv[])
 
     }
 
-//	#endif //TODO: Quitar al actualizar
     return 0;
 }

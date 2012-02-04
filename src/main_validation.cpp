@@ -1,3 +1,5 @@
+//TODO: Revisar y mejorar mensajes de error
+
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
 int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
@@ -10,6 +12,7 @@ list<string> testCases, sourceFiles;
 	bool hasError;
 	list<string> tmpList;
 	stack<list<string>::iterator> toErase;
+	list<string>::iterator it, tmp_it;
 
 	// Registra variables
 	confArg.registerArgFixVar("action", Config::T_STRING);
@@ -153,7 +156,7 @@ list<string> testCases, sourceFiles;
 		// Obtiene los archivos .case de la carpeta
 		testCases = Config::getDir(problem, CASE_EXTENSION);
 
-		for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++)
+		for (it = testCases.begin(); it != testCases.end(); it++)
 		{
 			// Quita extensión
 			*it = removeExtension(*it);
@@ -169,7 +172,7 @@ list<string> testCases, sourceFiles;
 	// Modo manual
 	else
 	{
-		for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++)
+		for (it = testCases.begin(); it != testCases.end(); it++)
 		{
 			// Indicaron un archivo .set
 			if (hasExtension(*it, "set"))
@@ -220,44 +223,38 @@ list<string> testCases, sourceFiles;
 
 	/// ** Genera lista de codigos fuente ***
 	hasError = false;
-	if (sourceFiles.size() == 1 && isDir(*sourceFiles.begin()))
+	for (it = sourceFiles.begin(); it != sourceFiles.end(); it++)
 	{
-		string baseName = *sourceFiles.begin();
-		sourceFiles = Config::getDir(baseName);
-		for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++)
+		if (isDir(*it)) {
+			tmpList = Config::getDir(*it);
+			for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); tmp_it++) {
+				sourceFiles.push_back(*it + "/" + *tmp_it);
+			}
+			toErase.push(it);
+		}
+		else if (!isFile(*it)) {
+			cerr << "No existe el archivo " << *it << endl;
+			toErase.push(it);
+		}
+		else if (hasExtension(*it, "set")) {
+			tmpList = Config::getSet(*it);
+			sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
+			toErase.push(it);
+		}
+		else if (!isFileSmaller(*it, maxSourceSize))
 		{
-			*it = baseName + "/" + (*it);
+			cerr << "El archivo " << *it << " es muy grande" << endl;
+			toErase.push(it);
 		}
 	}
-	else
+	while (!toErase.empty())
 	{
-		for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++)
-		{
-			if (!isFile(*it))
-			{
-				cerr << "No existe el archivo " << *it << endl;
-				toErase.push(it);
-			}
-			else if (hasExtension(*it, "set"))
-			{
-				tmpList = Config::getSet(*it);
-				sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
-				toErase.push(it);
-			}
-			else if (!isFileSmaller(*it, maxSourceSize))
-			{
-				cerr << "El archivo " << *it << " es muy grande" << endl;
-				toErase.push(it);
-			}
-		}
-		while (!toErase.empty())
-		{
-			sourceFiles.erase(toErase.top());
-			toErase.pop();
-		}
-		sourceFiles.sort();
-		sourceFiles.unique();
+		sourceFiles.erase(toErase.top());
+		toErase.pop();
 	}
+	sourceFiles.sort();
+	sourceFiles.unique();
+
 	if (sourceFiles.size() == 0)
 	{
 		cerr << "No hay casos por evaluar" << endl;
@@ -265,3 +262,11 @@ list<string> testCases, sourceFiles;
 	}
 	if (hasError) return 1;
 }
+
+// Zona de pruebas
+/*cerr << "CASOS:" << endl;
+for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cerr << *it << endl;
+cerr << "FUENTES:" << endl;
+for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cerr << *it << endl;
+return 0;
+*/

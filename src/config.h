@@ -120,6 +120,7 @@ namespace seap_implement{
 			void getValue(const string& name, string& var);
 			void getValue(const string& name, list<string>& var);
 
+			//TODO: Documentar
 			static list<string> getSet(const string& path);
 			static list<string> getDir(const string& path, const string& ext = "");
 		protected:
