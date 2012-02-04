@@ -10,9 +10,10 @@ list<string> testCases, sourceFiles;
 	// Variables internas (no existen fuera de esta sección)
 	Config confArg, confFile;
 	bool hasError;
+	string dumbString;
 	list<string> tmpList;
-	stack<list<string>::iterator> toErase;
 	list<string>::iterator it, tmp_it;
+	stack<list<string>::iterator> toErase;
 
 	// Registra variables
 	confArg.registerArgFixVar("action", Config::T_STRING);
@@ -241,6 +242,10 @@ list<string> testCases, sourceFiles;
 			sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
 			toErase.push(it);
 		}
+		else if (!forceValidLang(dumbString, *it)) {
+			cerr << "No se reconoce la extensión del archivo " << *it << endl;
+			toErase.push(it);
+		}
 		else if (!isFileSmaller(*it, maxSourceSize))
 		{
 			cerr << "El archivo " << *it << " es muy grande" << endl;
@@ -263,10 +268,14 @@ list<string> testCases, sourceFiles;
 	if (hasError) return 1;
 }
 
+clog << "Los casos a evaluar serán:" << endl;
+for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) clog << *it << endl;
+clog << endl;
+
+clog << "Los archivos de código serán:" << endl;
+for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) clog << *it << endl;
+clog << endl << endl;
+
 // Zona de pruebas
-/*cerr << "CASOS:" << endl;
-for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) cerr << *it << endl;
-cerr << "FUENTES:" << endl;
-for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) cerr << *it << endl;
-return 0;
-*/
+//return 0;
+

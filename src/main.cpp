@@ -1,9 +1,21 @@
 // Librerias estándar
 #include <iostream>
+#include <fstream>
 #include <list>
 #include <stack>
 #include <string>
 using namespace std;
+
+// Librerias C
+#include <cstdlib>
+#include <cstdio>
+
+// Librerias linux
+#include <sys/types.h>
+#include <unistd.h> //execl
+#include <sys/time.h> //setrlimit
+#include <sys/resource.h> //setrlimit
+#include <sys/wait.h>
 
 // Librerias propias
 #include "build_params.h"
@@ -13,23 +25,27 @@ using namespace std;
 #include "JE/set.cpp"
 using namespace seap_implement;
 
-// Librerias linux
-#include <fstream>
-#include <sys/types.h>
-#include <unistd.h> //execl
-#include <cstdlib> //execl
-#include <sys/time.h> //setrlimit
-#include <sys/resource.h> //setrlimit
-#include <sys/wait.h>
-#include <cstdio>
+streambuf* original_buf_clog = clog.rdbuf();
+void endProgram(void) {
+	// Regresa clog a su estado esperado
+	clog.rdbuf(original_buf_clog);
+}
 
 int main(int argc, char* argv[])
 {
-	// Variables que se pueden usar tras la validación
-	// string judgeType, judgeExe, action, problem, outputFile;
-	// int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
-	// bool verbose, strictEval, compareWhite;
-	// list<string> testCases, sourceFiles;
+	// cerr irá a pantalla: Mensajes de error interesantes para el usuario
+	// clog irá a archivo: Mensajes de estado interesantes para nosotros
+	ofstream logfile("log.txt");
+	clog.rdbuf(logfile.rdbuf());
+	atexit(endProgram);
+
+	/*
+	Variables que se pueden usar tras la validación
+		string judgeType, judgeExe, action, problem, outputFile;
+		int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
+		bool verbose, strictEval, compareWhite;
+		list<string> testCases, sourceFiles;
+	*/
     #include "main_validation.cpp"
 
     //ofstream cerr("log.txt"); //Archivo que dice paso a paso la ejecución.
@@ -51,18 +67,23 @@ int main(int argc, char* argv[])
 
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
 
+    clog << "Iniciando evaluación..." << endl;
+    clog << "El problema es: " << problem << endl;
+    clog << "El tipo de juez es: " << judgeType << endl;
+    clog << "El modo de evaluación (indicado) es: " << (strictEval?"estricto":"normal") << endl;
+    clog << "Resultados se guardarán en: " << archCal << endl;
+    clog << endl;
+
     calificaciones << "Calificaciones de " << problem << "\n\n";
-    cerr << endl << endl << "Evaluando Programas...." << endl << endl;
-    cerr << "El tipo de juez es: " << judgeType << endl;
     /**
     *   Juez Normal
     **/
     if(judgeType == "standard")
     {
+    	// ********************************
+    	// no debería ser la variable strictEval?
+    	// (leida desde las configuraciones)
         bool estricto = false;
-        cerr << "El modo de evaluación es: ";
-        if(estricto) cerr << "estricto." << endl;
-        else         cerr << "normal"    << endl;
 
         for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)  //Ciclo para cada programa de alumno. (Fuentes)
         {
@@ -77,10 +98,8 @@ int main(int argc, char* argv[])
             tipoResultado = "";
             string casoActual, codigoActual, correctoActual;
 
-            cerr << "El problema actual es: " << problem << endl;
-
             codigoActual += *itSF;
-            cerr << endl << endl << "Evaluando el archivo " << codigoActual << endl;
+            clog << "Evaluando el codigo " << codigoActual << endl;
             calificaciones << "Programa " << codigoActual << "\t";
 
             //TODO Agregar la compilación para los otros lenguajes.
@@ -89,7 +108,7 @@ int main(int argc, char* argv[])
             string lang;
             if(!forceValidLang(lang, codigoActual))
             {
-                    cerr << "No es un lenguaje válido." << endl;
+                    cerr << "La extensión de " << codigoActual << " no coincide con un lenguaje conocido." << endl;
             }
             string comando;
             if(lang == "c")
@@ -111,18 +130,19 @@ int main(int argc, char* argv[])
                 comando = "gcj --main=" + nombreSinRuta + " " + *itSF + " -Wall " + " -o " + nombrePuro;
             }
 
-            cerr << "Intento " << comando << endl;
+            clog << "Compilando con el comando " << comando << endl;
             compilacion = system(comando.c_str());
 
             if(compilacion == 0)
             {
-                cerr << "Compilación correcta...." << endl;
+                clog << "Compilación correcta...." << endl;
             }
             else
             {
                 tipoResultado = "CE";
-                cerr << "Falló la compilación." << endl;
+                clog << "Falló la compilación." << endl;
             }
+            clog << endl;
 
             if(tipoResultado != "CE")
             {
@@ -131,7 +151,7 @@ int main(int argc, char* argv[])
                     casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                     codigoActual = problem + "/" + *itSF;
 
-                    cerr << "Probando con " << casoActual << endl;
+                    clog << "  Probando con caso " << casoActual << endl;
                     if (pipe(fd_pipe) < 0)
                     {
                         cerr << "No se pudo hacer pipe" << endl;
@@ -153,7 +173,7 @@ int main(int argc, char* argv[])
 
                         //Ejecución
                         comando = "./" + nombrePuro;
-                        cerr << "Ejecuto el programa " << comando << endl;
+                        clog << "  Ejecuto el programa " << comando << endl;
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
                         {
@@ -198,7 +218,7 @@ int main(int argc, char* argv[])
                         {
                             //el programa ya fue compilado y esta listo para ejecutarse
                             string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
-                            cerr << "Comparo con el archivo: " << salidaCorr << endl;
+                            clog << "  Comparo con el archivo: " << salidaCorr << endl;
                             //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
 
                             /*
@@ -206,49 +226,50 @@ int main(int argc, char* argv[])
                             */
                             if(juezNormal(estricto, salidaCorr, fd_pipe[0]))
                             {
-                                cerr << "Caso " << salidaCorr << " estuvo bien en modo ";
+                                clog << "  Caso " << salidaCorr << " estuvo bien en modo ";
                                 if(estricto)
-                                    cerr << "estricto." << endl;
+                                    clog << "estricto." << endl;
                                 else
-                                    cerr << "normal." << endl;
+                                    clog << "normal." << endl;
                                 casosCorrectos++;
                             }
                             else
                             {
-                                cerr << "Falla el caso " << salidaCorr << " en modo ";
+                                clog << "  Falla el caso " << salidaCorr << " en modo ";
                                 if(estricto)
-                                    cerr << "estricto." << endl;
+                                    clog << "estricto." << endl;
                                 else
-                                    cerr << "normal." << endl;
+                                    clog << "normal." << endl;
                             }
-                            cerr << endl;
+                            clog << endl;
                         }
                         close(fd_pipe[0]);
                     }   //Cierra el Padre
                 }   //Cierra el ciclo TC
                 if(estricto)
                 {
-                    cerr << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
                     if(casosCorrectos == testCases.size())
                     {
 
-                        cerr << "ACCEPTED" << endl;
-                        cerr << "La calificación es: 10" << endl;
+                        clog << "ACCEPTED" << endl;
+                        clog << "La calificación es: 10" << endl;
                         tipoResultado = "AC";
                     }
                     else
                     {
-                        cerr << "WRONG ANSWER" << endl;
+                        clog << "WRONG ANSWER" << endl;
                         tipoResultado = "WA";
-                        cerr << "La calificación es: 0" << endl;
+                        clog << "La calificación es: 0" << endl;
                     }
                 }
                 else
                 {
-                    cerr << endl << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl << endl;
+                    clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
                     tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60.0)?"AC":"WA";
-                    cerr << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                    clog << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
                 }
+                clog << endl;
             }
             if(tipoResultado == "AC")
             {
