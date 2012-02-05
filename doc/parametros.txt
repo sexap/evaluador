@@ -4,8 +4,26 @@ Determina la acción que se va a realizar. Actualmente sólo se reconoce la acci
 posición 2
 Nombre del problema que se va a evaluar.
 
+** OPCIONES **
+
 -f lista
 Lista de archivos de código fuente que se evaluarán. Si un elemento de la lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente)
+
+-c lista
+Lista de casos de prueba
+(en un futuro debe comportarse como -f)
+
+-o valor
+Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.
+(actualmente muestra resultados, pero no en csv)
+
+-v
+Indica que se mostrará información extra.
+
+-nb
+Indica que no debe mostrarse barra de progreso
+
+** RESTRICCIONES **
 
 -s valor
 Tamaño máximo del archivo de código fuente en kiB.
@@ -20,14 +38,3 @@ Memoria máxima de compilación en kiB
 
 -S valor
 Tamaño máximo de la salida del programa del usuario en kiB
-
--c lista
-Lista de casos de prueba
-
--v
-Indica que se mostrará información extra.
-(actualmente no usado)
-
--o valor
-Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.
-(actualmente muestra resultados, pero no en csv)

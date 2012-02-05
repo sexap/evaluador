@@ -3,7 +3,7 @@
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
 int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
-bool verbose, strictEval, compareWhite;
+bool verbose, showProgress, strictEval, compareWhite;
 list<string> testCases, sourceFiles;
 
 {
@@ -19,14 +19,16 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgFixVar("action", Config::T_STRING);
 	confArg.registerArgFixVar("problem", Config::T_STRING);
 
-	confArg.registerArgVar("f", Config::T_LIST, true);
 	confArg.registerArgVar("s", Config::T_INT, false);
 	confArg.registerArgVar("T", Config::T_INT, false);
 	confArg.registerArgVar("M", Config::T_INT, false);
 	confArg.registerArgVar("S", Config::T_INT, false);
+
+	confArg.registerArgVar("f", Config::T_LIST, true);
 	confArg.registerArgVar("c", Config::T_LIST, false);
-	confArg.registerArgVar("v", Config::T_BOOL, false);
 	confArg.registerArgVar("o", Config::T_STRING, false);
+	confArg.registerArgVar("v", Config::T_BOOL, false);
+	confArg.registerArgVar("nb", Config::T_BOOL, false);
 
 	confFile.registerFileVar("max_time", Config::T_INT, true);
 	confFile.registerFileVar("max_mem", Config::T_INT, false);
@@ -41,8 +43,9 @@ list<string> testCases, sourceFiles;
 	confArg.setValue("T", 5000); // 5s para compilar
 	confArg.setValue("M", 4096); // 4MB para compilar (revisar)
 	confArg.setValue("S", 8); // 8KB de salida
-	confArg.setValue("v", false); // Es callado
 	confArg.setValue("o", "calificaciones.txt");
+	confArg.setValue("v", false); // Es callado
+	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
 	confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
@@ -60,14 +63,20 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("action", action);
 	confArg.getValue("problem", problem);
 
-	confArg.getValue("f", sourceFiles);
 	confArg.getValue("s", maxSourceSize);
 	confArg.getValue("T", maxCompTime);
 	confArg.getValue("M", maxCompMem);
 	confArg.getValue("S", maxOutSize);
+
+	confArg.getValue("f", sourceFiles);
 	confArg.getValue("c", testCases);
-	confArg.getValue("v", verbose);
 	confArg.getValue("o", outputFile);
+	confArg.getValue("v", verbose);
+	confArg.getValue("nb",showProgress);
+	showProgress = !showProgress;
+
+	clog << "verboso: " << (verbose?"sí":"no") << endl;
+	clog << "barra de progreso: " << (showProgress?"sí":"no") << endl;
 
 	hasError = false;
 	if (!isValidAction(action))

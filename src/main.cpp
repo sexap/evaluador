@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 	Variables que se pueden usar tras la validación
 		string judgeType, judgeExe, action, problem, outputFile;
 		int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
-		bool verbose, strictEval, compareWhite;
+		bool verbose, showProgress, strictEval, compareWhite;
 		list<string> testCases, sourceFiles;
 	*/
     #include "main_validation.cpp"
