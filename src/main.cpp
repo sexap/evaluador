@@ -33,8 +33,14 @@ void endProgram(void) {
 
 int main(int argc, char* argv[])
 {
-	// cerr irá a pantalla: Mensajes de error interesantes para el usuario
-	// clog irá a archivo: Mensajes de estado interesantes para nosotros
+	/*
+	cerr irá a pantalla: Mensajes de error interesantes para el usuario
+		errores fatales van directo a cerr.
+			Ejemplo: cerr << "Error" << endl;
+		errores NO fatales van a cerr sólo si verbose == true
+			Ejemplo: if (verbose) cerr << "Advertencia" << endl;
+	clog irá a archivo: Mensajes de estado interesantes para nosotros
+	*/
 	ofstream logfile("log.txt");
 	clog.rdbuf(logfile.rdbuf());
 	atexit(endProgram);

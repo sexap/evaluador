@@ -120,8 +120,23 @@ namespace seap_implement{
 			void getValue(const string& name, string& var);
 			void getValue(const string& name, list<string>& var);
 
-			//TODO: Documentar
+			//! Lista los archivos indicados en un archivo .set
+			/*! Lista todos los archivos indicados en el archivo
+				\c path. Siempre ignora las lineas en blanco.
+				\param path El archivo del cual se listarán sus contenidos.
+				\return La lista con los nombres de archivo.
+			*/
 			static list<string> getSet(const string& path);
+
+			//! Lista los archivos contenidos en una carpeta
+			/*! Lista todos los archivos contenidos en la carpeta
+				\c path. Si se especifica \c ext sólo se listan los archivos que
+				terminen con esa extensión, si no se especifica se listan todos.
+				Siempre ignora los archivos ocultos y subdirectorios de \c path.
+				\param path El directorio del cual se listarán sus archivos.
+				\param ext La extensión deseada de los archivos.
+				\return La lista con los nombres de archivo.
+			*/
 			static list<string> getDir(const string& path, const string& ext = "");
 		protected:
 

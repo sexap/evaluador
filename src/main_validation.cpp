@@ -1,4 +1,4 @@
-//TODO: Revisar y mejorar mensajes de error
+//TODO: Revisar Mensajes de error de los limites
 
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
@@ -36,12 +36,13 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
 
 	// Valores por default
+	// TODO: Revisar valores cuando las restricciones funcionen (también abajo en la validación)
 	confArg.setValue("s", 24); // 24kB de código
 	confArg.setValue("T", 5000); // 5s para compilar
 	confArg.setValue("M", 4096); // 4MB para compilar (revisar)
 	confArg.setValue("S", 8); // 8KB de salida
 	confArg.setValue("v", false); // Es callado
-	confArg.setValue("o", "");
+	confArg.setValue("o", "calificaciones.txt");
 
 	confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
@@ -52,7 +53,7 @@ list<string> testCases, sourceFiles;
 	confArg.parseArgs(argc, argv);
 	if (!confArg.validate())
 	{
-		cerr << "Parametros incorrectos. Consulte el manual" << endl;
+		cerr << "Parametros incorrectos. Consulte el manual." << endl;
 		return 1;
 	}
 
@@ -76,14 +77,15 @@ list<string> testCases, sourceFiles;
 	}
 	if (!isDir(problem))
 	{
-		cerr << "No existe el problema " << problem << endl;
+		cerr << "No se pudo abrir la carpeta del problema " << problem << endl;
 		hasError = true;
 	}
-	if (!isFile(problem + "/eval.conf"))
+	else if (!isFile(problem + "/eval.conf"))
 	{
-		cerr << "No se encuentra " << problem << "/eval.conf" << endl;
+		cerr << "No se pudo abrir '" << problem << "/eval.conf'" << endl;
 		hasError = true;
 	}
+
 	if (!isBetween(maxSourceSize, 1, 512))
 	{
 		cerr << "el parametro -s debe estar entre 1kB y 512kB" << endl;
@@ -110,7 +112,7 @@ list<string> testCases, sourceFiles;
 	confFile.parseFile(problem + "/eval.conf");
 	if (!confFile.validate())
 	{
-		cerr << "Archivo erroneo. Consulta el manual" << endl;
+		cerr << "Opciones incorrectas en '" << problem << "eval.conf'. Consulte el manual." << endl;
 		return 1;
 	}
 
@@ -139,15 +141,15 @@ list<string> testCases, sourceFiles;
 	}
 	else if (judgeNeedsExe(judgeType))
 	{
-		if (!isFile(problem + "/" + judgeExe))
+		if (!isExec(problem + "/" + judgeExe))
 		{
-			cerr << "No se encuentra el ejecutable " << judgeExe << endl;
+			cerr << "No se pudo abrir '" << problem << "/" << judgeExe  << "' como ejecutable" << endl;
 			hasError = true;
 		}
 	}
 	if (hasError) return 1;
 
-	//TODO: Posible loop infinito si un archivo .set se contiene a sí mismo
+	//FIXME: Posible loop infinito si un archivo .set se contiene a sí mismo
 
 	/// ** Genera lista de casos de prueba **
 	hasError = false;
@@ -165,7 +167,7 @@ list<string> testCases, sourceFiles;
 			// Verifica existencia de salida esperada
 			if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
 			{
-				cerr << "No se encuentra la salida experada para el caso " << *it << endl;
+				cerr << "No se puede abrir el archivo de salida experada para el caso " << *it << endl;
 				hasError = true;
 			}
 		}
@@ -181,7 +183,7 @@ list<string> testCases, sourceFiles;
 				// Verifica existencia
 				if (!isFile(problem + "/" + *it))
 				{
-					cerr << "No existe el archivo " << *it << endl;
+					cerr << "No se puede abrir el archivo '" << *it << "'" << endl;
 					hasError = true;
 				}
 				// Agregar contenidos
@@ -198,13 +200,13 @@ list<string> testCases, sourceFiles;
 				// Verificamos existencia
 				if (!isFile(problem + "/" + *it + "." + CASE_EXTENSION))
 				{
-					cerr << "No existe el caso " << *it << endl;
+					cerr << "No se puede abrir el caso " << *it << endl;
 					hasError = true;
 				}
 				// Verificamos existencia de salida esperada
 				else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
 				{
-					cerr << "No se encuentra la salida experada para el caso " << *it << endl;
+					cerr << "No se puede abrir el archivo de salida experada para el caso " << *it << endl;
 					hasError = true;
 				}
 			}
@@ -220,6 +222,11 @@ list<string> testCases, sourceFiles;
 		testCases.sort();
 		testCases.unique();
 	}
+	if (testCases.size() == 0)
+	{
+		cerr << "No hay casos de prueba para evaluar" << endl;
+		hasError = true;
+	}
 	if (hasError) return 1;
 
 	/// ** Genera lista de codigos fuente ***
@@ -234,21 +241,22 @@ list<string> testCases, sourceFiles;
 			toErase.push(it);
 		}
 		else if (!isFile(*it)) {
-			cerr << "No existe el archivo " << *it << endl;
+			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (no se puede abrir)" << endl;
 			toErase.push(it);
 		}
+		//FIXME: Revisar no existencia del archivo
 		else if (hasExtension(*it, "set")) {
 			tmpList = Config::getSet(*it);
 			sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
 			toErase.push(it);
 		}
 		else if (!forceValidLang(dumbString, *it)) {
-			cerr << "No se reconoce la extensión del archivo " << *it << endl;
+			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (no se reconoce la extensión)" << endl;
 			toErase.push(it);
 		}
 		else if (!isFileSmaller(*it, maxSourceSize))
 		{
-			cerr << "El archivo " << *it << " es muy grande" << endl;
+			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (excede el tamaño límite)" << endl;
 			toErase.push(it);
 		}
 	}
@@ -262,12 +270,13 @@ list<string> testCases, sourceFiles;
 
 	if (sourceFiles.size() == 0)
 	{
-		cerr << "No hay casos por evaluar" << endl;
+		cerr << "No hay códigos fuente que evaluar" << endl;
 		hasError = true;
 	}
 	if (hasError) return 1;
 }
 
+// Debug
 clog << "Los casos a evaluar serán:" << endl;
 for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) clog << *it << endl;
 clog << endl;

@@ -8,15 +8,25 @@ namespace seap_implement {
 	{
 		public:
 			virtual const char* what() const throw() {
-				return "Error genérico seap_implement::Config";
+				return "Error genérico seap_implement::Config.";
 			}
+	};
+
+	class ConfigExceptionNotImplemented : public ConfigException
+	{
+		public:
+			virtual const char* what() const throw() {
+				return "Se intentó realizar una operación no implementada.";
+			}
+		private:
+
 	};
 
 	class ConfigExceptionNotFound : public ConfigException
 	{
 		public:
 			virtual const char* what() const throw() {
-				return "No se registró una variable antes de acceder a ella";
+				return "No se registró una variable antes de acceder a ella.";
 			}
 		private:
 
@@ -26,7 +36,7 @@ namespace seap_implement {
 	{
 		public:
 			virtual const char* what() const throw() {
-				return "Se intenta acceder a una variable de tipo incorrecto";
+				return "Se intenta acceder a una variable de tipo incorrecto.";
 			}
 		private:
 
@@ -36,7 +46,7 @@ namespace seap_implement {
 	{
 		public:
 			virtual const char* what() const throw() {
-				return "Se intenta acceder a una variable sin datos";
+				return "Se intenta acceder a una variable sin datos.";
 			}
 		private:
 

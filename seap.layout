@@ -4,31 +4,31 @@
 	<File name="src/build_params.h" open="0" top="0" tabpos="4">
 		<Cursor position="58" topLine="0" />
 	</File>
-	<File name="src/config.cpp" open="1" top="0" tabpos="7">
-		<Cursor position="13092" topLine="447" />
+	<File name="src/config.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="12226" topLine="423" />
 	</File>
-	<File name="src/config.h" open="1" top="0" tabpos="6">
-		<Cursor position="2456" topLine="83" />
+	<File name="src/config.h" open="1" top="1" tabpos="3">
+		<Cursor position="3680" topLine="111" />
 	</File>
 	<File name="src/config_exceptions.h" open="0" top="0" tabpos="3">
-		<Cursor position="904" topLine="19" />
+		<Cursor position="307" topLine="3" />
 	</File>
 	<File name="src/juezNormal.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1337" topLine="35" />
+		<Cursor position="963" topLine="26" />
 	</File>
-	<File name="src/main_evaluation.cpp" open="1" top="1" tabpos="3">
-		<Cursor position="8194" topLine="208" />
+	<File name="src/main_evaluation.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="src/main_validation.cpp" open="1" top="0" tabpos="2">
-		<Cursor position="304" topLine="0" />
+		<Cursor position="6957" topLine="230" />
 	</File>
-	<File name="src/validation.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="1537" topLine="48" />
+	<File name="src/validation.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="464" topLine="6" />
 	</File>
-	<File name="src/validation.h" open="1" top="0" tabpos="4">
-		<Cursor position="2261" topLine="43" />
+	<File name="src/validation.h" open="0" top="0" tabpos="4">
+		<Cursor position="721" topLine="21" />
 	</File>
 </CodeBlocks_layout_file>

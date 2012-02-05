@@ -1,6 +1,5 @@
 #include "config.h"
 
-//TODO: Mejorar mensajes de error. (prioridad baja)
 //TODO: Implementar BOOL y LIST de posición fija  o generar exepciones adecuadas. (Opcional)
 //TODO: Implementar LIST desde archivos o generar excepciones adecuadas. (Opcional)
 
@@ -84,8 +83,8 @@ namespace seap_implement {
 					dest->isSet = true;
 				}
 			}
-			else if (dest->type == T_BOOL) cerr << "AVISO. Booleanos fixed no soportados" << endl;
-			else if (dest->type == T_LIST) cerr << "AVISO. Listas fixed no soportadas" << endl;
+			else if (dest->type == T_BOOL) throw ConfigExceptionNotImplemented();
+			else if (dest->type == T_LIST) throw ConfigExceptionNotImplemented();
 		}
 
 		for ( ; k < argc; k++) {
@@ -93,41 +92,34 @@ namespace seap_implement {
 			if (status == W_ID) {
 				// Es una variable con nombre
 				if (!isValidId(argv[k])) {
-					cerr << "Se esperaba un id en vez de " << argv[k] << endl;
+					cerr << "Se esperaba una opción en vez de " << argv[k] << endl;
 					error = true;
 				}
 				else {
 					it = variables.find(argv[k] + 1);
-					if (it == variables.end() || it->second.fixedPos) {
-						cerr << "No existe el id " << argv[k] << endl;
+					if (it == variables.end() || it->second.fixedPos || it->second.source == S_FILE) {
+						cerr << "No existe el la opción " << argv[k] << endl;
 						error = true;
 					}
 					else {
 						dest = &(it->second);
 
-						if (dest->source != S_ARG && dest->source != S_BOTH) {
-							cerr << "El id " << argv[k] << " se debe especificar en archivo" << endl;
-						}
-						else if (dest->fixedPos > 0) {
-							cerr << "El id " << argv[k] << " debe ir directamente en pos " << dest->fixedPos << endl;
+						if (dest->lastSeenBy == sourceId) {
+							cerr << "La opción " << argv[k] << "está repetida" << endl;
+							error = true;
 						}
 						else {
-							if (dest->lastSeenBy == sourceId) {
-								cerr << "Se repite el parámetro " << argv[k] << endl;
-								error = true;
-							}
-							else {
-								dest->lastSeenBy = sourceId;
-							}
-
-							if (dest->type == T_BOOL) {
-								dest->v_bool = !(dest->v_bool);
-								dest->isSet = true;
-							}
-							else if (dest->type == T_INT) status = W_INT;
-							else if (dest->type == T_STRING) status = W_STR;
-							else if (dest->type == T_LIST) status = W_LST;
+							dest->lastSeenBy = sourceId;
 						}
+
+						if (dest->type == T_BOOL) {
+							dest->v_bool = !(dest->v_bool);
+							dest->isSet = true;
+						}
+						else if (dest->type == T_INT) status = W_INT;
+						else if (dest->type == T_STRING) status = W_STR;
+						else if (dest->type == T_LIST) status = W_LST;
+
 					}
 				}
 			}
@@ -227,8 +219,8 @@ namespace seap_implement {
 			return false;
 		}
 		catch (ParseException& e) {
-			cerr << filename << ":" << e.getLine() << " ";
-			cerr << "Archivo " << filename << " mal formado" << endl;
+			cerr << "Error en el archivo '" << filename << "' línea " << e.getLine() << endl;
+			cerr << "  Archivo mal formado" << endl;
 			return false;
 		}
 
@@ -239,63 +231,53 @@ namespace seap_implement {
 			varName = root[k].getName();
 			it = variables.find(varName);
 
-			if (it == variables.end()) {
-				cerr << filename << ":" << root[k].getSourceLine() << " ";
-				cerr << "No existe la variable " << varName << endl;
+			if (it == variables.end() || it->second.source == S_ARG) {
+				cerr << "Error en el archivo '" << filename << "' línea " << root[k].getSourceLine() << endl;
+				cerr << "  No existe la opción " << varName << endl;
 				error = true;
 			}
 			else {
 				dest = &(it->second);
 
-				if (dest->source != S_FILE && dest->source != S_BOTH) {
-					cerr << filename << ":" << root[k].getSourceLine() << " ";
-					cerr << "La variable " << root[k].getName() << " se debe especificar como parámetro" << endl;
-					error = true;
-				}
-				else {
-					settingType = root[k].getType();
-					dest->lastSeenBy = sourceId;
+				settingType = root[k].getType();
+				dest->lastSeenBy = sourceId;
 
-					// Verifica tipos y realiza asignación.
-					if (dest->type == T_BOOL) {
-						if (settingType != Setting::TypeBoolean) {
-							cerr << filename << ":" << root[k].getSourceLine() << " ";
-							cerr << "Se esperaba un valor booleano para " << varName << endl;
-							error = true;
-						}
-						else {
-							dest->v_bool = root[k];
-							dest->isSet = true;
-						}
+				// Verifica tipos y realiza asignación.
+				if (dest->type == T_BOOL) {
+					if (settingType != Setting::TypeBoolean) {
+						cerr << "Error en el archivo '" << filename << "' línea " << root[k].getSourceLine() << endl;
+						cerr << "  Se esperaba true o false para la opción " << varName << endl;
+						error = true;
 					}
-					else if (dest->type == T_INT) {
-						if (settingType != Setting::TypeInt) {
-							cerr << filename << ":" << root[k].getSourceLine() << " ";
-							cerr << "Se esperaba un valor entero para " << varName << endl;
-							error = true;
-						}
-						else {
-							dest->v_int = root[k];
-							dest->isSet = true;
-						}
-					}
-					else if (dest->type == T_STRING) {
-						if (settingType != Setting::TypeString) {
-							cerr << filename << ":" << root[k].getSourceLine() << " ";
-							cerr << "Se esperaba un valor de cadena para " << varName << endl;
-							error = true;
-						}
-						else {
-							delete dest->v_string;
-							dest->v_string = new string(root[k].c_str());
-							dest->isSet = true;
-						}
-					}
-					else if (dest->type == T_LIST) {
-						cerr << filename << ":" << root[k].getSourceLine() << " ";
-						cerr << "AVISO. Listas en archivos no soportadas ¿aún?" << endl;
+					else {
+						dest->v_bool = root[k];
+						dest->isSet = true;
 					}
 				}
+				else if (dest->type == T_INT) {
+					if (settingType != Setting::TypeInt) {
+						cerr << "Error en el archivo '" << filename << "' línea " << root[k].getSourceLine() << endl;
+						cerr << "  Se esperaba un número entero para la opción " << varName << endl;
+						error = true;
+					}
+					else {
+						dest->v_int = root[k];
+						dest->isSet = true;
+					}
+				}
+				else if (dest->type == T_STRING) {
+					if (settingType != Setting::TypeString) {
+						cerr << "Error en el archivo '" << filename << "' línea " << root[k].getSourceLine() << endl;
+						cerr << "  Se esperaba una cadena para la opción " << varName << endl;
+						error = true;
+					}
+					else {
+						delete dest->v_string;
+						dest->v_string = new string(root[k].c_str());
+						dest->isSet = true;
+					}
+				}
+				else if (dest->type == T_LIST) throw ConfigExceptionNotImplemented();
 			}
 		}
 
@@ -312,17 +294,20 @@ namespace seap_implement {
 				error = true;
 				if(it->second.source == S_ARG) {
 					if (it->second.fixedPos) {
-						cerr << "El argumento fijo " << (it->first) << " es obligatorio" << endl;
+						cerr << "La opción " << (it->first) << " es obligatoria" << endl;
 					}
 					else {
-						cerr << "El argumento -" << (it->first) << " es obligatorio" << endl;
+						cerr << "La opción -" << (it->first) << " es obligatoria" << endl;
 					}
 				}
 				else if(it->second.source == S_FILE) {
-					cerr << "La variable " << (it->first) << " es obligatoria" << endl;
+					cerr << "La opción " << (it->first) << " es obligatoria" << endl;
+					cerr << "  Debe especificarse en un archivo de configuración." << endl;
 				}
 				else {
-					cerr << "Debe especificarse la variable " << (it->first) << " o el argumento -" << (it->first) << endl;
+					// Este error no se usa en realidad
+					cerr << "La opción " << (it->first) << " es obligatoria" << endl;
+					cerr << "  Debe especificarse en los parámetros del programa o en un archivo de configuración." << endl;
 				}
 			}
 		}
