@@ -1,4 +1,7 @@
-Debe existir un archivo de configuración por cada problema y se llamará 'eval.conf'
+Puede existir un archivo de configuración por cada problema y se llamará 'eval.conf'
+Si no existe se usarán valores por default
+
+Las opciones son:
 
 max_time = valor
 Tiempo máximo de ejecución por caso de prueba en ms.

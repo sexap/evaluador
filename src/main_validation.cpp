@@ -30,9 +30,9 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgVar("v", Config::T_BOOL, false);
 	confArg.registerArgVar("nb", Config::T_BOOL, false);
 
-	confFile.registerFileVar("max_time", Config::T_INT, true);
+	confFile.registerFileVar("max_time", Config::T_INT, false);
 	confFile.registerFileVar("max_mem", Config::T_INT, false);
-	confFile.registerFileVar("judge_type", Config::T_STRING, true);
+	confFile.registerFileVar("judge_type", Config::T_STRING, false);
 	confFile.registerFileVar("judge_exe", Config::T_STRING, false);
 	confFile.registerFileVar("strict_eval", Config::T_BOOL, false);
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
@@ -47,7 +47,9 @@ list<string> testCases, sourceFiles;
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
+	confFile.setValue("max_time", 3000); // 3s para ejecutarse
 	confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
+	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
 	confFile.setValue("strict_eval", false); // No es estricto
 	confFile.setValue("compare_white", false); // Ignora espacios extra
@@ -89,11 +91,6 @@ list<string> testCases, sourceFiles;
 		cerr << "No se pudo abrir la carpeta del problema " << problem << endl;
 		hasError = true;
 	}
-	else if (!isFile(problem + "/eval.conf"))
-	{
-		cerr << "No se pudo abrir '" << problem << "/eval.conf'" << endl;
-		hasError = true;
-	}
 
 	if (!isBetween(maxSourceSize, 1, 512))
 	{
@@ -118,11 +115,16 @@ list<string> testCases, sourceFiles;
 	if (hasError) return 1;
 
 	// Analizar y valida archivo de configureción
-	confFile.parseFile(problem + "/eval.conf");
-	if (!confFile.validate())
-	{
-		cerr << "Opciones incorrectas en '" << problem << "eval.conf'. Consulte el manual." << endl;
-		return 1;
+	if (!isFile(problem + "/eval.conf")) {
+		if (verbose) cerr << "No se pudo abrir '" << problem << "/eval.conf'. Usando opciones por default." << endl;
+	}
+	else {
+		confFile.parseFile(problem + "/eval.conf");
+		if (!confFile.validate())
+		{
+			cerr << "Opciones incorrectas en '" << problem << "eval.conf'. Consulte el manual." << endl;
+			return 1;
+		}
 	}
 
 	confFile.getValue("max_time", maxRunTime);
@@ -176,7 +178,7 @@ list<string> testCases, sourceFiles;
 			// Verifica existencia de salida esperada
 			if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
 			{
-				cerr << "No se puede abrir el archivo de salida experada para el caso " << *it << endl;
+				cerr << "No se pudo abrir el archivo de salida experada para el caso " << *it << endl;
 				hasError = true;
 			}
 		}
@@ -192,7 +194,7 @@ list<string> testCases, sourceFiles;
 				// Verifica existencia
 				if (!isFile(problem + "/" + *it))
 				{
-					cerr << "No se puede abrir el archivo '" << *it << "'" << endl;
+					cerr << "No se pudo abrir el archivo '" << *it << "'" << endl;
 					hasError = true;
 				}
 				// Agregar contenidos
@@ -209,13 +211,13 @@ list<string> testCases, sourceFiles;
 				// Verificamos existencia
 				if (!isFile(problem + "/" + *it + "." + CASE_EXTENSION))
 				{
-					cerr << "No se puede abrir el caso " << *it << endl;
+					cerr << "No se pudo abrir el caso " << *it << endl;
 					hasError = true;
 				}
 				// Verificamos existencia de salida esperada
 				else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
 				{
-					cerr << "No se puede abrir el archivo de salida experada para el caso " << *it << endl;
+					cerr << "No se pudo abrir el archivo de salida experada para el caso " << *it << endl;
 					hasError = true;
 				}
 			}
@@ -250,7 +252,7 @@ list<string> testCases, sourceFiles;
 			toErase.push(it);
 		}
 		else if (!isFile(*it)) {
-			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (no se puede abrir)" << endl;
+			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (no se pudo abrir)" << endl;
 			toErase.push(it);
 		}
 		//FIXME: Revisar no existencia del archivo
