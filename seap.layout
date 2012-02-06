@@ -5,9 +5,9 @@
 		<Cursor position="58" topLine="0" />
 	</File>
 	<File name="src/config.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="12226" topLine="423" />
+		<Cursor position="12226" topLine="404" />
 	</File>
-	<File name="src/config.h" open="1" top="1" tabpos="3">
+	<File name="src/config.h" open="1" top="0" tabpos="3">
 		<Cursor position="3680" topLine="111" />
 	</File>
 	<File name="src/config_exceptions.h" open="0" top="0" tabpos="3">
@@ -17,10 +17,10 @@
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="963" topLine="26" />
+		<Cursor position="569" topLine="7" />
 	</File>
-	<File name="src/main_evaluation.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="0" topLine="0" />
+	<File name="src/main_evaluation.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="4973" topLine="174" />
 	</File>
 	<File name="src/main_validation.cpp" open="1" top="0" tabpos="2">
 		<Cursor position="6957" topLine="230" />

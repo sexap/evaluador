@@ -1,7 +1,3 @@
-//TODO: Crear variables con la ruta de los archivos y otras con los nombres de los archivos.
-
-//TODO: Recibir a partir de aquí la variable que indica el lenguaje.
-
 // Variables accesibles desde el exterior
 // -- AQUI
 {
@@ -20,8 +16,6 @@
     if (outputFile == "") archCal = "calificaciones.txt";
     else archCal = outputFile;
 
-    int calificacion;
-
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
 
     clog << "Iniciando evaluación..." << endl;
@@ -37,21 +31,17 @@
     **/
     if(judgeType == "standard")
     {
-    	// ********************************
-    	// no debería ser la variable strictEval?
-    	// (leida desde las configuraciones)
-        bool estricto = false;
-
         for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)  //Ciclo para cada programa de alumno. (Fuentes)
         {
             int programa;
             pid_t pID;
             int status;
             int fd_pipe[2];
-            int leidos;
             int compilacion;
+            string lang;
+            string comando;
 
-            int casosCorrectos = 0;
+            unsigned int casosCorrectos = 0;
             tipoResultado = "";
             string casoActual, codigoActual, correctoActual;
 
@@ -62,20 +52,14 @@
             clog << "Evaluando el codigo " << codigoActual << endl;
 
             calificaciones << "Programa " << codigoActual << "\t";
-
-            //se guarda en la lista el nombre del archivo
-            rating.push_back (codigoActual);
-
-            //TODO Agregar la compilación para los otros lenguajes.
+	    rating.push_back (codigoActual);
             string nombrePuro = removeExtension(*itSF);
 
-            string lang;
+
             if(!forceValidLang(lang, codigoActual))
             {
                     cerr << "La extensión de " << codigoActual << " no coincide con un lenguaje conocido." << endl;
             }
-            string comando;
-
 
             if(lang == "c")
             {
@@ -87,7 +71,6 @@
             }
             else if(lang == "java")
             {
-                //gcj --main=divtor26 divtor26.java -o divtor26.class
                 size_t found;
                 string nombreSinRuta;
                 found=nombrePuro.find_last_of("/");
@@ -126,11 +109,8 @@
 
                     pID = fork();
 
-                    //**************** Hijo *******************/
                     if(pID == 0)
                     {
-                        //cerr << "Soy el hijo." << endl;
-
                         close(fd_pipe[0]);
                         dup2(fd_pipe[1], STDOUT_FILENO);    //Salida al pipe.
                         close(fd_pipe[1]);
@@ -140,7 +120,7 @@
                         //Ejecución
                         comando = "exec_alumno";
                         clog << "  Ejecuto el programa " << comando << endl;
-                        programa = execl(comando.c_str(), comando.c_str(), NULL);
+                        programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
                         if(programa == -1)
                         {
                             //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
@@ -148,54 +128,27 @@
                             cerr << "Error de ejecución" << endl;
                             return 0;
                         }
-                    }   //Cierra el hijo.
-                    //****************** Padre ********************/
+                    }
                     else
                     {
                         close(fd_pipe[1]);
-                        //es el padre
                         waitpid(pID, &status, 0);
 
-                        bool exito =true;
-                        /*if (WIFEXITED(status))
-                        {
-                            if (WEXITSTATUS(status) == 0)
-                            {
-                                exito = true;
-                            }
-                            else
-                            {
-                                cerr << "WEXITSTATUS(status) diferente de 0" << endl;
-                                tipoResultado = "CE";
-                            }
-                        }
-                        else if (WIFSIGNALED(status))
-                        {
-                            cerr << "Terminado con la señal" << WTERMSIG(status)<< endl;
-                        }
-                        else if (WIFSTOPPED(status))
-                        {
-                            cerr << "Detenido por la señal" << WSTOPSIG(status) << endl;
-                        }
-                        else if (WIFCONTINUED(status))
-                        {
-                            cerr << "wtf" << endl;
-                        }
-                        */
+                        bool exito = true;
+
                         if(exito)
                         {
                             //el programa ya fue compilado y esta listo para ejecutarse
                             string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
                             clog << "  Comparo con el archivo: " << salidaCorr << endl;
-                            //Comparar entre el caso actual y la salida lectura de pipe desde el hijo.
 
                             /*
                             *   Llamo al juez normal
                             */
-                            if(juezNormal(estricto, salidaCorr, fd_pipe[0]))
+                            if(juezNormal(strictEval, salidaCorr, fd_pipe[0]))
                             {
                                 clog << "  Caso " << salidaCorr << " estuvo bien en modo ";
-                                if(estricto)
+                                if(strictEval)
                                     clog << "estricto." << endl;
                                 else
                                     clog << "normal." << endl;
@@ -206,7 +159,7 @@
                             {
                                 rating.push_back ("0 (xxx ms)");
                                 clog << "  Falla el caso " << salidaCorr << " en modo ";
-                                if(estricto)
+                                if(strictEval)
                                     clog << "estricto." << endl;
                                 else
                                     clog << "normal." << endl;
@@ -216,7 +169,7 @@
                         close(fd_pipe[0]);
                     }   //Cierra el Padre
                 }   //Cierra el ciclo TC
-                if(estricto)
+                if(strictEval)
                 {
                     clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
                     if(casosCorrectos == testCases.size())
