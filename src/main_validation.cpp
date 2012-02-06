@@ -47,7 +47,7 @@ list<string> testCases, sourceFiles;
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
-	confFile.setValue("max_time", 3000); // 3s para ejecutarse
+	confFile.setValue("max_time", 2500); // 3s para ejecutarse
 	confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
 	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
