@@ -11,9 +11,13 @@
     /*
     *   Compilación y Evaluación
     */
+    list<list <string> > ratingsList;
+    list<string> rating;
+    ostringstream strs;
+    string str;
     string rutaFuentes, rutaCasos;
     string tipoResultado, archCal;
-    if (outputFile == "") archCal = "calificacion.txt";
+    if (outputFile == "") archCal = "calificaciones.txt";
     else archCal = outputFile;
 
     int calificacion;
@@ -51,9 +55,16 @@
             tipoResultado = "";
             string casoActual, codigoActual, correctoActual;
 
+            //La lista de calificacion es borrada para cada alumno
+            rating.clear();
+
             codigoActual += *itSF;
             clog << "Evaluando el codigo " << codigoActual << endl;
+
             calificaciones << "Programa " << codigoActual << "\t";
+
+            //se guarda en la lista el nombre del archivo
+            rating.push_back (codigoActual);
 
             //TODO Agregar la compilación para los otros lenguajes.
             string nombrePuro = removeExtension(*itSF);
@@ -132,6 +143,8 @@
                         programa = execl(comando.c_str(), comando.c_str(), NULL);
                         if(programa == -1)
                         {
+                            //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
+                            rating.push_back ("RE");
                             cerr << "Error de ejecución" << endl;
                             return 0;
                         }
@@ -187,9 +200,11 @@
                                 else
                                     clog << "normal." << endl;
                                 casosCorrectos++;
+                                rating.push_back ("1 (xxx ms)");
                             }
                             else
                             {
+                                rating.push_back ("0 (xxx ms)");
                                 clog << "  Falla el caso " << salidaCorr << " en modo ";
                                 if(estricto)
                                     clog << "estricto." << endl;
@@ -226,16 +241,34 @@
                 }
                 clog << endl;
             }
+            rating.push_back (tipoResultado);
+
             if(tipoResultado == "AC")
             {
                 calificaciones << "AC\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+
+                strs.str("");
+                strs.clear();
+                strs << ((double)casosCorrectos/testCases.size()*100.0);
+                str = strs.str();
+
+                rating.push_back (str);
             }
             else if(tipoResultado == "WA")
             {
-                if(casosCorrectos == 0)
+                if(casosCorrectos == 0){
                     calificaciones << "WA\tCalificación\t0" << endl;
-                else
+                    rating.push_back ("0");
+                }
+                else{
                     calificaciones << "WA\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                    strs.str("");
+                    strs.clear();
+                    strs << ((double)casosCorrectos/testCases.size()*100.0);
+                    str = strs.str();
+
+                    rating.push_back (str);
+                }
             }
             else if(tipoResultado == "CE")
             {
@@ -249,7 +282,24 @@
             {
 
             }
+            //TODO
+            ratingsList.push_back(rating);
         }
+        string resultsFile = "calificaciones.csv";
+        ofstream outputResults(resultsFile.c_str());         //Archivo de los resultados en csv
+
+        while (!ratingsList.empty()){
+
+            rating = ratingsList.front();
+
+            while(!rating.empty()){
+                outputResults << rating.front() << ","; //modificar la coma para que pueda ser otro operador
+                rating.pop_front();
+            }
+            outputResults << endl;
+            ratingsList.pop_front();
+        }
+
     }
 
     /**
