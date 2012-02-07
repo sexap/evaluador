@@ -1,6 +1,7 @@
 doc/html/
 obj/
 run/
-*.layout
+seap.depend
+seap.layout
 
 

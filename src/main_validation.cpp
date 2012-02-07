@@ -38,23 +38,24 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
 
 	// Valores por default
-	// TODO: Revisar valores cuando las restricciones funcionen (también abajo en la validación)
+	//TODO Revisar valores cuando las restricciones funcionen
 	confArg.setValue("s", 24); // 24kB de código
 	confArg.setValue("T", 5000); // 5s para compilar
-	confArg.setValue("M", 4096); // 4MB para compilar (revisar)
+	confArg.setValue("M", 4096); // 4MB para compilar
 	confArg.setValue("S", 8); // 8KB de salida
 	confArg.setValue("o", "calificaciones.txt");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
-	confFile.setValue("max_time", 2500); // 3s para ejecutarse
-	confFile.setValue("max_mem", 32768); // 32MB para ser ejecutado (revisar)
+	//Revisado
+	confFile.setValue("max_time", 5000); // 5 s para ejecutarse
+	confFile.setValue("max_mem", 128); // 128 MiB para ser ejecutado
 	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
 	confFile.setValue("strict_eval", false); // No es estricto
 	confFile.setValue("compare_white", false); // Ignora espacios extra
 
-	// Analizar y valida argumentos
+	// ** Analizar y valida argumentos **
 	confArg.parseArgs(argc, argv);
 	if (!confArg.validate())
 	{
@@ -79,7 +80,9 @@ list<string> testCases, sourceFiles;
 
 	clog << "verboso: " << (verbose?"sí":"no") << endl;
 	clog << "barra de progreso: " << (showProgress?"sí":"no") << endl;
+	clog << endl;
 
+	//TODO Revisar valores cuando las restricciones funcionen
 	hasError = false;
 	if (!isValidAction(action))
 	{
@@ -114,7 +117,7 @@ list<string> testCases, sourceFiles;
 	}
 	if (hasError) return 1;
 
-	// Analizar y valida archivo de configureción
+	// ** Analizar y valida archivo de configureción **
 	if (!isFile(problem + "/eval.conf")) {
 		if (verbose) cerr << "No se pudo abrir '" << problem << "/eval.conf'. Usando opciones por default." << endl;
 	}
@@ -122,7 +125,7 @@ list<string> testCases, sourceFiles;
 		confFile.parseFile(problem + "/eval.conf");
 		if (!confFile.validate())
 		{
-			cerr << "Opciones incorrectas en '" << problem << "eval.conf'. Consulte el manual." << endl;
+			cerr << "Opciones incorrectas en '" << problem << "/eval.conf'. Consulte el manual." << endl;
 			return 1;
 		}
 	}
@@ -134,20 +137,21 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("strict_eval", strictEval);
 	confFile.getValue("compare_white", compareWhite);
 
+	// Revisado
 	hasError = false;
-	if (!isBetween(maxRunTime, 1, 60000))
+	if (!isBetween(maxRunTime, 1, 90000))
 	{
-		cerr << "max_time debe estar entre 1ms y 60s" << endl;
+		cerr << "En '" << problem << "/eval.conf': max_time debe estar entre 1 ms y 90 000 ms" << endl;
 		hasError = true;
 	}
-	if (!isBetween(maxRunMem, 1, 262144))
+	if (!isBetween(maxRunMem, 1, 2048))
 	{
-		cerr << "max_mem debe estar entre 1kB y 256MB" << endl;
+		cerr << "En '" << problem << "/eval.conf': max_mem debe estar entre 1 MiB y 2048 MiB" << endl;
 		hasError = true;
 	}
 	if (!isValidJudgeType(judgeType))
 	{
-		cerr << judgeType << " no es un tipo de juez válido" << endl;
+		cerr << "En '" << problem << "/eval.conf': " << judgeType << " no es un tipo de juez válido" << endl;
 		hasError = true;
 	}
 	else if (judgeNeedsExe(judgeType))

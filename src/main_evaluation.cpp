@@ -16,6 +16,7 @@
     if (outputFile == "") archCal = "calificaciones.txt";
     else archCal = outputFile;
 	int realMaxTime;
+	int totalExecTime = 0, previousExecTime = 0;
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
 
     clog << "Iniciando evaluación..." << endl;
@@ -162,7 +163,9 @@
                         	clog << "Finalizó bien" << endl;
 							// Calcular tiempo
 							times(&tiempo);
-							execTime = (tiempo.tms_cutime + tiempo.tms_cstime) / (sysconf(_SC_CLK_TCK) / 1000.0);
+							totalExecTime = (tiempo.tms_cutime + tiempo.tms_cstime);
+							execTime = (totalExecTime - previousExecTime) / (sysconf(_SC_CLK_TCK) / 1000.0);
+							previousExecTime = totalExecTime;
 
 							if (execTime > maxRunTime) rating.push_back ("0 (TLE)");
 							else exito = true;
