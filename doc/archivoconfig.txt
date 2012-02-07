@@ -5,10 +5,11 @@ Las opciones son:
 
 max_time = valor
 Tiempo máximo de ejecución por caso de prueba en ms.
+Rango: [1,90 000]
 
 max_mem = valor
-Memoria máxima de ejecución por caso de prueba en kiB.
-(cambiar a MiB)
+Memoria máxima de ejecución por caso de prueba en MiB.
+Rango: [1,2048]
 
 judge_type = {"standard", "special", "interactive"}
 Tipo de juez

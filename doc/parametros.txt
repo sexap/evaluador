@@ -15,7 +15,7 @@ Lista de casos de prueba
 
 -o valor
 Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.
-(actualmente muestra resultados, pero no en csv)
+(actualmente el csv tiene nombre fijo)
 
 -v
 Indica que se mostrará información extra.
