@@ -123,10 +123,10 @@
 
 1328398818 /home/ernesto/seap/src/main_evaluation.cpp
 
-1328491482 source:/home/optimusfranck/PT_DE/src/config.cpp
+1328751614 source:/home/optimusfranck/PT_DE/src/config.cpp
 	"config.h"
 
-1328491482 /home/optimusfranck/PT_DE/src/config.h
+1328751614 /home/optimusfranck/PT_DE/src/config.h
 	<dirent.h>
 	<iostream>
 	<fstream>
@@ -137,20 +137,22 @@
 	<libconfig.h++>
 	"config_exceptions.h"
 
-1328491482 /home/optimusfranck/PT_DE/src/config_exceptions.h
+1328751614 /home/optimusfranck/PT_DE/src/config_exceptions.h
 	<exception>
 
-1328506935 source:/home/optimusfranck/PT_DE/src/main.cpp
+1328751874 source:/home/optimusfranck/PT_DE/src/main.cpp
 	<iostream>
 	<fstream>
 	<list>
 	<stack>
 	<string>
+	<sstream>
 	<cstdlib>
 	<cstdio>
 	<sys/types.h>
 	<unistd.h>
 	<sys/time.h>
+	<sys/times.h>
 	<sys/resource.h>
 	<sys/wait.h>
 	"build_params.h"
@@ -161,22 +163,25 @@
 	"main_validation.cpp"
 	"main_evaluation.cpp"
 
-1328491482 /home/optimusfranck/PT_DE/src/build_params.h
+1328751614 /home/optimusfranck/PT_DE/src/build_params.h
 
-1328491482 /home/optimusfranck/PT_DE/src/validation.h
+1328751614 /home/optimusfranck/PT_DE/src/validation.h
 	<sys/types.h>
 	<sys/stat.h>
 	<unistd.h>
 	<string>
 
-1328491482 /home/optimusfranck/PT_DE/src/juezNormal.cpp
+1328847788 /home/optimusfranck/PT_DE/src/juezNormal.cpp
 
-1328491482 /home/optimusfranck/PT_DE/src/JE/set.cpp
+1328751614 /home/optimusfranck/PT_DE/src/JE/set.cpp
 
-1328491482 /home/optimusfranck/PT_DE/src/main_validation.cpp
+1328751614 /home/optimusfranck/PT_DE/src/main_validation.cpp
 
-1328507418 /home/optimusfranck/PT_DE/src/main_evaluation.cpp
+1328848438 /home/optimusfranck/PT_DE/src/main_evaluation.cpp
 
-1328491482 source:/home/optimusfranck/PT_DE/src/validation.cpp
+1328751614 source:/home/optimusfranck/PT_DE/src/validation.cpp
 	"validation.h"
+
+1328751850 /home/optimusfranck/PT_DE/src/main_compilation.cpp
+	"main_evaluation.cpp"
 

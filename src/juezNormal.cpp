@@ -4,6 +4,8 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
     char buffer[2];
     int leidos;
     ifstream respCorrecta(nomArchCorr.c_str());
+
+    cout << "******************************" << endl;
     if(!respCorrecta.good())
     {
         cout << "No pude abrir la respuesta correcta." << endl;
@@ -71,10 +73,10 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
                 if(respCorrecta.good())     //Caso 1 o 3. Ninguno de los 2 terminó
                 {
                     respCorrecta.get(otroC);
-                    cout << "Los 2 tienen caracteres.\t";
+                    //cout << "Los 2 tienen caracteres.\t";
                     while(otroC == ' ' || otroC == '\n' || otroC == '\t')     //Caso 1. El archivo correcto tiene espacio.
                     {
-                        cout << "Corr tiene espacio." << endl;
+                        //cout << "Corr tiene espacio." << endl;
                         //Avanzo todos los espacios de Corr
                         if(respCorrecta.good())
                         {
@@ -82,7 +84,7 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
                         }
                         else        //Caso 2. El archivo de respuesta correcta ya terminó.
                         {
-                            cout << "Se terminón Corr." << endl;
+                            //cout << "Se terminón Corr." << endl;
                             //Checo que al archivo del alumno sólo le queden saltos y espacios. Si no, WA.
                             do
                             {
@@ -98,17 +100,17 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
                             break;  //Sólo le quedaron espacios al otro.
                         }
                     }   //Si hay otro caracter normal, el while terminará y me dejará con él.
-                    cout << "Corr encontró otro caracter normal." << endl;
+                    //cout << "Corr encontró otro caracter normal." << endl;
                     while(buffer[0] == ' ' || buffer[0] == '\n' || buffer[0] == '\t')     //Caso 1. El archivo del alumno tiene espacio.
                     {
-                        cout << "Alum tiene espacio." << endl;
+                        //cout << "Alum tiene espacio." << endl;
                         if(leidos)
                         {
                             leidos = read(dArchAlum, buffer, 1);
                         }
                         else        //Caso 2. El archivo del alumno ya terminó.
                         {
-                            cout << "Se terminón Alum." << endl;
+                            //cout << "Se terminón Alum." << endl;
                             //Checo que al archivo correcto sólo le queden saltos y espacios. Si no WA.
                             do
                             {
@@ -124,7 +126,7 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
                             break;  //Sólo le quedaron espacios al otro.
                         }
                     } //Si hay otro caracter normal, el while terminará y me dejará con él.
-                    cout << "Alum encontró otro caracter normal." << endl;
+                    //cout << "Alum encontró otro caracter normal." << endl;
                     cout << "Comparo " << otroC << " con " << buffer[0];    //Caso 3. Los 2 tienen un caracter normal.
                     if(otroC != buffer[0])
                     {
@@ -139,7 +141,7 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
                 }
                 else    //Caso 2. El archivo de respuesta correcta ya terminó.
                 {
-                    cout << "Corr ya termino. Checho por sólo espacios en Alum." << endl;
+                    //cout << "Corr ya termino. Checho por sólo espacios en Alum." << endl;
                     //Checo que al archivo del alumno sólo le queden saltos y espacios.
                     do
                     {
@@ -157,7 +159,7 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
             }
             else    //Caso 2. El archivo de salida del alumno ya terminó.
             {
-                cout << "Alum ya termino. Checho por sólo espacios en Corr." << endl;
+                //cout << "Alum ya termino. Checho por sólo espacios en Corr." << endl;
                 if(!respCorrecta.good()) //Los dos terminan al mismo tiempo.
                 {
                     break;

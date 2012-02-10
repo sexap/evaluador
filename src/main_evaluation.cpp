@@ -4,9 +4,6 @@
 	// Variables internas (no existen fuera de esta sección)
 	// -- AQUI
 
-    /*
-    *   Compilación y Evaluación
-    */
     list<list <string> > ratingsList;
     list<string> rating;
     ostringstream strs;
@@ -32,20 +29,15 @@
 	if (maxRunTime % 1000 == 0) realMaxTime = maxRunTime;
 	else realMaxTime = maxRunTime + (1000 - maxRunTime % 1000);
 	realMaxTime /= 1000;
-
-    /**
-    *   Juez Normal
-    **/
-    if(judgeType == "standard")
-    {
         for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++)  //Ciclo para cada programa de alumno. (Fuentes)
         {
             int programa;
             pid_t pID;
-            int fd_pipe[2];
-            int compilacion;
+            int fd_pipe_eval[2], fd_pipe_comp[2];
             string lang;
             string comando;
+            char buffer[128];
+            int status;
 
             unsigned int casosCorrectos = 0;
             tipoResultado = "";
@@ -67,36 +59,81 @@
                     cerr << "La extensión de " << codigoActual << " no coincide con un lenguaje conocido." << endl;
             }
 
-            if(lang == "c")
+            /*
+            *   Compilación
+            */
+            if (pipe(fd_pipe_comp) < 0)
             {
-                comando = "gcc -lm " + *itSF + " -o exec_alumno";
+                cerr << "No se pudo hacer pipe para la compilacion" << endl;
+                return 1;
             }
-            else if(lang == "c++")
+            pID = fork();
+            if(pID == 0)
             {
-                comando = "g++ -lm " + *itSF + " -o exec_alumno";
+                close(fd_pipe_comp[0]);
+                dup2(fd_pipe_comp[1], STDERR_FILENO);
+                system("rm ./exec_alum");
+                if(lang == "c")
+                {
+                    comando = "execl(\"/usr/bin/g++\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
+                    clog << "Compilando con el comando " << comando << endl;
+                    if(execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alum", "-lm", (char *) 0) < 0)
+                        perror("exec");
+                }
+                else if(lang == "c++")
+                {
+                    comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
+                    clog << "Compilando con el comando " << comando << endl;
+                    if(execl("/usr/bin/g++", "g++", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
+                        perror("exec");
+                }
+                else if(lang == "java")
+                {
+                    comando = "execl(\"/usr/bin/gcj\", \"gcj\", \"--main=\"" + *itSF + ").c_string(), (" + *itSF + ").c_string(), \"-o\", \"exec_alumno\", (char *) 0);";
+                    clog << "Compilando con el comando " << comando << endl;
+
+                    size_t found;
+                    string nombreSinRuta;
+                    found=nombrePuro.find_last_of("/");
+                    nombreSinRuta = nombrePuro.substr(found+1, nombrePuro.length());
+                    nombrePuro += ".class";
+                    comando = "gcj --main=" + nombreSinRuta + " " + *itSF + " -o exec_alumno";
+                    string segundoParam = "--main=" + nombreSinRuta;
+                    if(execl("/usr/bin/gcj", "gcj", segundoParam.c_str(), (*itSF).c_str(), "-o", "exec_alumno", (char *) 0) < 0)
+                        perror("exec");
+                }
             }
-            else if(lang == "java")
+            else if(pID < 0)
             {
-                size_t found;
-                string nombreSinRuta;
-                found=nombrePuro.find_last_of("/");
-                nombreSinRuta = nombrePuro.substr(found+1, nombrePuro.length());
-                nombrePuro += ".class";
-                comando = "gcj --main=" + nombreSinRuta + " " + *itSF + " -o exec_alumno";
+                cerr << "No se pudo hacer el fork para la compilacion" << endl;
             }
 
-            clog << "Compilando con el comando " << comando << endl;
-            compilacion = system(comando.c_str());
+            close(fd_pipe_comp[1]);
+            FILE* child_error = fdopen(fd_pipe_comp[0], "r");
+            waitpid(pID, &status, 0);
 
-            if(compilacion == 0)
-            {
-                clog << "Compilación correcta...." << endl;
-            }
-            else
-            {
+            if (WIFEXITED(status)) {
+                //printf("exited, status = %d\n", WEXITSTATUS(status));
+                if(WEXITSTATUS(status) == 0)
+                {
+                    clog << "Compilación correcta...." << endl;
+                }
+                else
+                {
+                    tipoResultado = "CE";
+                    clog << "Falló la compilación." << endl;
+                }
+            } else if (WIFSIGNALED(status)) {
+                printf("killed by signal %d\n", WTERMSIG(status));
                 tipoResultado = "CE";
                 clog << "Falló la compilación." << endl;
+                clog << "Hijo de compilación dijo en stderr: " << endl;
+                while (fgets(buffer, sizeof(buffer), child_error) != NULL) {
+                    // Aqui puede ser clog
+                    clog << buffer;
+                }
             }
+
             clog << endl;
 
             if(tipoResultado != "CE")
@@ -107,9 +144,9 @@
                     codigoActual = problem + "/" + *itSF;
 
                     clog << "  Probando con caso " << casoActual << endl;
-                    if (pipe(fd_pipe) < 0)
+                    if (pipe(fd_pipe_eval) < 0)
                     {
-                        cerr << "No se pudo hacer pipe" << endl;
+                        cerr << "No se pudo hacer pipe para la evaluación" << endl;
                         return 1;
                     }
 
@@ -119,9 +156,9 @@
                     {
                     	rlimit limite;
 
-						close(fd_pipe[0]);
-                        dup2(fd_pipe[1], STDOUT_FILENO);    //Salida al pipe.
-                        close(fd_pipe[1]);
+						close(fd_pipe_eval[0]);
+                        dup2(fd_pipe_eval[1], STDOUT_FILENO);    //Salida al pipe.
+                        close(fd_pipe_eval[1]);
 
                         freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
 
@@ -155,7 +192,7 @@
 						int status, signalType;
 						bool exito;
 
-                        close(fd_pipe[1]);
+                        close(fd_pipe_eval[1]);
                         waitpid(pID, &status, 0);
 
 						exito = false;
@@ -193,34 +230,48 @@
                             string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
                             clog << "  Comparo con el archivo: " << salidaCorr << endl;
 
-                            /*
-                            *   Llamo al juez normal
-                            */
-
-
-
-                            if(juezNormal(strictEval, salidaCorr, fd_pipe[0]))
+                            /**
+                            *   Juez Normal
+                            **/
+                            if(judgeType == "standard")
                             {
-                                clog << "  Caso " << salidaCorr << " estuvo bien en modo ";
-                                if(strictEval)
-                                    clog << "estricto." << endl;
+                                if(juezNormal(strictEval, salidaCorr, fd_pipe_eval[0]))
+                                {
+                                    clog << "  Caso " << salidaCorr << " estuvo bien en modo ";
+                                    if(strictEval)
+                                        clog << "estricto." << endl;
+                                    else
+                                        clog << "normal." << endl;
+                                    casosCorrectos++;
+                                    rating.push_back ("1 (" + str +" ms)");
+                                }
                                 else
-                                    clog << "normal." << endl;
-                                casosCorrectos++;
-                                rating.push_back ("1 (" + str +" ms)");
+                                {
+                                    rating.push_back ("0 (" + str +" ms)");
+                                    clog << "  Falla el caso " << salidaCorr << " en modo ";
+                                    if(strictEval)
+                                        clog << "estricto." << endl;
+                                    else
+                                        clog << "normal." << endl;
+                                }
                             }
-                            else
+                            /**
+                            *   Juez Especial
+                            **/
+                            else if(judgeType == "especial")
                             {
-                                rating.push_back ("0 (" + str +" ms)");
-                                clog << "  Falla el caso " << salidaCorr << " en modo ";
-                                if(strictEval)
-                                    clog << "estricto." << endl;
-                                else
-                                    clog << "normal." << endl;
+
+                            }
+                            /**
+                            *   Juez Interactivo
+                            **/
+                            else if(judgeType == "interactive")
+                            {
+
                             }
                             clog << endl;
                         }
-                        close(fd_pipe[0]);
+                        close(fd_pipe_eval[0]);
                     }   //Cierra el Padre
                 }   //Cierra el ciclo TC
                 if(strictEval)
@@ -292,42 +343,24 @@
             //TODO
             ratingsList.push_back(rating);
         }
-        cout << "Estoy por abrir archivo";
+        //cout << "Estoy por abrir archivo";
         string resultsFile = "calificaciones.csv";
         ofstream outputResults(resultsFile.c_str());         //Archivo de los resultados en csv
 
         if(outputResults.fail()){
 				cout << "No se pudo abrtir el archivo";
         }
-		cout << "Se supone que ya abri el archivo";
+		//cout << "Se supone que ya abri el archivo";
         while (!ratingsList.empty()){
 
             rating = ratingsList.front();
 
             while(!rating.empty()){
-            	cout << ".";
+            	//cout << ".";
                 outputResults << rating.front() << ","; //modificar la coma para que pueda ser otro operador
                 rating.pop_front();
             }
             outputResults << endl;
             ratingsList.pop_front();
         }
-
-    }
-
-    /**
-    *   Juez Especial
-    **/
-    else if(judgeType == "especial")
-    {
-
-    }
-
-    /**
-    *   Juez Interactivo
-    **/
-    else if(judgeType == "interactive")
-    {
-
-    }
 }
