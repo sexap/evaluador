@@ -38,16 +38,14 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
 
 	// Valores por default
-	//TODO Revisar valores cuando las restricciones funcionen
-	confArg.setValue("s", 24); // 24kB de código
-	confArg.setValue("T", 5000); // 5s para compilar
-	confArg.setValue("M", 4096); // 4MB para compilar
-	confArg.setValue("S", 8); // 8KB de salida
+	confArg.setValue("s", 24); // 24kB de código (por revisar)
+	confArg.setValue("T", 10); // 10s para compilar
+	confArg.setValue("M", 256); // 256MB para compilar
+	confArg.setValue("S", 8); // 8KB de salida (por revisar)
 	confArg.setValue("o", "calificaciones.txt");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
-	//Revisado
 	confFile.setValue("max_time", 5000); // 5 s para ejecutarse
 	confFile.setValue("max_mem", 128); // 128 MiB para ser ejecutado
 	confFile.setValue("judge_type", "standard"); // Juez estándar
@@ -100,14 +98,14 @@ list<string> testCases, sourceFiles;
 		cerr << "el parametro -s debe estar entre 1kB y 512kB" << endl;
 		hasError = true;
 	}
-	if (!isBetween(maxCompTime, 1, 90000))
+	if (!isBetween(maxCompTime, 1, 90))
 	{
-		cerr << "el parametro -T debe estar entre 1ms y 90s" << endl;
+		cerr << "el parametro -T debe estar entre 1s y 90s" << endl;
 		hasError = true;
 	}
-	if (!isBetween(maxCompMem, 1, 262144))   // (revisar)
+	if (!isBetween(maxCompMem, 1, 2048))
 	{
-		cerr << "el parametro -M debe estar entre 1kB y 256MB" << endl;
+		cerr << "el parametro -M debe estar entre 1MiB y 1048MiB" << endl;
 		hasError = true;
 	}
 	if (!isBetween(maxOutSize, 1, 256))
@@ -289,7 +287,4 @@ clog << endl;
 clog << "Los archivos de código serán:" << endl;
 for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); ++it) clog << *it << endl;
 clog << endl << endl;
-
-// Zona de pruebas
-return 0;
 
