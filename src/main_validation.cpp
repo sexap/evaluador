@@ -164,79 +164,75 @@ list<string> testCases, sourceFiles;
 	}
 	if (hasError) return 1;
 
-	//FIXME: Posible loop infinito si un archivo .set se contiene a sí mismo
-
 	/// ** Genera lista de casos de prueba **
 	hasError = false;
 	// Modo automático
-	if (testCases.size() == 0)
-	{
-		// Obtiene los archivos .case de la carpeta
-		testCases = Config::getDir(problem, CASE_EXTENSION);
+	if (testCases.size() == 0) {
+		// Obtiene los casos de la carpeta del problema
+		testCases = Config::getDirFiles(problem, CASE_EXTENSION);
 
-		for (it = testCases.begin(); it != testCases.end(); it++)
+		for (it = testCases.begin(); it != testCases.end(); ++it)
 		{
-			// Quita extensión
-			*it = removeExtension(*it);
+			// Quita extensión y convierte a path completo
+			*it = problem + "/" + removeExtension(*it);
 
 			// Verifica existencia de salida esperada
-			if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
+			if (judgeNeedsOutput(judgeType) && !isFile(*it + "." + OUTPUT_EXTENSION))
 			{
-				cerr << "No se pudo abrir el archivo de salida experada para el caso " << *it << endl;
+				cerr << "No se pudo abrir el archivo de salida esperada para el caso " << *it << endl;
 				hasError = true;
 			}
 		}
 	}
 	// Modo manual
-	else
-	{
-		for (it = testCases.begin(); it != testCases.end(); it++)
-		{
-			// Indicaron un archivo .set
-			if (hasExtension(*it, "set"))
-			{
-				// Verifica existencia
-				if (!isFile(problem + "/" + *it))
-				{
-					cerr << "No se pudo abrir el archivo '" << *it << "'" << endl;
-					hasError = true;
-				}
-				// Agregar contenidos
-				else
-				{
-					tmpList = Config::getSet(problem + "/" + *it);
-					testCases.insert(testCases.end(), tmpList.begin(), tmpList.end());
-					toErase.push(it);
-				}
+	else {
+		//Pasada 1: Expandimos expresiones y completamos el path
+		for (it = testCases.begin(); it != testCases.end(); ++it) {
+			tmpList = Config::getExpansion(problem + "/" + *it + "." + CASE_EXTENSION);
+			// Quitar extensiones
+			for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); ++tmp_it) {
+				*tmp_it = removeExtension(*tmp_it);
 			}
-			// Indicaron un caso normal
-			else
-			{
-				// Verificamos existencia
-				if (!isFile(problem + "/" + *it + "." + CASE_EXTENSION))
-				{
-					cerr << "No se pudo abrir el caso " << *it << endl;
-					hasError = true;
-				}
-				// Verificamos existencia de salida esperada
-				else if (judgeNeedsOutput(judgeType) && !isFile(problem + "/" + *it + "." + OUTPUT_EXTENSION))
-				{
-					cerr << "No se pudo abrir el archivo de salida experada para el caso " << *it << endl;
-					hasError = true;
-				}
-			}
+			// Agregar a la lista
+			testCases.insert(it, tmpList.begin(), tmpList.end());
+			toErase.push(it);
 		}
-
-		while (!toErase.empty())
-		{
+		while (!toErase.empty()) {
 			testCases.erase(toErase.top());
 			toErase.pop();
 		}
 
-		// Quitar repetidos
-		testCases.sort();
-		testCases.unique();
+		//Pasada 2: Procesamos cada elemento
+		for (it = testCases.begin(); it != testCases.end(); ++it){
+			if (isFile(*it + "." + CASE_EXTENSION)) {
+				// Verificamos existencia de salida esperada
+				if (judgeNeedsOutput(judgeType) && !isFile(*it + "." + OUTPUT_EXTENSION))
+				{
+					cerr << "No se pudo abrir el archivo de salida esperada para el caso " << *it << endl;
+					hasError = true;
+				}
+			}
+			else if (isDir(*it)) {
+				tmpList = Config::getDirFiles(*it, CASE_EXTENSION);
+				for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); ++tmp_it) {
+					testCases.push_back(*it + "/" + removeExtension(*tmp_it));
+				}
+				toErase.push(it);
+			}
+			else {
+				cerr << "No se pudo abrir el caso " << *it << endl;
+				hasError = true;
+			}
+		}
+		while (!toErase.empty()) {
+			testCases.erase(toErase.top());
+			toErase.pop();
+		}
 	}
+	// Quitar repetidos
+	testCases.sort();
+	testCases.unique();
+
 	if (testCases.size() == 0)
 	{
 		cerr << "No hay casos de prueba para evaluar" << endl;
@@ -246,23 +242,17 @@ list<string> testCases, sourceFiles;
 
 	/// ** Genera lista de codigos fuente ***
 	hasError = false;
-	for (it = sourceFiles.begin(); it != sourceFiles.end(); it++)
+	for (it = sourceFiles.begin(); it != sourceFiles.end(); ++it)
 	{
 		if (isDir(*it)) {
-			tmpList = Config::getDir(*it);
-			for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); tmp_it++) {
+			tmpList = Config::getDirFiles(*it);
+			for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); ++tmp_it) {
 				sourceFiles.push_back(*it + "/" + *tmp_it);
 			}
 			toErase.push(it);
 		}
 		else if (!isFile(*it)) {
 			if (verbose) cerr << "Ignorando el archivo '" << *it << "' (no se pudo abrir)" << endl;
-			toErase.push(it);
-		}
-		//FIXME: Revisar no existencia del archivo
-		else if (hasExtension(*it, "set")) {
-			tmpList = Config::getSet(*it);
-			sourceFiles.insert(sourceFiles.end(), tmpList.begin(), tmpList.end());
 			toErase.push(it);
 		}
 		else if (!forceValidLang(dumbString, *it)) {
@@ -293,13 +283,13 @@ list<string> testCases, sourceFiles;
 
 // Debug
 clog << "Los casos a evaluar serán:" << endl;
-for (list<string>::iterator it = testCases.begin(); it != testCases.end(); it++) clog << *it << endl;
+for (list<string>::iterator it = testCases.begin(); it != testCases.end(); ++it) clog << *it << endl;
 clog << endl;
 
 clog << "Los archivos de código serán:" << endl;
-for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); it++) clog << *it << endl;
+for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); ++it) clog << *it << endl;
 clog << endl << endl;
 
 // Zona de pruebas
-//return 0;
+return 0;
 

@@ -8,7 +8,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#include <dirent.h>
+#include <dirent.h> // opendir() getdir()
+#include <stdio.h> // popen()
+#include <string.h> // strlen()
 
 #include <iostream>
 #include <fstream>
@@ -21,6 +23,7 @@ using namespace std;
 #include <libconfig.h++>
 
 #include "config_exceptions.h"
+#include "build_params.h"
 
 namespace seap_implement{
 
@@ -126,7 +129,7 @@ namespace seap_implement{
 				\param path El archivo del cual se listarán sus contenidos.
 				\return La lista con los nombres de archivo.
 			*/
-			static list<string> getSet(const string& path);
+			static list<string> getExpansion(const string& expr);
 
 			//! Lista los archivos contenidos en una carpeta
 			/*! Lista todos los archivos contenidos en la carpeta
@@ -137,7 +140,7 @@ namespace seap_implement{
 				\param ext La extensión deseada de los archivos.
 				\return La lista con los nombres de archivo.
 			*/
-			static list<string> getDir(const string& path, const string& ext = "");
+			static list<string> getDirFiles(const string& path, const string& ext = "");
 		protected:
 
 		private:

@@ -7,11 +7,10 @@ Nombre del problema que se va a evaluar.
 ** OPCIONES **
 
 -f lista
-Lista de archivos de código fuente que se evaluarán. Si un elemento de la lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente)
+Lista de archivos de código fuente que se evaluarán. Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente). Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios archivos.
 
 -c lista
-Lista de casos de prueba
-(en un futuro debe comportarse como -f)
+Lista de casos de prueba que se usarán para evaluar los códigos. Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos de caso de prueba dentro de ella (pero no otras carpetas, recursivamente). Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios casos, sin embargo puede ser que las expresiones no sean reconocidas como se espera, entonces rodee cada expresión en 'comillas simples'.
 
 -o valor
 Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.

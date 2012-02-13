@@ -1,3 +1,6 @@
+** Expansión de casos **
+La nueva expansión de nombre de casos usa el programa auxiliar expandparam.cpp. Para compilarlo, se debe seleccionar el 'Build target' llamado 'Aux expandparam' y compilar el proyecto. Los ejecutables seap y expandparam deben estar siempre juntos por el momento.
+
 ** CARPETA run/ **
 Aquí se gurdarán los casos de prueba y se generarán los ejecutables del proyecto (seap y seap_release).
 ¡NO HACER NINGÚN COMMIT DE NINGÚN ARCHIVO DE ESTA CARPETA!

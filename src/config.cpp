@@ -423,21 +423,30 @@ namespace seap_implement {
 	///////////////////////////////
 	//  CONJUNTOS Y DIRECTORIOS  //
 	///////////////////////////////
-	list<string> Config::getSet(const string& path){
-		string line;
-		ifstream file;
+	list<string> Config::getExpansion(const string& expr){
 		list<string> result;
+		char buffer[1024];
+		size_t p;
+		FILE* file;
 
-		file.open(path.c_str());
-		if(file.fail()) return result;
-
-		while(getline(file, line)) {
-			if (line != "") result.push_back(line);
+		file = popen((AUX_EXE_EXPAND + (" " + expr)).c_str(), "r");
+		if (file == NULL) {
+			clog << "No se pudo ejecutar '" << AUX_EXE_EXPAND << " " << expr << "'" << endl;
+			result.push_back(expr);
+			return result;
 		}
+
+		while (fgets(buffer, sizeof(buffer), file) != NULL) {
+			p = strlen(buffer) - 1;
+			if (buffer[p] == '\n') buffer[p] = 0;
+			result.push_back(buffer);
+		}
+		pclose (file);
+
 		return result;
 	}
 
-	list<string> Config::getDir(const string& path, const string& ext) {
+	list<string> Config::getDirFiles(const string& path, const string& ext) {
 		list<string> result;
 		string filename;
 		size_t p;
