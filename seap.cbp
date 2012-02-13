@@ -31,6 +31,21 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="Aux expandparam">
+				<Option output="run/expandparam" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="run" />
+				<Option object_output="obj/aux" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-Os" />
+					<Add option="-O3" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -42,24 +57,52 @@
 		<Unit filename="src/JE/set.cpp">
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/build_params.h" />
-		<Unit filename="src/config.cpp" />
-		<Unit filename="src/config.h" />
-		<Unit filename="src/config_exceptions.h" />
+		<Unit filename="src/build_params.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/config.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/config.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/config_exceptions.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/expandparam.cpp">
+			<Option target="Aux expandparam" />
+		</Unit>
 		<Unit filename="src/juezNormal.cpp">
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/main.cpp" />
+		<Unit filename="src/main.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/main_evaluation.cpp">
 			<Option compile="0" />
 			<Option link="0" />
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main_validation.cpp">
 			<Option compile="0" />
 			<Option link="0" />
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/validation.cpp" />
-		<Unit filename="src/validation.h" />
+		<Unit filename="src/validation.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/validation.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />

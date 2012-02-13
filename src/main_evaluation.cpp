@@ -31,7 +31,7 @@
     else realMaxTime = maxRunTime + (1000 - maxRunTime % 1000);
     realMaxTime /= 1000;
 
-	//Ciclo para cada programa de alumno. (Fuentes)
+    //Ciclo para cada programa de alumno. (Fuentes)
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++) {
         int programa;
         pid_t pID;
@@ -73,12 +73,12 @@
             dup2(fd_pipe_comp[1], STDERR_FILENO);
 
             //Restricciones
-			//Tiempo
-			limite.rlim_cur = limite.rlim_max = maxCompTime;
-			setrlimit(RLIMIT_CPU, &limite);
-			// Memoria
-			limite.rlim_cur = limite.rlim_max = maxCompMem*1024*1024;
-			setrlimit(RLIMIT_AS, &limite);
+            //Tiempo
+            limite.rlim_cur = limite.rlim_max = maxCompTime;
+            setrlimit(RLIMIT_CPU, &limite);
+            // Memoria
+            limite.rlim_cur = limite.rlim_max = maxCompMem*1024*1024;
+            setrlimit(RLIMIT_AS, &limite);
 
             system("rm ./exec_alum");
             if (lang == "c") {
@@ -135,7 +135,7 @@
         clog << endl;
 
         if (tipoResultado != "CE") {
-        	//Ciclo para cada caso de prueba. (Casos)
+            //Ciclo para cada caso de prueba. (Casos)
             for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
                 casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
                 codigoActual = problem + "/" + *itSF;
@@ -151,6 +151,7 @@
                 if (pID == 0) {
                     close(fd_pipe_eval[0]);
                     dup2(fd_pipe_eval[1], STDOUT_FILENO);    //Salida al pipe.
+                    freopen("/dev/null", "w", stderr);
                     close(fd_pipe_eval[1]);
 
                     freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
