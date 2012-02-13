@@ -55,29 +55,14 @@
 			<Add library="/usr/local/lib/libconfig++.a" />
 		</Linker>
 		<Unit filename="src/JE/set.cpp">
-			<Option target="Release" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/build_params.h">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/config.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/config.h">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/config_exceptions.h">
-			<Option target="Debug" />
-			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/expandparam.cpp">
-			<Option target="Aux expandparam" />
-		</Unit>
 		<Unit filename="src/juezNormal.cpp">
-			<Option target="Release" />
+			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option target="Debug" />
@@ -95,11 +80,26 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/validation.cpp">
+		<Unit filename="src/utils/config.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/validation.h">
+		<Unit filename="src/utils/config.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/config_exceptions.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/expandparam.cpp">
+			<Option target="Aux expandparam" />
+		</Unit>
+		<Unit filename="src/utils/validation.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/validation.h">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
