@@ -77,7 +77,7 @@
                 {
                     comando = "execl(\"/usr/bin/g++\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                     clog << "Compilando con el comando " << comando << endl;
-                    if(execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alum", "-lm", (char *) 0) < 0)
+                    if(execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
                         perror("exec");
                 }
                 else if(lang == "c++")
@@ -158,6 +158,7 @@
 
 						close(fd_pipe_eval[0]);
                         dup2(fd_pipe_eval[1], STDOUT_FILENO);    //Salida al pipe.
+                        freopen("/dev/null", "w", stderr);
                         close(fd_pipe_eval[1]);
 
                         freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
