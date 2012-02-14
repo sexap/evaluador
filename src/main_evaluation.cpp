@@ -10,7 +10,15 @@
     string str;
     string rutaFuentes, rutaCasos;
     string tipoResultado, archCal;
-    if (outputFile == "") archCal = "calificaciones.txt";
+    string SFsinRuta;
+    size_t positionInString;
+    int programa, status, fd_pipe_eval[2], fd_pipe_comp[2];
+    pid_t pID;
+    char buffer[128];
+    string comando, lang, SFsinRutaNiExtension;
+    unsigned int casosCorrectos;
+
+    if (outputFile == "") archCal = "califSEAP" + problem + ".txt";
     else archCal = outputFile;
     int realMaxTime;
     int totalExecTime = 0, previousExecTime = 0;
@@ -24,40 +32,42 @@
     clog << "Resultados se guardarán en: " << archCal << endl;
     clog << endl;
 
-    calificaciones << "Calificaciones de " << problem << "\n\n";
+    calificaciones << "Calificaciones de " << problem << " con SEAP\n\n";
 
     // Pasar restricción de tiempo a segundos enteros
     if (maxRunTime % 1000 == 0) realMaxTime = maxRunTime;
     else realMaxTime = maxRunTime + (1000 - maxRunTime % 1000);
     realMaxTime /= 1000;
 
-    //Ciclo para cada programa de alumno. (Fuentes)
+    //Ciclo para cada programa de alumno. (Fuentes con su ruta relativa)
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++) {
-        int programa;
-        pid_t pID;
-        int fd_pipe_eval[2], fd_pipe_comp[2];
-        string lang;
-        string comando;
-        char buffer[128];
-        int status;
 
-        unsigned int casosCorrectos = 0;
+        casosCorrectos = 0;
         tipoResultado = "";
-        string casoActual, codigoActual, correctoActual;
 
         //La lista de calificacion es borrada para cada alumno
         rating.clear();
 
-        codigoActual += *itSF;
-        clog << "Evaluando el codigo " << codigoActual << endl;
+        clog << "Evaluando el codigo " << *itSF << endl;
 
-        calificaciones << "Programa " << codigoActual << "\t";
-        rating.push_back (codigoActual);
-        string nombrePuro = removeExtension(*itSF);
+        SFsinRutaNiExtension = removeExtension(*itSF);
+        positionInString=SFsinRutaNiExtension.find_last_of("/");
+        SFsinRuta = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
+        if(NORMAL_NAME_CONVENTION)
+        {
+            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1+(problem.length()), SFsinRutaNiExtension.length());
+            calificaciones << "Estudiante " << SFsinRutaNiExtension << "\t";
+        }
+        else
+        {
+            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
+            calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
+        }
 
+        rating.push_back (*itSF);
 
-        if (!forceValidLang(lang, codigoActual)) {
-            cerr << "La extensión de " << codigoActual << " no coincide con un lenguaje conocido." << endl;
+        if (!forceValidLang(lang, *itSF)) {
+            cerr << "La extensión de " << *itSF << " no coincide con un lenguaje conocido." << endl;
         }
 
         /*
@@ -84,10 +94,10 @@
             if (lang == "c") {
                 comando = "execl(\"/usr/bin/g++\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
-                if (execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alum", "-lm", (char *) 0) < 0)
+                if (execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
                     perror("exec");
             } else if (lang == "c++") {
-                comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
+                comando = "execl(\"/usr/bin/g++\", \"g++\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
                 if (execl("/usr/bin/g++", "g++", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
                     perror("exec");
@@ -95,13 +105,9 @@
                 comando = "execl(\"/usr/bin/gcj\", \"gcj\", \"--main=\"" + *itSF + ").c_string(), (" + *itSF + ").c_string(), \"-o\", \"exec_alumno\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
 
-                size_t found;
-                string nombreSinRuta;
-                found=nombrePuro.find_last_of("/");
-                nombreSinRuta = nombrePuro.substr(found+1, nombrePuro.length());
-                nombrePuro += ".class";
-                comando = "gcj --main=" + nombreSinRuta + " " + *itSF + " -o exec_alumno";
-                string segundoParam = "--main=" + nombreSinRuta;
+                SFsinRutaNiExtension += ".class";
+                comando = "gcj --main=" + SFsinRuta + " " + *itSF + " -o exec_alumno";
+                string segundoParam = "--main=" + SFsinRuta;
                 if (execl("/usr/bin/gcj", "gcj", segundoParam.c_str(), (*itSF).c_str(), "-o", "exec_alumno", (char *) 0) < 0)
                     perror("exec");
             }
@@ -114,7 +120,6 @@
         waitpid(pID, &status, 0);
 
         if (WIFEXITED(status)) {
-            //printf("exited, status = %d\n", WEXITSTATUS(status));
             if (WEXITSTATUS(status) == 0) {
                 clog << "Compilación correcta...." << endl;
             } else {
@@ -137,10 +142,8 @@
         if (tipoResultado != "CE") {
             //Ciclo para cada caso de prueba. (Casos)
             for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
-                casoActual = problem + "/" + *itTC + "." CASE_EXTENSION;
-                codigoActual = problem + "/" + *itSF;
 
-                clog << "  Probando con caso " << casoActual << endl;
+                clog << "  Probando con caso " << *itTC << endl;
                 if (pipe(fd_pipe_eval) < 0) {
                     cerr << "No se pudo hacer pipe para la evaluación" << endl;
                     return 1;
@@ -154,7 +157,7 @@
                     freopen("/dev/null", "w", stderr);
                     close(fd_pipe_eval[1]);
 
-                    freopen(casoActual.c_str(), "r", stdin);   //Entrada del problema.
+                    freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //Entrada del problema.
 
                     //Restricciones
                     //Tiempo
@@ -216,15 +219,14 @@
 
 
                         //el programa ya fue compilado y esta listo para ejecutarse
-                        string salidaCorr = problem + "/" + *itTC + "." + OUTPUT_EXTENSION;
-                        clog << "  Comparo con el archivo: " << salidaCorr << endl;
+                        clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
 
                         /**
                         *   Juez Normal
                         **/
                         if (judgeType == "standard") {
-                            if (juezNormal(strictEval, salidaCorr, fd_pipe_eval[0])) {
-                                clog << "  Caso " << salidaCorr << " estuvo bien en modo ";
+                            if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) {
+                                clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
                                 if (strictEval)
                                     clog << "estricto." << endl;
                                 else
@@ -233,7 +235,7 @@
                                 rating.push_back ("1 (" + str +" ms)");
                             } else {
                                 rating.push_back ("0 (" + str +" ms)");
-                                clog << "  Falla el caso " << salidaCorr << " en modo ";
+                                clog << "  Falla el caso " << (*itTC + "." + OUTPUT_EXTENSION) << " en modo ";
                                 if (strictEval)
                                     clog << "estricto." << endl;
                                 else
@@ -279,7 +281,7 @@
         rating.push_back (tipoResultado);
 
         if (tipoResultado == "AC") {
-            calificaciones << "AC\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+            calificaciones << "AC  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
 
             strs.str("");
             strs.clear();
@@ -289,10 +291,10 @@
             rating.push_back (str);
         } else if (tipoResultado == "WA") {
             if (casosCorrectos == 0) {
-                calificaciones << "WA\tCalificación\t0" << endl;
+                calificaciones << "WA  Calificación  0";
                 rating.push_back ("0");
             } else {
-                calificaciones << "WA\tCalificación\t" << ((double)casosCorrectos/testCases.size()*100.0) << endl;
+                calificaciones << "WA  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
                 strs.str("");
                 strs.clear();
                 strs << ((double)casosCorrectos/testCases.size()*100.0);
@@ -301,12 +303,19 @@
                 rating.push_back (str);
             }
         } else if (tipoResultado == "CE") {
-            calificaciones << "CE" << endl;
+            calificaciones << "CE  Calificación  0";
         } else if (tipoResultado == "TLE") {
 
         } else if (tipoResultado == "MLE") {
 
         }
+        if(lang == "c")
+            calificaciones << "\t(gcc)";
+        else if(lang == "c++")
+            calificaciones << "\t(g++)";
+        else if(lang == "java")
+            calificaciones << "\t(gcj)";
+        calificaciones << endl;
         //TODO
         ratingsList.push_back(rating);
     }
@@ -330,4 +339,5 @@
         outputResults << endl;
         ratingsList.pop_front();
     }
+    system("rm exec_alumno");
 }

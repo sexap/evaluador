@@ -1,9 +1,11 @@
-bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
+bool juezNormal(bool strictEval, string archSalidaEsperada, int dArchAlum)
 {
     ofstream cout("logJN.txt", fstream::app);
     char buffer[2];
     int leidos;
-    ifstream respCorrecta(nomArchCorr.c_str());
+    bool accepted = true;
+    char otroC;
+    ifstream respCorrecta(archSalidaEsperada.c_str());
 
     cout << "******************************" << endl;
     if(!respCorrecta.good())
@@ -11,12 +13,9 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
         cout << "No pude abrir la respuesta correcta." << endl;
         return false;
     }
-
-    bool accepted = true;
-    char otroC;
-    if(estricto)
+    if(strictEval)
     {
-        cout << "Comparo en modo estricto con " << nomArchCorr << endl;
+        cout << "Comparo en modo strictEvalcon " << archSalidaEsperada << endl;
 
         while((leidos = read(dArchAlum, buffer, 1)))
         {
@@ -54,7 +53,7 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
     }
     else
     {
-        cout << "Comparo en modo normal con: "  << nomArchCorr << endl;
+        cout << "Comparo en modo normal con: "  << archSalidaEsperada << endl;
 
         //Leo un caracter de cada uno.
 
@@ -185,8 +184,8 @@ bool juezNormal(bool estricto, string nomArchCorr, int dArchAlum)
         }
     }
     respCorrecta.close();
-    if(accepted) cout << "Caso " << nomArchCorr << " correcto" << endl;
-    else         cout << "Caso " << nomArchCorr << " mal" << endl;
+    if(accepted) cout << "Caso " << archSalidaEsperada << " correcto" << endl;
+    else         cout << "Caso " << archSalidaEsperada << " mal" << endl;
     cout.close();
     return accepted;
 }
