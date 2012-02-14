@@ -63,7 +63,6 @@
             SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
             calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
         }
-
         rating.push_back (*itSF);
 
         if (!forceValidLang(lang, *itSF)) {
@@ -180,84 +179,86 @@
                         cerr << "Error de ejecución" << endl;
                         return 0;
                     }
-                } else {
-                    tms tiempo;
-                    int execTime;
-                    int status, signalType;
-                    bool exito;
+                }
+                else if (pID < 0) {
+                    cerr << "No se pudo hacer el fork para la ejecución" << endl;
+                }
+                tms tiempo;
+                int execTime;
+                int status, signalType;
+                bool exito;
 
-                    close(fd_pipe_eval[1]);
-                    waitpid(pID, &status, 0);
+                close(fd_pipe_eval[1]);
+                waitpid(pID, &status, 0);
 
-                    exito = false;
-                    if (WIFEXITED(status)) {
-                        clog << "Finalizó bien" << endl;
-                        // Calcular tiempo
-                        times(&tiempo);
-                        totalExecTime = (tiempo.tms_cutime + tiempo.tms_cstime);
-                        execTime = (totalExecTime - previousExecTime) / (sysconf(_SC_CLK_TCK) / 1000.0);
-                        previousExecTime = totalExecTime;
+                exito = false;
+                if (WIFEXITED(status)) {
+                    clog << "Finalizó bien" << endl;
+                    // Calcular tiempo
+                    times(&tiempo);
+                    totalExecTime = (tiempo.tms_cutime + tiempo.tms_cstime);
+                    execTime = (totalExecTime - previousExecTime) / (sysconf(_SC_CLK_TCK) / 1000.0);
+                    previousExecTime = totalExecTime;
 
-                        if (execTime > maxRunTime) rating.push_back ("0 (TLE)");
-                        else exito = true;
-                    } else if (WIFSIGNALED(status)) {
-                        signalType = WTERMSIG(status);
-                        if (signalType == SIGKILL) {
-                            clog << "Matado por KILL" << endl;
-                            rating.push_back ("0 (TLE)");
-                        } else if (signalType == SIGSEGV) {
-                            clog << "Matado por SEGV" << endl;
-                            rating.push_back ("0 (MEM)");
+                    if (execTime > maxRunTime) rating.push_back ("0 (TLE)");
+                    else exito = true;
+                } else if (WIFSIGNALED(status)) {
+                    signalType = WTERMSIG(status);
+                    if (signalType == SIGKILL) {
+                        clog << "Matado por KILL" << endl;
+                        rating.push_back ("0 (TLE)");
+                    } else if (signalType == SIGSEGV) {
+                        clog << "Matado por SEGV" << endl;
+                        rating.push_back ("0 (MEM)");
+                    }
+                }
+
+                // Si merece la pena evaluarlo
+                if (exito) {
+                    strs.str("");
+                    strs << execTime;
+                    str = strs.str();
+
+
+                    //el programa ya fue compilado y esta listo para ejecutarse
+                    clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+
+                    /**
+                    *   Juez Normal
+                    **/
+                    if (judgeType == "standard") {
+                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) {
+                            clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
+                            if (strictEval)
+                                clog << "estricto." << endl;
+                            else
+                                clog << "normal." << endl;
+                            casosCorrectos++;
+                            rating.push_back ("1 (" + str +" ms)");
+                        } else {
+                            rating.push_back ("0 (" + str +" ms)");
+                            clog << "  Falla el caso " << (*itTC + "." + OUTPUT_EXTENSION) << " en modo ";
+                            if (strictEval)
+                                clog << "estricto." << endl;
+                            else
+                                clog << "normal." << endl;
                         }
                     }
+                    /**
+                    *   Juez Especial
+                    **/
+                    else if (judgeType == "especial") {
 
-                    // Si merece la pena evaluarlo
-                    if (exito) {
-                        strs.str("");
-                        strs << execTime;
-                        str = strs.str();
-
-
-                        //el programa ya fue compilado y esta listo para ejecutarse
-                        clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
-
-                        /**
-                        *   Juez Normal
-                        **/
-                        if (judgeType == "standard") {
-                            if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) {
-                                clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
-                                if (strictEval)
-                                    clog << "estricto." << endl;
-                                else
-                                    clog << "normal." << endl;
-                                casosCorrectos++;
-                                rating.push_back ("1 (" + str +" ms)");
-                            } else {
-                                rating.push_back ("0 (" + str +" ms)");
-                                clog << "  Falla el caso " << (*itTC + "." + OUTPUT_EXTENSION) << " en modo ";
-                                if (strictEval)
-                                    clog << "estricto." << endl;
-                                else
-                                    clog << "normal." << endl;
-                            }
-                        }
-                        /**
-                        *   Juez Especial
-                        **/
-                        else if (judgeType == "especial") {
-
-                        }
-                        /**
-                        *   Juez Interactivo
-                        **/
-                        else if (judgeType == "interactive") {
-
-                        }
-                        clog << endl;
                     }
-                    close(fd_pipe_eval[0]);
-                }   //Cierra el Padre
+                    /**
+                    *   Juez Interactivo
+                    **/
+                    else if (judgeType == "interactive") {
+
+                    }
+                    clog << endl;
+                }
+                close(fd_pipe_eval[0]);
             }   //Cierra el ciclo TC
             if (strictEval) {
                 clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
