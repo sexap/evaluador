@@ -2,3 +2,5 @@
 #define OUTPUT_EXTENSION "dat"
 
 #define AUX_EXE_EXPAND "./expandparam"
+
+#define NORMAL_NAME_CONVENTION true
