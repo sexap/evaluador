@@ -46,6 +46,8 @@
     //Ciclo para cada programa de alumno. (Fuentes con su ruta relativa)
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++) {
 
+        if(showProgress) cout << "* " << flush;
+
         casosCorrectos = 0;
         tipoResultado = "";
 
