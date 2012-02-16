@@ -39,7 +39,7 @@ list<string> testCases, sourceFiles;
 
 	// Valores por default
 	confArg.setValue("s", 24); // 24kB de código (por revisar)
-	confArg.setValue("T", 10); // 10s para compilar
+	confArg.setValue("T", 10000); // 10s para compilar
 	confArg.setValue("M", 256); // 256MB para compilar
 	confArg.setValue("S", 8); // 8KB de salida (por revisar)
 	confArg.setValue("o", "calificaciones.txt");
@@ -98,14 +98,14 @@ list<string> testCases, sourceFiles;
 		cerr << "el parametro -s debe estar entre 1kB y 512kB" << endl;
 		hasError = true;
 	}
-	if (!isBetween(maxCompTime, 1, 90))
+	if (!isBetween(maxCompTime, 1, 90000))
 	{
-		cerr << "el parametro -T debe estar entre 1s y 90s" << endl;
+		cerr << "el parametro -T debe estar entre 1ms y 90 000ms" << endl;
 		hasError = true;
 	}
 	if (!isBetween(maxCompMem, 1, 2048))
 	{
-		cerr << "el parametro -M debe estar entre 1MiB y 1048MiB" << endl;
+		cerr << "el parametro -M debe estar entre 1MiB y 2048MiB" << endl;
 		hasError = true;
 	}
 	if (!isBetween(maxOutSize, 1, 256))

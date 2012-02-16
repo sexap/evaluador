@@ -12,6 +12,7 @@
 				<Option object_output="obj/debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="eval ksuma -f ksuma -v" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -94,6 +95,14 @@
 		</Unit>
 		<Unit filename="src/utils/expandparam.cpp">
 			<Option target="Aux expandparam" />
+		</Unit>
+		<Unit filename="src/utils/process_control.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/process_control.h">
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/validation.cpp">
 			<Option target="Debug" />

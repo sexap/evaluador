@@ -21,8 +21,9 @@ using namespace std;
 
 // Librerias propias
 #include "build_params.h"
-#include "config.h"
-#include "validation.h"
+#include "utils/config.h"
+#include "utils/validation.h"
+#include "utils/process_control.h"
 #include "juezNormal.cpp"
 #include "JE/set.cpp"
 using namespace seap_implement;

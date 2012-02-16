@@ -23,7 +23,7 @@ using namespace std;
 #include <libconfig.h++>
 
 #include "config_exceptions.h"
-#include "build_params.h"
+#include "../build_params.h"
 
 namespace seap_implement{
 

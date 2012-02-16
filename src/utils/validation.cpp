@@ -89,6 +89,12 @@ namespace seap_implement {
 		return s.substr(0, s.rfind('.'));
 	}
 
+	const string getFileName(const string& s) {
+		size_t found = s.rfind('/');
+		if (found != string::npos) return s.substr(found + 1);
+		else return s;
+	}
+
 	bool isBetween(int n, int min, int max) {
 		return (n >= min && n <= max);
 	}

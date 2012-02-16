@@ -14,16 +14,20 @@
     size_t positionInString;
     int programa, status, fd_pipe_eval[2], fd_pipe_comp[2];
     pid_t pID;
-    char buffer[128];
+    char buffer[512];
     string comando, lang, SFsinRutaNiExtension;
     unsigned int casosCorrectos;
+    bool exito;
+
+    resource_t usedResources;
+    enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
+    int limitExceded;
 
     if (outputFile == "") archCal = "califSEAP" + problem + ".txt";
     else archCal = outputFile;
     int realMaxTime;
-    int totalExecTime = 0, previousExecTime = 0;
+
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
-    rlimit limite;
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
@@ -81,15 +85,6 @@
             close(fd_pipe_comp[0]);
             dup2(fd_pipe_comp[1], STDERR_FILENO);
 
-            //Restricciones
-            //Tiempo
-            limite.rlim_cur = limite.rlim_max = maxCompTime;
-            setrlimit(RLIMIT_CPU, &limite);
-            // Memoria
-            limite.rlim_cur = limite.rlim_max = maxCompMem*1024*1024;
-            setrlimit(RLIMIT_AS, &limite);
-
-            system("rm ./exec_alum");
             if (lang == "c") {
                 comando = "execl(\"/usr/bin/g++\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
@@ -116,24 +111,41 @@
 
         close(fd_pipe_comp[1]);
         FILE* child_error = fdopen(fd_pipe_comp[0], "r");
-        waitpid(pID, &status, 0);
 
-        if (WIFEXITED(status)) {
-            if (WEXITSTATUS(status) == 0) {
-                clog << "Compilación correcta...." << endl;
-            } else {
-                tipoResultado = "CE";
-                clog << "Falló la compilación." << endl;
-            }
-        } else if (WIFSIGNALED(status)) {
-            printf("killed by signal %d\n", WTERMSIG(status));
-            tipoResultado = "CE";
-            clog << "Falló la compilación." << endl;
-            clog << "Hijo de compilación dijo en stderr: " << endl;
-            while (fgets(buffer, sizeof(buffer), child_error) != NULL) {
-                // Aqui puede ser clog
-                clog << buffer;
-            }
+		initResource(usedResources);
+		limitExceded = LIMIT_NONE;
+		while(waitpid(pID, &status, WNOHANG) == 0) {
+			getMaxResourceUsage(pID, usedResources);
+			if (usedResources.time > 1000 * maxCompTime / sysconf(_SC_CLK_TCK)) {
+				limitExceded = LIMIT_TIME;
+				kill(pID, SIGKILL);
+			}
+			else if (usedResources.mem > maxCompMem * 1024 * 1024) {
+				limitExceded = LIMIT_MEM;
+				kill(pID, SIGKILL);
+			}
+		}
+
+        if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+			clog << "Compilación correcta...." << endl;
+        }
+        else {
+        	tipoResultado = "CE";
+			clog << "Falló la compilación." << endl;
+
+        	if (WIFEXITED(status)) {
+        		// Volcar errores
+        		if (fgets(buffer, sizeof(buffer), child_error) != NULL) {
+					clog << "Compilador dijo:" << endl;
+					clog << buffer;
+					if (!feof(child_error)) clog << "(y sigue...)" << endl;
+        		}
+        	}
+        	else if (WIFSIGNALED(status)) {
+				if (limitExceded == LIMIT_TIME) clog << "Exceso de tiempo" << endl;
+				else if (limitExceded == LIMIT_MEM) clog << "Exceso de memoria" << endl;
+				else clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
+        	}
         }
 
         clog << endl;
@@ -158,17 +170,6 @@
 
                     freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //Entrada del problema.
 
-                    //Restricciones
-                    //Tiempo
-                    limite.rlim_cur = limite.rlim_max = realMaxTime;
-                    setrlimit(RLIMIT_CPU, &limite);
-                    // Memoria
-                    limite.rlim_cur = limite.rlim_max = maxRunMem*1024*1024;
-                    setrlimit(RLIMIT_AS, &limite);
-                    // No forks
-                    limite.rlim_cur = limite.rlim_max = 1;
-                    setrlimit(RLIMIT_NPROC, &limite);
-
                     //Ejecución
                     comando = "exec_alumno";
                     clog << "  Ejecuto el programa " << comando << endl;
@@ -183,40 +184,50 @@
                 else if (pID < 0) {
                     cerr << "No se pudo hacer el fork para la ejecución" << endl;
                 }
-                tms tiempo;
-                int execTime;
-                int status, signalType;
-                bool exito;
-
-                close(fd_pipe_eval[1]);
-                waitpid(pID, &status, 0);
 
                 exito = false;
-                if (WIFEXITED(status)) {
-                    clog << "Finalizó bien" << endl;
-                    // Calcular tiempo
-                    times(&tiempo);
-                    totalExecTime = (tiempo.tms_cutime + tiempo.tms_cstime);
-                    execTime = (totalExecTime - previousExecTime) / (sysconf(_SC_CLK_TCK) / 1000.0);
-                    previousExecTime = totalExecTime;
+                initResource(usedResources);
+				limitExceded = LIMIT_NONE;
+				while(waitpid(pID, &status, WNOHANG) == 0) {
+					getMaxResourceUsage(pID, usedResources);
+					if (usedResources.time > 1000 * maxRunTime / sysconf(_SC_CLK_TCK)) {
+						limitExceded = LIMIT_TIME;
+						kill(pID, SIGKILL);
+					}
+					else if (usedResources.mem > maxRunMem * 1024 * 1024) {
+						limitExceded = LIMIT_MEM;
+						kill(pID, SIGKILL);
+					}
+				}
 
-                    if (execTime > maxRunTime) rating.push_back ("0 (TLE)");
-                    else exito = true;
-                } else if (WIFSIGNALED(status)) {
-                    signalType = WTERMSIG(status);
-                    if (signalType == SIGKILL) {
-                        clog << "Matado por KILL" << endl;
-                        rating.push_back ("0 (TLE)");
-                    } else if (signalType == SIGSEGV) {
-                        clog << "Matado por SEGV" << endl;
-                        rating.push_back ("0 (MEM)");
-                    }
-                }
+				if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+					exito = true;
+				}
+				else {
+					if (WIFEXITED(status)) {
+						tipoResultado = "RET";
+						clog << "Terminado misteriosamente con estado" << WEXITSTATUS(status) << endl;
+					}
+					else if (WIFSIGNALED(status)) {
+						if (limitExceded == LIMIT_TIME) {
+							tipoResultado = "TLE";
+							clog << "Exceso de tiempo" << endl;
+						}
+						else if (limitExceded == LIMIT_MEM) {
+							tipoResultado = "MLE";
+							clog << "Exceso de memoria" << endl;
+						}
+						else {
+							tipoResultado = "SIG";
+							clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
+						}
+					}
+				}
 
                 // Si merece la pena evaluarlo
                 if (exito) {
                     strs.str("");
-                    strs << execTime;
+                    strs << usedResources.time / sysconf(_SC_CLK_TCK);
                     str = strs.str();
 
 
@@ -280,6 +291,7 @@
             clog << endl;
         }
         rating.push_back (tipoResultado);
+        remove("exec_alumno");
 
         if (tipoResultado == "AC") {
             calificaciones << "AC  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
@@ -340,5 +352,4 @@
         outputResults << endl;
         ratingsList.pop_front();
     }
-    system("rm exec_alumno");
 }
