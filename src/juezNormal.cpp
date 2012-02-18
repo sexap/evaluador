@@ -6,17 +6,24 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, int dArchAlum)
     bool accepted = true;
     char otroC;
     ifstream respCorrecta(archSalidaEsperada.c_str());
-
+    return true;
     cout << "******************************" << endl;
+    if(dArchAlum <= 0)
+    {
+        cout << "No puedo leer el archivo de resultado del alumno." << endl;
+    }
+    else
+    {
+
+    }
     if(!respCorrecta.good())
     {
         cout << "No pude abrir la respuesta correcta." << endl;
         return false;
     }
-    if(strictEval)
-    {
-        cout << "Comparo en modo strictEvalcon " << archSalidaEsperada << endl;
-
+    /*if(strictEval)
+    {*/
+        cout << "Comparo en modo estricto con " << archSalidaEsperada << endl;
         while((leidos = read(dArchAlum, buffer, 1)))
         {
             buffer[leidos] = 0;
@@ -50,7 +57,7 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, int dArchAlum)
             cout << "El archivo de correcto es más largo que el de respuesta del alumno." << endl;
             cout << "Sugerencia: Agregue salto de linea al final del archivo del alumno." << endl;
         }
-    }
+   /* }
     else
     {
         cout << "Comparo en modo normal con: "  << archSalidaEsperada << endl;
@@ -63,8 +70,10 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, int dArchAlum)
             //Checho que el otro sólo le queden espacios o saltos de línea
         //Caso 3: Los 3 tienen un caracter normal.
             //Comparo y doy veredicto.
+
         while(1)
         {
+            cout << "Lei el caracter: " << buffer[0] << endl;
             leidos = read(dArchAlum, buffer, 1);
             buffer[leidos] = 0;
             if(leidos)
@@ -182,7 +191,7 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, int dArchAlum)
                 break;      //Sólo le quedaron espacios al otro.
             }
         }
-    }
+    }*/
     respCorrecta.close();
     if(accepted) cout << "Caso " << archSalidaEsperada << " correcto" << endl;
     else         cout << "Caso " << archSalidaEsperada << " mal" << endl;

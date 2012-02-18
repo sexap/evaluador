@@ -88,7 +88,7 @@
             dup2(fd_pipe_comp[1], STDERR_FILENO);
 
             if (lang == "c") {
-                comando = "execl(\"/usr/bin/g++\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
+                comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
                 if (execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
                     perror("exec");
@@ -111,8 +111,8 @@
             cerr << "No se pudo hacer el fork para la compilacion" << endl;
         }
 
-        close(fd_pipe_comp[1]);
-        FILE* child_error = fdopen(fd_pipe_comp[0], "r");
+        close(fd_pipe_comp[1]);         //Cierro este, porque el padre de compilacion no necesita mandarle algo al hijo por el pipe.
+        FILE* child_error = fdopen(fd_pipe_comp[0], "r");   //Lee desde el pipe de compilación toda la salida estandar enviado el hijo.
 
 		initResource(usedResources);
 		limitExceded = LIMIT_NONE;
@@ -162,15 +162,15 @@
                     return 1;
                 }
 
-                pID = fork();
+                pID = fork();   //Fork de Evaluación
 
-                if (pID == 0) {
+                if (pID == 0) {     //Código que sólo ejecuta el hijo: Ejecutar los programas
                     close(fd_pipe_eval[0]);
-                    dup2(fd_pipe_eval[1], STDOUT_FILENO);    //Salida al pipe.
-                    freopen("/dev/null", "w", stderr);
-                    close(fd_pipe_eval[1]);
+                    dup2(fd_pipe_eval[1], STDOUT_FILENO);    //La Salida estandar del hijo se redirige al pipe.
+                    freopen("/dev/null", "w", stderr);       //El error estandar del hijo se redirige a nulo.
 
-                    freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //Entrada del problema.
+                    //close(fd_pipe_eval[1]);
+                    freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //El hijo de evaluación abre como entrada estandar el caso de prueba.
 
                     //Ejecución
                     comando = "exec_alumno";
@@ -182,6 +182,7 @@
                         cerr << "Error de ejecución" << endl;
                         return 0;
                     }
+
                 }
                 else if (pID < 0) {
                     cerr << "No se pudo hacer el fork para la ejecución" << endl;
@@ -206,6 +207,7 @@
 					exito = true;
 				}
 				else {
+
 					if (WIFEXITED(status)) {
 						tipoResultado = "RET";
 						clog << "Terminado misteriosamente con estado" << WEXITSTATUS(status) << endl;
@@ -240,7 +242,8 @@
                     *   Juez Normal
                     **/
                     if (judgeType == "standard") {
-                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) {
+                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) //Envío el pipe donde está la salida de la ejecución.
+                        {
                             clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
                             if (strictEval)
                                 clog << "estricto." << endl;
