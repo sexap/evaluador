@@ -157,19 +157,13 @@
             for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
 
                 clog << "  Probando con caso " << *itTC << endl;
-                if (pipe(fd_pipe_eval) < 0) {
-                    cerr << "No se pudo hacer pipe para la evaluación" << endl;
-                    return 1;
-                }
 
                 pID = fork();   //Fork de Evaluación
 
                 if (pID == 0) {     //Código que sólo ejecuta el hijo: Ejecutar los programas
-                    close(fd_pipe_eval[0]);
-                    dup2(fd_pipe_eval[1], STDOUT_FILENO);    //La Salida estandar del hijo se redirige al pipe.
                     freopen("/dev/null", "w", stderr);       //El error estandar del hijo se redirige a nulo.
+                    freopen("salida_exec_alumno", "w", stdout);
 
-                    //close(fd_pipe_eval[1]);
                     freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //El hijo de evaluación abre como entrada estandar el caso de prueba.
 
                     //Ejecución
@@ -182,7 +176,7 @@
                         cerr << "Error de ejecución" << endl;
                         return 0;
                     }
-
+                    fclose(stdout);
                 }
                 else if (pID < 0) {
                     cerr << "No se pudo hacer el fork para la ejecución" << endl;
@@ -230,6 +224,7 @@
 
                 // Si merece la pena evaluarlo
                 if (exito) {
+                    clog << "Ejecución correcta...." << endl;
                     strs.str("");
                     strs << usedResources.time / sysconf(_SC_CLK_TCK);
                     str = strs.str();
@@ -241,8 +236,9 @@
                     /**
                     *   Juez Normal
                     **/
+
                     if (judgeType == "standard") {
-                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), fd_pipe_eval[0])) //Envío el pipe donde está la salida de la ejecución.
+                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno")) //Envío el pipe donde está la salida de la ejecución.
                         {
                             clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
                             if (strictEval)
@@ -357,4 +353,6 @@
         outputResults << endl;
         ratingsList.pop_front();
     }
+    cout << endl;
+    system("rm salida_exec_alumno");
 }
