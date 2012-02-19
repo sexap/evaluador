@@ -152,7 +152,8 @@ list<string> testCases, sourceFiles;
 		cerr << "En '" << problem << "/eval.conf': " << judgeType << " no es un tipo de juez válido" << endl;
 		hasError = true;
 	}
-	else if (judgeNeedsExe(judgeType))
+	//else if (judgeNeedsExe(judgeType))
+	else if (judgeType == "interactive")
 	{
 		if (!isExec(problem + "/" + judgeExe))
 		{

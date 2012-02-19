@@ -9,7 +9,7 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
     cout << "******************************" << endl;
     if(!respAlumno.good())
     {
-        cout << "No puedo leer el archivo de resultado del alumno." << endl;
+        cout << "No se puede leer el archivo de resultado del alumno." << endl;
     }
     else
     {
@@ -17,38 +17,43 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
     }
     if(!respCorrecta.good())
     {
-        cout << "No pude abrir la respuesta correcta." << endl;
+        cout << "No se puede abrir la salida esperada." << endl;
         return false;
     }
     else
     {
-        cout << "Abrí la respuesta correcta." << endl;
+        cout << "Abrí el archivo de salida esperada." << endl;
     }
-    /*cout << "El archivo de respuesta correcta es:" << endl;
-    cout << "--" << endl;
+    cout << "El archivo de respuesta esperada es:" << endl;
+    cout << "---" << endl;
     while(respCorrecta.good())
     {
         char c;
         respCorrecta.get(c);
         cout << c;
     }
-    cout << "--" << endl;
+    cout << "---" << endl;
 
-    cout << "La salida del alumno fue:" << endl;
-    cout << "--" << endl;
+    cout << endl << "La salida del alumno fue:" << endl;
+    cout << "---" << endl;
     while(respAlumno.good())
     {
         char c;
         respAlumno.get(c);
         cout << c;
     }
-    cout << "--" << endl;
-    respAlumno.seekg (0, ios::beg);
-    respCorrecta.seekg (0, ios::beg);*/
+    cout << "---" << endl;
+
+    respCorrecta.close();
+    respAlumno.close();
+
+    respCorrecta.open(archSalidaEsperada.c_str());
+    respAlumno.open(archAlum.c_str());
+
     if(strictEval)
     {
         char caracterEsp, caracterAlum;
-        cout << "Comparo en modo estricto con " << archSalidaEsperada << " con " << archAlum << endl;
+        cout << endl << endl << "Comparo en modo estricto " << archSalidaEsperada << " con " << archAlum << endl << endl;
         while(respCorrecta.good())
         {
             respCorrecta.get(caracterEsp);
@@ -81,14 +86,15 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
                     default:
                         cout << caracterEsp;
                 }
+                cout << "\t";
                 if(caracterEsp != caracterAlum)
                 {
                     accepted = false;
-                    cout << "\tMal" << endl;
+                    cout << "Mal" << endl;
                 }
                 else
                 {
-                    cout << "\tBien" << endl;
+                    cout << "Bien" << endl;
                 }
             }
             else
@@ -110,25 +116,25 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
         }
         cout << "Terminé de comparar." << endl;
     }
-    else
+    else        // Modo normal.
     {
         string cadenaAlum, cadenaEsp;
 
-        cout << "Comparo en modo normal con: "  << archSalidaEsperada << endl;
+        cout << endl << endl << "Comparo en modo normal " << archSalidaEsperada << " con " << archAlum << endl << endl;
 
         while(respCorrecta >> cadenaEsp)
         {
             if(respAlumno >> cadenaAlum)
             {
-                cout << "Comparo " << cadenaAlum << " con " << cadenaEsp << endl;
+                cout << "Comparo " << cadenaAlum << " con " << cadenaEsp << "\t";
                 if(cadenaAlum != cadenaEsp)
                 {
                     accepted = false;
-                    cout << "\tMal" << endl;
+                    cout << "Mal" << endl;
                 }
                 else
                 {
-                    cout << "\tBien" << endl;
+                    cout << "Bien" << endl;
                 }
             }
             else
@@ -143,10 +149,13 @@ bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
             cout << "La salida del alumno tiene más cadenas de caracteres de las que debe." << endl;
         }
     }
-    respCorrecta.close();
-    respAlumno.close();
+    cout << endl;
     if(accepted) cout << "Caso " << archSalidaEsperada << " correcto" << endl;
     else         cout << "Caso " << archSalidaEsperada << " mal" << endl;
+
+    respCorrecta.close();
+    respAlumno.close();
     cout.close();
+
     return accepted;
 }

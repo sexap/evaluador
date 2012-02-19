@@ -1,4 +1,0 @@
-bool conjunto()
-{
-    return true;
-}

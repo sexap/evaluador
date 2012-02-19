@@ -32,7 +32,10 @@
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
     clog << "El tipo de juez es: " << judgeType << endl;
-    clog << "El modo de evaluación (indicado) es: " << (strictEval?"estricto":"normal") << endl;
+    if(judgeType == "standard")
+        clog << "El modo de evaluación (indicado) es: " << (strictEval?"estricto":"normal") << endl;
+    if(judgeType == "special")
+        clog << "El juez especial es: " << judgeExe << endl;
     clog << "Resultados se guardarán en: " << archCal << endl;
     clog << endl;
 
@@ -259,8 +262,24 @@
                     /**
                     *   Juez Especial
                     **/
-                    else if (judgeType == "especial") {
+                    else if (judgeType == "special")
+                    {
+                        bool casoCorrecto;
+                        if(judgeExe == "rango")            casoCorrecto = rango((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
+                        else if(judgeExe == "conjunto")    casoCorrecto = conjunto((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
+                        else                               casoCorrecto = personalizado((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
 
+                        if (casoCorrecto)
+                        {
+                            clog << " El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien";
+                            casosCorrectos++;
+                            rating.push_back ("1 (" + str +" ms)");
+                        } else
+                        {
+                            rating.push_back ("0 (" + str +" ms)");
+                            clog << "  El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo mal";
+                        }
+                        clog << " con el juez " << judgeExe << endl;
                     }
                     /**
                     *   Juez Interactivo

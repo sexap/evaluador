@@ -25,7 +25,9 @@ using namespace std;
 #include "utils/validation.h"
 #include "utils/process_control.h"
 #include "juezNormal.cpp"
-#include "JE/set.cpp"
+#include "juecesEspeciales.cpp"
+#include "juezPersonalizado.cpp"
+
 using namespace seap_implement;
 
 streambuf* original_buf_clog = clog.rdbuf();
