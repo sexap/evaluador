@@ -1,5 +1,3 @@
-//TODO: Revisar Mensajes de error de los limites
-
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
 unsigned maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;

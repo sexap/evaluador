@@ -68,7 +68,7 @@
         SFsinRuta = getFileName(*itSF);
         SFsinRutaNiExtension = removeExtension(SFsinRuta);
 
-        //TODO: Revisar
+        //TODO: Revisar bug
         // 'seap eval lucas -f lucas/aaa.cpp' Causa una exceptión de cadena
         /*
         positionInString=SFsinRutaNiExtension.find_last_of("/");
@@ -381,10 +381,8 @@
         else if(lang == "java")
             calificaciones << "\t(gcj)";
         calificaciones << endl;
-        //TODO
         ratingsList.push_back(rating);
     }
-    //cout << "Estoy por abrir archivo";
     string resultsFile = "calificaciones.csv";
     ofstream outputResults(resultsFile.c_str());         //Archivo de los resultados en csv
 
