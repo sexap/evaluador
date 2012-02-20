@@ -4,10 +4,13 @@
     // Variables internas (no existen fuera de esta sección)
     // -- AQUI
 
+    //Comento las variables que use para CVS.
+
     list<list <string> > ratingsList;
     list<string> rating;
     ostringstream strs;
     string str;
+
     string rutaFuentes, rutaCasos;
     string tipoResultado, archCal;
     string SFsinRuta;
@@ -28,6 +31,9 @@
     int realMaxTime;
 
     ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
+
+    //Se inicializa el reporte
+    Reporte reporte(archCal,problem,judgeType);
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
@@ -72,6 +78,10 @@
             SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
             calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
         }
+
+        //Se inicializa un nuevo alumno
+        reporte.nuevoAlumno(SFsinRutaNiExtension);
+
         rating.push_back (*itSF);
 
         if (!forceValidLang(lang, *itSF)) {
@@ -250,8 +260,10 @@
                                 clog << "normal." << endl;
                             casosCorrectos++;
                             rating.push_back ("1 (" + str +" ms)");
+                            reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
                         } else {
                             rating.push_back ("0 (" + str +" ms)");
+                            reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
                             clog << "  Falla el caso " << (*itTC + "." + OUTPUT_EXTENSION) << " en modo ";
                             if (strictEval)
                                 clog << "estricto." << endl;
@@ -273,9 +285,11 @@
                         {
                             clog << " El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien";
                             casosCorrectos++;
+                            reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
                             rating.push_back ("1 (" + str +" ms)");
                         } else
                         {
+                            reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
                             rating.push_back ("0 (" + str +" ms)");
                             clog << "  El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo mal";
                         }
@@ -316,6 +330,8 @@
         if (tipoResultado == "AC") {
             calificaciones << "AC  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
 
+            reporte.terminarEvaluacionUsuario(((double)casosCorrectos/testCases.size()*100.0),tipoResultado);
+
             strs.str("");
             strs.clear();
             strs << ((double)casosCorrectos/testCases.size()*100.0);
@@ -326,6 +342,7 @@
             if (casosCorrectos == 0) {
                 calificaciones << "WA  Calificación  0";
                 rating.push_back ("0");
+                reporte.terminarEvaluacionUsuario(0,tipoResultado);
             } else {
                 calificaciones << "WA  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
                 strs.str("");
@@ -333,14 +350,16 @@
                 strs << ((double)casosCorrectos/testCases.size()*100.0);
                 str = strs.str();
 
+                reporte.terminarEvaluacionUsuario(((double)casosCorrectos/testCases.size()*100.0),tipoResultado);
                 rating.push_back (str);
             }
         } else if (tipoResultado == "CE") {
             calificaciones << "CE  Calificación  0";
+            reporte.terminarEvaluacionUsuario(0,tipoResultado);
         } else if (tipoResultado == "TLE") {
-
+            reporte.terminarEvaluacionUsuario(0,tipoResultado);
         } else if (tipoResultado == "MLE") {
-
+            reporte.terminarEvaluacionUsuario(0,tipoResultado);
         }
         if(lang == "c")
             calificaciones << "\t(gcc)";
@@ -373,5 +392,7 @@
         ratingsList.pop_front();
     }
     cout << endl;
+    //Salida de los resultados
+    //reporte.imprimirResultadoAmigable();
     system("rm salida_exec_alumno");
 }

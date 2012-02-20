@@ -22,6 +22,7 @@ using namespace std;
 // Librerias propias
 #include "build_params.h"
 #include "utils/config.h"
+#include "utils/reporte.h"
 #include "utils/validation.h"
 #include "utils/process_control.h"
 #include "juezNormal.cpp"
