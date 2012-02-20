@@ -120,10 +120,8 @@
                 comando = "execl(\"/usr/bin/gcj\", \"gcj\", \"--main=\"" + *itSF + ").c_string(), (" + *itSF + ").c_string(), \"-o\", \"exec_alumno\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
 
-                SFsinRutaNiExtension += ".class";
-                comando = "gcj --main=" + SFsinRuta + " " + *itSF + " -o exec_alumno";
-                string segundoParam = "--main=" + SFsinRuta;
-                if (execl("/usr/bin/gcj", "gcj", segundoParam.c_str(), (*itSF).c_str(), "-o", "exec_alumno", (char *) 0) < 0)
+                string segundoParam = "--main=" + SFsinRutaNiExtension;
+                if (execl("/usr/bin/gcj", "gcj", (*itSF).c_str(), segundoParam.c_str(), "-o", "exec_alumno", (char *) 0) < 0)
                     perror("exec");
             }
         } else if (pID < 0) {

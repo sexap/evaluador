@@ -3,7 +3,7 @@
 
 #define AUX_EXE_EXPAND "./expandparam"
 
-#define MAX_ERR_MSG 5
+#define MAX_ERR_MSG 10
 
 #define NORMAL_NAME_CONVENTION true
 #define JAVA_COMPILER "gcj"
