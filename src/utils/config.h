@@ -120,6 +120,7 @@ namespace seap_implement{
 			*/
 			void getValue(const string& name, bool& var);
 			void getValue(const string& name, int& var);
+			void getValue(const string& name, unsigned& var);
 			void getValue(const string& name, string& var);
 			void getValue(const string& name, list<string>& var);
 

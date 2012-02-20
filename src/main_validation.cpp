@@ -2,7 +2,7 @@
 
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
-int maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
+unsigned maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
 bool verbose, showProgress, strictEval, compareWhite;
 list<string> testCases, sourceFiles;
 
@@ -20,8 +20,6 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgFixVar("problem", Config::T_STRING);
 
 	confArg.registerArgVar("s", Config::T_INT, false);
-	confArg.registerArgVar("T", Config::T_INT, false);
-	confArg.registerArgVar("M", Config::T_INT, false);
 	confArg.registerArgVar("S", Config::T_INT, false);
 
 	confArg.registerArgVar("f", Config::T_LIST, true);
@@ -30,8 +28,10 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgVar("v", Config::T_BOOL, false);
 	confArg.registerArgVar("nb", Config::T_BOOL, false);
 
-	confFile.registerFileVar("max_time", Config::T_INT, false);
-	confFile.registerFileVar("max_mem", Config::T_INT, false);
+	confFile.registerFileVar("comp_time", Config::T_INT, false);
+	confFile.registerFileVar("comp_mem", Config::T_INT, false);
+	confFile.registerFileVar("run_time", Config::T_INT, false);
+	confFile.registerFileVar("run_mem", Config::T_INT, false);
 	confFile.registerFileVar("judge_type", Config::T_STRING, false);
 	confFile.registerFileVar("judge_exe", Config::T_STRING, false);
 	confFile.registerFileVar("strict_eval", Config::T_BOOL, false);
@@ -39,15 +39,15 @@ list<string> testCases, sourceFiles;
 
 	// Valores por default
 	confArg.setValue("s", 24); // 24kB de código (por revisar)
-	confArg.setValue("T", 10000); // 10s para compilar
-	confArg.setValue("M", 256); // 256MB para compilar
 	confArg.setValue("S", 8); // 8KB de salida (por revisar)
 	confArg.setValue("o", "calificaciones.txt");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
-	confFile.setValue("max_time", 5000); // 5 s para ejecutarse
-	confFile.setValue("max_mem", 128); // 128 MiB para ser ejecutado
+	confFile.setValue("comp_time", 10000); // 10s para compilar
+	confFile.setValue("comp_mem", 256); // 256MB para compilar
+	confFile.setValue("run_time", 5000); // 5 s para ejecutarse
+	confFile.setValue("run_mem", 128); // 128 MiB para ser ejecutado
 	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
 	confFile.setValue("strict_eval", false); // No es estricto
@@ -65,8 +65,6 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("problem", problem);
 
 	confArg.getValue("s", maxSourceSize);
-	confArg.getValue("T", maxCompTime);
-	confArg.getValue("M", maxCompMem);
 	confArg.getValue("S", maxOutSize);
 
 	confArg.getValue("f", sourceFiles);
@@ -98,16 +96,6 @@ list<string> testCases, sourceFiles;
 		cerr << "el parametro -s debe estar entre 1kB y 512kB" << endl;
 		hasError = true;
 	}
-	if (!isBetween(maxCompTime, 1, 90000))
-	{
-		cerr << "el parametro -T debe estar entre 1ms y 90 000ms" << endl;
-		hasError = true;
-	}
-	if (!isBetween(maxCompMem, 1, 2048))
-	{
-		cerr << "el parametro -M debe estar entre 1MiB y 2048MiB" << endl;
-		hasError = true;
-	}
 	if (!isBetween(maxOutSize, 1, 256))
 	{
 		cerr << "el parametro -S debe estar entre 1kB y 256kB" << endl;
@@ -128,23 +116,34 @@ list<string> testCases, sourceFiles;
 		}
 	}
 
-	confFile.getValue("max_time", maxRunTime);
-	confFile.getValue("max_mem", maxRunMem);
+	confFile.getValue("comp_time", maxCompTime);
+	confFile.getValue("comp_mem", maxCompMem);
+	confFile.getValue("run_time", maxRunTime);
+	confFile.getValue("run_mem", maxRunMem);
 	confFile.getValue("judge_type", judgeType);
 	confFile.getValue("judge_exe", judgeExe);
 	confFile.getValue("strict_eval", strictEval);
 	confFile.getValue("compare_white", compareWhite);
 
-	// Revisado
 	hasError = false;
+	if (!isBetween(maxCompTime, 1, 90000))
+	{
+		cerr << "En '" << problem << "/eval.conf': comp_time debe estar entre 1 ms y 90 000 ms" << endl;
+		hasError = true;
+	}
+	if (!isBetween(maxCompMem, 1, 2048))
+	{
+		cerr << "En '" << problem << "/eval.conf': comp_mem debe estar entre 1 MiB y 2048 MiB" << endl;
+		hasError = true;
+	}
 	if (!isBetween(maxRunTime, 1, 90000))
 	{
-		cerr << "En '" << problem << "/eval.conf': max_time debe estar entre 1 ms y 90 000 ms" << endl;
+		cerr << "En '" << problem << "/eval.conf': run_time debe estar entre 1 ms y 90 000 ms" << endl;
 		hasError = true;
 	}
 	if (!isBetween(maxRunMem, 1, 2048))
 	{
-		cerr << "En '" << problem << "/eval.conf': max_mem debe estar entre 1 MiB y 2048 MiB" << endl;
+		cerr << "En '" << problem << "/eval.conf': run_mem debe estar entre 1 MiB y 2048 MiB" << endl;
 		hasError = true;
 	}
 	if (!isValidJudgeType(judgeType))
@@ -152,8 +151,7 @@ list<string> testCases, sourceFiles;
 		cerr << "En '" << problem << "/eval.conf': " << judgeType << " no es un tipo de juez válido" << endl;
 		hasError = true;
 	}
-	//else if (judgeNeedsExe(judgeType))
-	else if (judgeType == "interactive")
+	else if (judgeNeedsExe(judgeType))
 	{
 		if (!isExec(problem + "/" + judgeExe))
 		{
@@ -281,11 +279,18 @@ list<string> testCases, sourceFiles;
 }
 
 // Debug
-clog << "Los casos a evaluar serán:" << endl;
+clog << "Los casos a evaluar son:" << endl;
 for (list<string>::iterator it = testCases.begin(); it != testCases.end(); ++it) clog << *it << endl;
 clog << endl;
 
-clog << "Los archivos de código serán:" << endl;
+clog << "Los archivos de código son:" << endl;
 for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); ++it) clog << *it << endl;
 clog << endl << endl;
 
+clog << "Restricciones compilación" << endl;
+clog << "  Tiempo:  " << maxCompTime << " ms" << endl;
+clog << "  Memoria: " << maxCompMem << " MiB" << endl;
+clog << "Restricciones ejecución" << endl;
+clog << "  Tiempo:  " << maxRunTime << " ms" << endl;
+clog << "  Memoria: " << maxRunMem << " MiB" << endl;
+clog << endl;

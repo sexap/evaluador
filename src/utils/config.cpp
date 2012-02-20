@@ -404,6 +404,12 @@ namespace seap_implement {
 		var = it->second.v_int;
 	}
 
+	void Config::getValue(const string& name, unsigned& var) {
+		int tmp;
+		getValue(name, tmp);
+		var = (unsigned)tmp;
+	}
+
 	void Config::getValue(const string& name, string& var) {
 		map<string, Data>::iterator it = variables.find(name);
 		if (it == variables.end()) throw ConfigExceptionNotFound();

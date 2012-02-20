@@ -65,11 +65,16 @@
 
         clog << "Evaluando el codigo " << *itSF << endl;
 
-        SFsinRutaNiExtension = removeExtension(*itSF);
+        SFsinRuta = getFileName(*itSF);
+        SFsinRutaNiExtension = removeExtension(SFsinRuta);
+
+        //TODO: Revisar
+        // 'seap eval lucas -f lucas/aaa.cpp' Causa una exceptión de cadena
+        /*
         positionInString=SFsinRutaNiExtension.find_last_of("/");
-        SFsinRuta = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
         if(NORMAL_NAME_CONVENTION)
         {
+        	//Boogie
             SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1+(problem.length()), SFsinRutaNiExtension.length());
             calificaciones << "Estudiante " << SFsinRutaNiExtension << "\t";
         }
@@ -78,6 +83,7 @@
             SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
             calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
         }
+        */
 
         //Se inicializa un nuevo alumno
         reporte.nuevoAlumno(SFsinRutaNiExtension);
@@ -131,7 +137,7 @@
 		limitExceded = LIMIT_NONE;
 		while(waitpid(pID, &status, WNOHANG) == 0) {
 			getMaxResourceUsage(pID, usedResources);
-			if (usedResources.time > 1000 * maxCompTime / sysconf(_SC_CLK_TCK)) {
+			if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxCompTime) {
 				limitExceded = LIMIT_TIME;
 				kill(pID, SIGKILL);
 			}
@@ -150,11 +156,12 @@
 
         	if (WIFEXITED(status)) {
         		// Volcar errores
-        		if (fgets(buffer, sizeof(buffer), child_error) != NULL) {
-					clog << "Compilador dijo:" << endl;
-					clog << buffer;
-					if (!feof(child_error)) clog << "(y sigue...)" << endl;
+        		clog << "Compilador dijo:" << endl;
+        		for (int errCount = 0; errCount < MAX_ERR_MSG; errCount++) {
+					if (fgets(buffer, sizeof(buffer), child_error) == NULL) break;
+					clog << "  " << buffer;
         		}
+        		if (fgets(buffer, sizeof(buffer), child_error) != NULL) clog << "  (Y sigue...)" << endl;
         	}
         	else if (WIFSIGNALED(status)) {
 				if (limitExceded == LIMIT_TIME) clog << "Exceso de tiempo" << endl;
@@ -200,7 +207,7 @@
 				limitExceded = LIMIT_NONE;
 				while(waitpid(pID, &status, WNOHANG) == 0) {
 					getMaxResourceUsage(pID, usedResources);
-					if (usedResources.time > 1000 * maxRunTime / sysconf(_SC_CLK_TCK)) {
+					if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
 						limitExceded = LIMIT_TIME;
 						kill(pID, SIGKILL);
 					}
@@ -211,33 +218,41 @@
 				}
 
 				if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+					clog << "  Ejecución correcta...." << endl;
 					exito = true;
 				}
 				else {
 
 					if (WIFEXITED(status)) {
 						tipoResultado = "RET";
-						clog << "Terminado misteriosamente con estado" << WEXITSTATUS(status) << endl;
+						clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
 					}
 					else if (WIFSIGNALED(status)) {
 						if (limitExceded == LIMIT_TIME) {
 							tipoResultado = "TLE";
-							clog << "Exceso de tiempo" << endl;
+							clog << "  Exceso de tiempo" << endl;
 						}
 						else if (limitExceded == LIMIT_MEM) {
 							tipoResultado = "MLE";
-							clog << "Exceso de memoria" << endl;
+							clog << "  Exceso de memoria" << endl;
+						}
+						else if (WTERMSIG(status) == SIGSEGV) {
+							tipoResultado = "MEM";
+							clog << "  Violación de segmento (SIGSEGV)" << endl;
+						}
+						else if (WTERMSIG(status) == SIGFPE) {
+							tipoResultado = "FPE";
+							clog << "  Excepción de punto flotante (SIGFPE)" << endl;
 						}
 						else {
 							tipoResultado = "SIG";
-							clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
+							clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
 						}
 					}
 				}
 
                 // Si merece la pena evaluarlo
                 if (exito) {
-                    clog << "Ejecución correcta...." << endl;
                     strs.str("");
                     strs << usedResources.time / sysconf(_SC_CLK_TCK);
                     str = strs.str();
@@ -301,9 +316,9 @@
                     else if (judgeType == "interactive") {
 
                     }
-                    clog << endl;
                 }
                 close(fd_pipe_eval[0]);
+                clog << endl;
             }   //Cierra el ciclo TC
             if (strictEval) {
                 clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
@@ -394,5 +409,4 @@
     cout << endl;
     //Salida de los resultados
     //reporte.imprimirResultadoAmigable();
-    system("rm salida_exec_alumno");
 }
