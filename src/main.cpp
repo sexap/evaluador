@@ -25,7 +25,7 @@ using namespace std;
 #include "utils/reporte.h"
 #include "utils/validation.h"
 #include "utils/process_control.h"
-#include "juezNormal.cpp"
+#include "juezNormal.h"
 #include "juecesEspeciales.cpp"
 #include "juezPersonalizado.cpp"
 

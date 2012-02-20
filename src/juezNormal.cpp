@@ -1,3 +1,5 @@
+#include "juezNormal.h"
+
 bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
 {
     ofstream cout("logJN.txt", fstream::app);
