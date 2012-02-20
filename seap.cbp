@@ -63,7 +63,12 @@
 			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/juezNormal.cpp">
-			<Option target="&lt;{~None~}&gt;" />
+			<Option target="Release" />
+			<Option target="Debug" />
+		</Unit>
+		<Unit filename="src/juezNormal.h">
+			<Option target="Debug" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option target="Debug" />
