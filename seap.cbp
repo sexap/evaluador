@@ -81,6 +81,10 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/utils/calificacion.cpp" />
+		<Unit filename="src/utils/calificacion.h" />
+		<Unit filename="src/utils/casoPrueba.cpp" />
+		<Unit filename="src/utils/casoPrueba.h" />
 		<Unit filename="src/utils/config.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -104,6 +108,8 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/utils/reporte.cpp" />
+		<Unit filename="src/utils/reporte.h" />
 		<Unit filename="src/utils/validation.cpp">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -115,6 +121,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
