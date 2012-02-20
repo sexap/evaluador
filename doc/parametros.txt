@@ -27,13 +27,5 @@ Indica que no debe mostrarse barra de progreso
 -s valor
 Tamaño máximo del archivo de código fuente en kiB.
 
--T valor
-Tiempo máximo de compilación en ms.
-(cambiar a segs)
-
--M valor
-Memoria máxima de compilación en kiB
-(cambiar a MiB)
-
 -S valor
 Tamaño máximo de la salida del programa del usuario en kiB

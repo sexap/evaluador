@@ -3,16 +3,29 @@ Si no existe se usarán valores por default
 
 Las opciones son:
 
+comp_time = valor
+Tiempo máximo de compilación en ms.
+Rango: [1,90 000]
+Default: 10 000
+
+comp_mem valor
+Memoria máxima de compilación en MiB
+Rango: [1,2048]
+Default: 256
+
 max_time = valor
 Tiempo máximo de ejecución por caso de prueba en ms.
 Rango: [1,90 000]
+Default: 5 000
 
 max_mem = valor
 Memoria máxima de ejecución por caso de prueba en MiB.
 Rango: [1,2048]
+Default: 128
 
 judge_type = {"standard", "special", "interactive"}
 Tipo de juez
+Default: "standard"
 
 judge_exe = valor
 Nombre del ejecutable que evaluará el problema en caso de que el juez sea "special" o "interactive".
@@ -21,6 +34,8 @@ strict_eval = {true, false}
 Indica si se empleará la evaluación estricta. 
 Evaluación estricta significa que si algún caso está mal se tiene 0% de calificación, sólo si todos los casos están correctos se tiene 100% de calificación.
 Evaluación normal (no estricta) significa que la clificación es (casos_buenos/casos_total)*100.
+Default: false
 
 compare_white = {true, false}
 Indica si se compararán o ignorarán los espacios en blanco para la evaluación de casos.
+Default: false
