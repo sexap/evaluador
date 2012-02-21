@@ -1,8 +1,10 @@
+#include "juezEspecial.h"
 
-bool personalizado(string archSalidaEsperada, string archAlum)
+bool juezEspecial(string archSalidaEsperada)
 {
-    ofstream cout("logJuezPersonalizado.txt", fstream::app);
+    ofstream cout("logJE.txt", fstream::app);
 
+    string archAlum = "salida_exec_alumno";
     bool accepted = true;
 
     ifstream respCorrecta(archSalidaEsperada.c_str());

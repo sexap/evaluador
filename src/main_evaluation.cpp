@@ -14,9 +14,9 @@
     string rutaFuentes, rutaCasos;
     string tipoResultado, archCal;
     string SFsinRuta;
-    size_t positionInString;
     int programa, status, fd_pipe_eval[2], fd_pipe_comp[2];
     pid_t pID;
+    size_t positionInString;
     char buffer[512];
     string comando, lang, SFsinRutaNiExtension;
     unsigned int casosCorrectos;
@@ -84,6 +84,17 @@
             calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
         }
         */
+        positionInString=SFsinRutaNiExtension.find_last_of("/");
+        if(positionInString == string::npos)
+        {
+            positionInString = 0;
+            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString, SFsinRutaNiExtension.length());
+        }
+        else
+        {
+            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
+        }
+        calificaciones << "Programa " << SFsinRutaNiExtension << "  ";
 
         //Se inicializa un nuevo alumno
         reporte.nuevoAlumno(SFsinRutaNiExtension);
@@ -264,7 +275,7 @@
                     **/
 
                     if (judgeType == "standard") {
-                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno")) //Envío el pipe donde está la salida de la ejecución.
+                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION))) //Envío el pipe donde está la salida de la ejecución.
                         {
                             clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
                             if (strictEval)
@@ -289,12 +300,7 @@
                     **/
                     else if (judgeType == "special")
                     {
-                        bool casoCorrecto;
-                        if(judgeExe == "rango")            casoCorrecto = rango((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
-                        else if(judgeExe == "conjunto")    casoCorrecto = conjunto((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
-                        else                               casoCorrecto = personalizado((*itTC + "." + OUTPUT_EXTENSION), "salida_exec_alumno");
-
-                        if (casoCorrecto)
+                        if (juezEspecial(*itTC + "." + OUTPUT_EXTENSION))
                         {
                             clog << " El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien";
                             casosCorrectos++;

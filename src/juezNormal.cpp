@@ -1,9 +1,10 @@
 #include "juezNormal.h"
 
-bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum)
+bool juezNormal(bool strictEval, string archSalidaEsperada)
 {
     ofstream cout("logJN.txt", fstream::app);
     bool accepted = true;
+    string archAlum = "salida_exec_alumno";
 
     ifstream respCorrecta(archSalidaEsperada.c_str());
     ifstream respAlumno(archAlum.c_str());

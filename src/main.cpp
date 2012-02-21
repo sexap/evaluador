@@ -26,8 +26,7 @@ using namespace std;
 #include "utils/validation.h"
 #include "utils/process_control.h"
 #include "juezNormal.h"
-#include "juecesEspeciales.cpp"
-#include "juezPersonalizado.cpp"
+#include "juezEspecial.h"
 
 using namespace seap_implement;
 

@@ -5,7 +5,7 @@
 #include <fstream>
 using namespace std;
 
-bool juezNormal(bool strictEval, string archSalidaEsperada, string archAlum);
+bool juezNormal(bool strictEval, string archSalidaEsperada);
 
 #endif // JUEZ_NORMAL_H
 
