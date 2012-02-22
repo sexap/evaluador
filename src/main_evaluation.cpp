@@ -238,7 +238,7 @@
 			// Si merece la pena evaluarlo
 			if (goodRun) {
 				strs.str("");
-				strs << usedResources.time / sysconf(_SC_CLK_TCK);
+				strs << usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0);
 				str = strs.str();
 
 				//el programa ya fue compilado y esta listo para ejecutarse
