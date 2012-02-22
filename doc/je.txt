@@ -1,0 +1,27 @@
+hanoi
+
+-toma la respuesta del alumno
+-la procesa
+-decide si está bien o mal
+-guarda el verdicto en un archivo
+
+-Debe dar el veredicto con la salida estandar.
+-Recibe el caso de prueba como entrada estandar.
+-Abre por su cuenta el archivo "salida_exec_alumno" para leer la respuesta del alumno
+
+
+je
+
+El juez especial se llama para cada caso de prueba de cada código fuente --> Contesta bien o mal
+
+Como parámetros:
+	-Caso de Prueba.
+	-Tipo de JE que debe llamar.
+
+-manda llamar al juez especial
+-le indica el caso de prueba al je	
+	-Si un JE necesita saber las salidas esperadas, las toma directamente con el nombre
+	-si un JE no necesita la salida esperada puede ver la entrada del caso
+	
+-abre el archivo de respuesta del je
+-devuelve lo que le haya contestado 

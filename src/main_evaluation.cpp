@@ -23,6 +23,12 @@
 	//Archivo de los resultados en txt
     ofstream calificaciones((outputFile + ".txt").c_str());
 
+    // logJE
+    ofstream clogJE("logJE.txt", fstream::app);
+
+    // logJN
+    ofstream clogJN("logJN.txt", fstream::app);
+
     //Se inicializa el reporte
     Reporte reporte((outputFile + ".txt").c_str(),problem,judgeType);
 
@@ -49,6 +55,10 @@
         rating.clear();
 
         clog << "Evaluando el codigo " << *itSF << endl;
+        if(judgeType == "standard")
+        	clogJN << "\tEvaluando el codigo " << *itSF << endl;
+        else if(judgeType == "special")
+			clogJE << "\tEvaluando el codigo " << *itSF << endl;
 
 		if (ZARAGOZA_NAME_CONVENTION) {
 			//TODO: Hacer solo muestre los numeros
@@ -268,7 +278,7 @@
 				else if (judgeType == "special")
 				{
 					clog << "  Caso " << *itTC << " estuvo ";
-					if (juezEspecial(*itTC + "." + OUTPUT_EXTENSION))
+					if (juezEspecial(*itTC, judgeExe))
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;

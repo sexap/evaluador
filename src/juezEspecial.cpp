@@ -1,48 +1,49 @@
 #include "juezEspecial.h"
 
-bool juezEspecial(string archSalidaEsperada)
+bool juezEspecial(string casoDePrueba, string judgeExe)
 {
     ofstream cout("logJE.txt", fstream::app);
 
-    string archAlum = "salida_exec_alumno";
     bool accepted = true;
+    pid_t pID;
+    int status, programa;
 
-    ifstream respCorrecta(archSalidaEsperada.c_str());
-    ifstream respAlumno(archAlum.c_str());
+	pID = fork();
+	if (pID < 0) {
+		cout << "No se pudo hacer el fork para correr el juez especial" << endl;
+	}
+	else if (pID == 0) {
 
-    cout << "******************************" << endl;
-    if(!respAlumno.good())
-    {
-        cout << "No se puede leer el archivo de resultado del alumno." << endl;
-    }
-    else
-    {
-        cout << "Abrí el archivo del alumno." << endl;
-    }
-    if(!respCorrecta.good())
-    {
-        cout << "No se puede abrir la salida esperada." << endl;
-        return false;
-    }
-    else
-    {
-        cout << "Abrí la respuesta correcta." << endl;
-    }
+		//Redirijo Caso de Prueba --> Entrada juez especial
+		freopen("casoDePrueba", "r", stdin);
 
-    /***
-    *
-    *
-    *  Su código personalizado va aquí.
-    *
-    *
-    ***/
+		//Redirijo Salida JE --> archivo de veredictoJE
+		freopen("veredictoJE", "w", stdout);
 
-    if(accepted) cout << "Caso " << archSalidaEsperada << " correcto" << endl;
-    else         cout << "Caso " << archSalidaEsperada << " mal" << endl;
+		//Ejecuto el JE
+		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
+		if (programa == -1) {
+					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
+					cout << "Error de ejecución del JE" << endl;
+					return 0;
+				}
+		return 0;
+	}
 
-    respCorrecta.close();
-    respAlumno.close();
-    cout.close();
+	waitpid(pID, &status, 0);
 
+	ifstream veredictoJE("veredictoJE");
+
+	if(veredictoJE >> accepted
+	{
+		if(accepted) cout << "Caso " << getFileName(casoDePrueba) << " correcto" << endl;
+		else         cout << "Caso " << getFileName(casoDePrueba) << " mal" << endl;
+	}
+	else
+	{
+		cout << "El JE no dio veredicto..." << endl;
+	}
+
+	cout.close();
     return accepted;
 }
