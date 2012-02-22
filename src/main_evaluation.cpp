@@ -219,6 +219,10 @@
 						rating.push_back ("ERR MEM");
 						clog << "  Violación de segmento (SIGSEGV)" << endl;
 					}
+					else if (WTERMSIG(status) == SIGBUS) {
+						rating.push_back ("ERR MEM");
+						clog << "  Error de bus (SIGBUS)" << endl;
+					}
 					else if (WTERMSIG(status) == SIGFPE) {
 						rating.push_back ("ERR MATH");
 						clog << "  Excepción de punto flotante (SIGFPE)" << endl;
