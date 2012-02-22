@@ -8,9 +8,7 @@
     string str;
 
 	// Variables internas (no existen fuera de esta sección)
-    //string rutaFuentes, rutaCasos;
-    string tipoResultado; //, archCal;
-    //string SFsinRuta,  SFsinRutaNiExtension;
+    string tipoResultado;
     int programa, status, fd_pipe_comp[2];
     pid_t pID;
     char buffer[512];
@@ -31,10 +29,9 @@
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
     clog << "El tipo de juez es: " << judgeType << endl;
-    if(judgeType == "standard")
-        clog << "El modo de evaluación es: " << (strictEval?"estricto":"normal") << endl;
-    if(judgeType == "special")
-        clog << "El juez especial es: " << judgeExe << endl;
+    if(judgeNeedsExe(judgeType)) clog << "El ejecutable del juez es: " << judgeExe << endl;
+    clog << "Evaluación estricta: " << (strictEval?"sí":"no") << endl;
+    clog << "Comparar espacios: " << (compareWhite?"sí":"no") << endl;
     clog << "Resultados se guardarán en: " << outputFile << ".xxx" << endl;
     clog << endl;
 
@@ -53,26 +50,23 @@
 
         clog << "Evaluando el codigo " << *itSF << endl;
 
-        ///SFsinRuta = getFileName(*itSF);
-        ///SFsinRutaNiExtension = removeExtension(SFsinRuta);
-
 		if (ZARAGOZA_NAME_CONVENTION) {
 			//TODO: Hacer solo muestre los numeros
 			calificaciones << "Estudiante " << getFileName(removeExtension(*itSF)) << "  ";
+			rating.push_back (getFileName(removeExtension(*itSF)));
 			reporte.nuevoAlumno(getFileName(removeExtension(*itSF)));
 		}
 		else {
 			calificaciones << "Programa " << *itSF << "  ";
+			rating.push_back (*itSF);
 			reporte.nuevoAlumno(*itSF);
 		}
 
-        rating.push_back (*itSF);
-
         forceValidLang(lang, *itSF);
 
-        /*
-        *   Compilación
-        */
+        /*******************
+		 *   Compilación   *
+		 *******************/
         if (pipe(fd_pipe_comp) < 0) {
             cerr << "No se pudo hacer pipe para la compilacion" << endl;
             return 1;
@@ -163,7 +157,9 @@
 
 			clog << "  Probando con caso " << *itTC << endl;
 
-			//Fork de Evaluación
+			/*****************
+			 *   Ejecución   *
+			 *****************/
 			pID = fork();
 			if (pID < 0) {
 				cerr << "No se pudo hacer el fork para la ejecución" << endl;
@@ -292,6 +288,7 @@
 			clog << endl;
 		} // Termina for de casos de prueba
 		remove("exec_alumno");
+		remove("salida_exec_alumno");
 
 		clog << "Tuvo " << casosCorrectos << "/" << testCases.size() << " casos correctos." << endl;
 		califFinal = (double)casosCorrectos / testCases.size() * 100.0;
