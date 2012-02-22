@@ -5,5 +5,5 @@
 
 #define MAX_ERR_MSG 10
 
-#define NORMAL_NAME_CONVENTION true
+#define ZARAGOZA_NAME_CONVENTION true
 #define JAVA_COMPILER "gcj"

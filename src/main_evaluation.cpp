@@ -1,56 +1,44 @@
 // Variables accesibles desde el exterior
 // -- AQUI
 {
-    // Variables internas (no existen fuera de esta sección)
-    // -- AQUI
-
-    //Comento las variables que use para CVS.
-
+    //Comento las variables que use para CVS. (Eventualmente quitar)
     list<list <string> > ratingsList;
     list<string> rating;
     ostringstream strs;
     string str;
 
-    string rutaFuentes, rutaCasos;
-    string tipoResultado, archCal;
-    string SFsinRuta;
-    int programa, status, fd_pipe_eval[2], fd_pipe_comp[2];
+	// Variables internas (no existen fuera de esta sección)
+    //string rutaFuentes, rutaCasos;
+    string tipoResultado; //, archCal;
+    //string SFsinRuta,  SFsinRutaNiExtension;
+    int programa, status, fd_pipe_comp[2];
     pid_t pID;
-    size_t positionInString;
     char buffer[512];
-    string comando, lang, SFsinRutaNiExtension;
-    unsigned int casosCorrectos;
-    bool exito;
+    string comando, lang;
+    unsigned int casosCorrectos, califFinal;
+    bool goodComp, goodRun;
 
     resource_t usedResources;
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
     int limitExceded;
 
-    if (outputFile == "") archCal = "califSEAP" + problem + ".txt";
-    else archCal = outputFile;
-    int realMaxTime;
-
-    ofstream calificaciones(archCal.c_str());         //Archivo de los resultados en txt
+	//Archivo de los resultados en txt
+    ofstream calificaciones((outputFile + ".txt").c_str());
 
     //Se inicializa el reporte
-    Reporte reporte(archCal,problem,judgeType);
+    Reporte reporte((outputFile + ".txt").c_str(),problem,judgeType);
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
     clog << "El tipo de juez es: " << judgeType << endl;
     if(judgeType == "standard")
-        clog << "El modo de evaluación (indicado) es: " << (strictEval?"estricto":"normal") << endl;
+        clog << "El modo de evaluación es: " << (strictEval?"estricto":"normal") << endl;
     if(judgeType == "special")
         clog << "El juez especial es: " << judgeExe << endl;
-    clog << "Resultados se guardarán en: " << archCal << endl;
+    clog << "Resultados se guardarán en: " << outputFile << ".xxx" << endl;
     clog << endl;
 
     calificaciones << "Calificaciones de " << problem << " con SEAP\n\n";
-
-    // Pasar restricción de tiempo a segundos enteros
-    if (maxRunTime % 1000 == 0) realMaxTime = maxRunTime;
-    else realMaxTime = maxRunTime + (1000 - maxRunTime % 1000);
-    realMaxTime /= 1000;
 
     //Ciclo para cada programa de alumno. (Fuentes con su ruta relativa)
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++) {
@@ -65,45 +53,22 @@
 
         clog << "Evaluando el codigo " << *itSF << endl;
 
-        SFsinRuta = getFileName(*itSF);
-        SFsinRutaNiExtension = removeExtension(SFsinRuta);
+        ///SFsinRuta = getFileName(*itSF);
+        ///SFsinRutaNiExtension = removeExtension(SFsinRuta);
 
-        //TODO: Revisar bug
-        // 'seap eval lucas -f lucas/aaa.cpp' Causa una exceptión de cadena
-        /*
-        positionInString=SFsinRutaNiExtension.find_last_of("/");
-        if(NORMAL_NAME_CONVENTION)
-        {
-        	//Boogie
-            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1+(problem.length()), SFsinRutaNiExtension.length());
-            calificaciones << "Estudiante " << SFsinRutaNiExtension << "\t";
-        }
-        else
-        {
-            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
-            calificaciones << "Programa " << SFsinRutaNiExtension << "\t";
-        }
-        */
-        positionInString=SFsinRutaNiExtension.find_last_of("/");
-        if(positionInString == string::npos)
-        {
-            positionInString = 0;
-            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString, SFsinRutaNiExtension.length());
-        }
-        else
-        {
-            SFsinRutaNiExtension = SFsinRutaNiExtension.substr(positionInString+1, SFsinRutaNiExtension.length());
-        }
-        calificaciones << "Programa " << SFsinRutaNiExtension << "  ";
-
-        //Se inicializa un nuevo alumno
-        reporte.nuevoAlumno(SFsinRutaNiExtension);
+		if (ZARAGOZA_NAME_CONVENTION) {
+			//TODO: Hacer solo muestre los numeros
+			calificaciones << "Estudiante " << getFileName(removeExtension(*itSF)) << "  ";
+			reporte.nuevoAlumno(getFileName(removeExtension(*itSF)));
+		}
+		else {
+			calificaciones << "Programa " << *itSF << "  ";
+			reporte.nuevoAlumno(*itSF);
+		}
 
         rating.push_back (*itSF);
 
-        if (!forceValidLang(lang, *itSF)) {
-            cerr << "La extensión de " << *itSF << " no coincide con un lenguaje conocido." << endl;
-        }
+        forceValidLang(lang, *itSF);
 
         /*
         *   Compilación
@@ -112,11 +77,17 @@
             cerr << "No se pudo hacer pipe para la compilacion" << endl;
             return 1;
         }
+
         pID = fork();
-        if (pID == 0) {
+        if (pID < 0) {
+            cerr << "No se pudo hacer el fork para la compilacion" << endl;
+        }
+        else if (pID == 0) {
             close(fd_pipe_comp[0]);
             dup2(fd_pipe_comp[1], STDERR_FILENO);
+            close(fd_pipe_comp[1]);
 
+			//TODO: Agregar Werror=main
             if (lang == "c") {
                 comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
@@ -131,17 +102,16 @@
                 comando = "execl(\"/usr/bin/gcj\", \"gcj\", \"--main=\"" + *itSF + ").c_string(), (" + *itSF + ").c_string(), \"-o\", \"exec_alumno\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
 
-                string segundoParam = "--main=" + SFsinRutaNiExtension;
+                string segundoParam = "--main=" + removeExtension(getFileName(*itSF));
                 if (execl("/usr/bin/gcj", "gcj", (*itSF).c_str(), segundoParam.c_str(), "-o", "exec_alumno", (char *) 0) < 0)
                     perror("exec");
             }
-        } else if (pID < 0) {
-            cerr << "No se pudo hacer el fork para la compilacion" << endl;
-        }
+        } // Termina el hijo
 
-        close(fd_pipe_comp[1]);         //Cierro este, porque el padre de compilacion no necesita mandarle algo al hijo por el pipe.
-        FILE* child_error = fdopen(fd_pipe_comp[0], "r");   //Lee desde el pipe de compilación toda la salida estandar enviado el hijo.
+        close(fd_pipe_comp[1]); // El padre no necesita mandarle datos al hijo
+        FILE* child_error = fdopen(fd_pipe_comp[0], "r");
 
+		// Restricciones de compilación
 		initResource(usedResources);
 		limitExceded = LIMIT_NONE;
 		while(waitpid(pID, &status, WNOHANG) == 0) {
@@ -158,10 +128,11 @@
 
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
 			clog << "Compilación correcta...." << endl;
+			goodComp = true;
         }
         else {
-        	tipoResultado = "CE";
 			clog << "Falló la compilación." << endl;
+			goodComp = false;
 
         	if (WIFEXITED(status)) {
         		// Volcar errores
@@ -177,209 +148,165 @@
 				else if (limitExceded == LIMIT_MEM) clog << "Exceso de memoria" << endl;
 				else clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
         	}
-        }
+        } // Fin de las restricciones
+        fclose(child_error);
 
         clog << endl;
 
-        if (tipoResultado != "CE") {
-            //Ciclo para cada caso de prueba. (Casos)
-            for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
+		//Ciclo para cada caso de prueba. (Casos)
+		for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
 
-                clog << "  Probando con caso " << *itTC << endl;
+			if (!goodComp) {
+				rating.push_back ("CE");
+				continue;
+			}
 
-                pID = fork();   //Fork de Evaluación
+			clog << "  Probando con caso " << *itTC << endl;
 
-                if (pID == 0) {     //Código que sólo ejecuta el hijo: Ejecutar los programas
-                    freopen("/dev/null", "w", stderr);       //El error estandar del hijo se redirige a nulo.
-                    freopen("salida_exec_alumno", "w", stdout);
+			//Fork de Evaluación
+			pID = fork();
+			if (pID < 0) {
+				cerr << "No se pudo hacer el fork para la ejecución" << endl;
+			}
+			else if (pID == 0) {
+				freopen("/dev/null", "w", stderr); //Redirigir error -> vacio
+				freopen("salida_exec_alumno", "w", stdout); //Redirigir salida -> archivo
+				freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin); //Redirigir caso -> entrada
 
-                    freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);   //El hijo de evaluación abre como entrada estandar el caso de prueba.
+				//Ejecución
+				comando = "exec_alumno";
+				clog << "  Ejecuto el programa " << comando << endl;
+				programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
+				if (programa == -1) {
+					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
+					rating.push_back ("RE");
+					cerr << "Error de ejecución" << endl;
+					return 0;
+				}
+			} // Termina el hijo de ejecución
 
-                    //Ejecución
-                    comando = "exec_alumno";
-                    clog << "  Ejecuto el programa " << comando << endl;
-                    programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
-                    if (programa == -1) {
-                        //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
-                        rating.push_back ("RE");
-                        cerr << "Error de ejecución" << endl;
-                        return 0;
-                    }
-                    fclose(stdout);
-                }
-                else if (pID < 0) {
-                    cerr << "No se pudo hacer el fork para la ejecución" << endl;
-                }
+			// Restricciones de ejecución
+			initResource(usedResources);
+			limitExceded = LIMIT_NONE;
+			while(waitpid(pID, &status, WNOHANG) == 0) {
+				getMaxResourceUsage(pID, usedResources);
+				if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
+					limitExceded = LIMIT_TIME;
+					kill(pID, SIGKILL);
+				}
+				else if (usedResources.mem > maxRunMem * 1024 * 1024) {
+					limitExceded = LIMIT_MEM;
+					kill(pID, SIGKILL);
+				}
+			}
 
-                exito = false;
-                initResource(usedResources);
-				limitExceded = LIMIT_NONE;
-				while(waitpid(pID, &status, WNOHANG) == 0) {
-					getMaxResourceUsage(pID, usedResources);
-					if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
-						limitExceded = LIMIT_TIME;
-						kill(pID, SIGKILL);
+			if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+				clog << "  Ejecución correcta...." << endl;
+				goodRun = true;
+			}
+			else {
+				goodRun = false;
+				if (WIFEXITED(status)) {
+					rating.push_back ("BAD RET");
+					clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
+				}
+				else if (WIFSIGNALED(status)) {
+					if (limitExceded == LIMIT_TIME) {
+						rating.push_back ("LIM TIME");
+						clog << "  Exceso de tiempo" << endl;
 					}
-					else if (usedResources.mem > maxRunMem * 1024 * 1024) {
-						limitExceded = LIMIT_MEM;
-						kill(pID, SIGKILL);
+					else if (limitExceded == LIMIT_MEM) {
+						rating.push_back ("LIM MEM");
+						clog << "  Exceso de memoria" << endl;
+					}
+					else if (WTERMSIG(status) == SIGSEGV) {
+						rating.push_back ("ERR MEM");
+						clog << "  Violación de segmento (SIGSEGV)" << endl;
+					}
+					else if (WTERMSIG(status) == SIGFPE) {
+						rating.push_back ("ERR MATH");
+						clog << "  Excepción de punto flotante (SIGFPE)" << endl;
+					}
+					else {
+						rating.push_back ("SIG ?");
+						clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
 					}
 				}
+			} // Fin de restricciones
 
-				if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-					clog << "  Ejecución correcta...." << endl;
-					exito = true;
-				}
-				else {
 
-					if (WIFEXITED(status)) {
-						tipoResultado = "RET";
-						clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
-					}
-					else if (WIFSIGNALED(status)) {
-						if (limitExceded == LIMIT_TIME) {
-							tipoResultado = "TLE";
-							clog << "  Exceso de tiempo" << endl;
-						}
-						else if (limitExceded == LIMIT_MEM) {
-							tipoResultado = "MLE";
-							clog << "  Exceso de memoria" << endl;
-						}
-						else if (WTERMSIG(status) == SIGSEGV) {
-							tipoResultado = "MEM";
-							clog << "  Violación de segmento (SIGSEGV)" << endl;
-						}
-						else if (WTERMSIG(status) == SIGFPE) {
-							tipoResultado = "FPE";
-							clog << "  Excepción de punto flotante (SIGFPE)" << endl;
-						}
-						else {
-							tipoResultado = "SIG";
-							clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
-						}
+			// Si merece la pena evaluarlo
+			if (goodRun) {
+				strs.str("");
+				strs << usedResources.time / sysconf(_SC_CLK_TCK);
+				str = strs.str();
+
+				//el programa ya fue compilado y esta listo para ejecutarse
+				clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+
+				/**
+				*   Juez Normal
+				**/
+
+				if (judgeType == "standard") {
+					clog << "  Caso " << *itTC << " estuvo ";
+					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION))) //Envío el pipe donde está la salida de la ejecución.
+					{
+						clog << "bien" << endl;
+						casosCorrectos++;
+						rating.push_back ("1 (" + str +" ms)");
+						reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
+					} else {
+						clog << "mal" << endl;
+						rating.push_back ("0 (" + str +" ms)");
+						reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
 					}
 				}
+				/**
+				*   Juez Especial
+				**/
+				else if (judgeType == "special")
+				{
+					clog << "  Caso " << *itTC << " estuvo ";
+					if (juezEspecial(*itTC + "." + OUTPUT_EXTENSION))
+					{
+						clog << "bien" << endl;
+						casosCorrectos++;
+						reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
+						rating.push_back ("1 (" + str +" ms)");
+					} else
+					{
+						clog << "mal" << endl;
+						reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
+						rating.push_back ("0 (" + str +" ms)");
+					}
+				}
+				/**
+				*   Juez Interactivo
+				**/
+				else if (judgeType == "interactive") {
 
-                // Si merece la pena evaluarlo
-                if (exito) {
-                    strs.str("");
-                    strs << usedResources.time / sysconf(_SC_CLK_TCK);
-                    str = strs.str();
+				}
+			}
 
+			clog << endl;
+		} // Termina for de casos de prueba
+		remove("exec_alumno");
 
-                    //el programa ya fue compilado y esta listo para ejecutarse
-                    clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+		clog << "Tuvo " << casosCorrectos << "/" << testCases.size() << " casos correctos." << endl;
+		califFinal = (double)casosCorrectos / testCases.size() * 100.0;
+		if (strictEval && califFinal < 100) califFinal = 0;
 
-                    /**
-                    *   Juez Normal
-                    **/
+		strs.str("");
+		strs.clear();
+		strs << califFinal;
+		str = strs.str();
+		rating.push_back (str);
+		ratingsList.push_back(rating);
 
-                    if (judgeType == "standard") {
-                        if (juezNormal(strictEval, (*itTC + "." + OUTPUT_EXTENSION))) //Envío el pipe donde está la salida de la ejecución.
-                        {
-                            clog << "  Caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien en modo ";
-                            if (strictEval)
-                                clog << "estricto." << endl;
-                            else
-                                clog << "normal." << endl;
-                            casosCorrectos++;
-                            rating.push_back ("1 (" + str +" ms)");
-                            reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
-                        } else {
-                            rating.push_back ("0 (" + str +" ms)");
-                            reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
-                            clog << "  Falla el caso " << (*itTC + "." + OUTPUT_EXTENSION) << " en modo ";
-                            if (strictEval)
-                                clog << "estricto." << endl;
-                            else
-                                clog << "normal." << endl;
-                        }
-                    }
-                    /**
-                    *   Juez Especial
-                    **/
-                    else if (judgeType == "special")
-                    {
-                        if (juezEspecial(*itTC + "." + OUTPUT_EXTENSION))
-                        {
-                            clog << " El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo bien";
-                            casosCorrectos++;
-                            reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
-                            rating.push_back ("1 (" + str +" ms)");
-                        } else
-                        {
-                            reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
-                            rating.push_back ("0 (" + str +" ms)");
-                            clog << "  El caso " << (*itTC + "." + OUTPUT_EXTENSION) << " estuvo mal";
-                        }
-                        clog << " con el juez " << judgeExe << endl;
-                    }
-                    /**
-                    *   Juez Interactivo
-                    **/
-                    else if (judgeType == "interactive") {
+		reporte.terminarEvaluacionUsuario(califFinal, "-");
+		calificaciones << "  Calificación  " << califFinal;
 
-                    }
-                }
-                close(fd_pipe_eval[0]);
-                clog << endl;
-            }   //Cierra el ciclo TC
-            if (strictEval) {
-                clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
-                if (casosCorrectos == testCases.size()) {
-
-                    clog << "ACCEPTED" << endl;
-                    clog << "La calificación es: 10" << endl;
-                    tipoResultado = "AC";
-                } else {
-                    clog << "WRONG ANSWER" << endl;
-                    tipoResultado = "WA";
-                    clog << "La calificación es: 0" << endl;
-                }
-            } else {
-                clog << "Tuvo " << casosCorrectos << " casos correctos de " << testCases.size() << " casos de prueba." << endl;
-                tipoResultado = (((double)casosCorrectos/testCases.size()*100.0) >= 60.0)?"AC":"WA";
-                clog << "La calificación es: " << ((double)casosCorrectos/testCases.size()*100.0) << endl;
-            }
-            clog << endl;
-        }
-        rating.push_back (tipoResultado);
-        remove("exec_alumno");
-
-        if (tipoResultado == "AC") {
-            calificaciones << "AC  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
-
-            reporte.terminarEvaluacionUsuario(((double)casosCorrectos/testCases.size()*100.0),tipoResultado);
-
-            strs.str("");
-            strs.clear();
-            strs << ((double)casosCorrectos/testCases.size()*100.0);
-            str = strs.str();
-
-            rating.push_back (str);
-        } else if (tipoResultado == "WA") {
-            if (casosCorrectos == 0) {
-                calificaciones << "WA  Calificación  0";
-                rating.push_back ("0");
-                reporte.terminarEvaluacionUsuario(0,tipoResultado);
-            } else {
-                calificaciones << "WA  Calificación  " << ((double)casosCorrectos/testCases.size()*100.0);
-                strs.str("");
-                strs.clear();
-                strs << ((double)casosCorrectos/testCases.size()*100.0);
-                str = strs.str();
-
-                reporte.terminarEvaluacionUsuario(((double)casosCorrectos/testCases.size()*100.0),tipoResultado);
-                rating.push_back (str);
-            }
-        } else if (tipoResultado == "CE") {
-            calificaciones << "CE  Calificación  0";
-            reporte.terminarEvaluacionUsuario(0,tipoResultado);
-        } else if (tipoResultado == "TLE") {
-            reporte.terminarEvaluacionUsuario(0,tipoResultado);
-        } else if (tipoResultado == "MLE") {
-            reporte.terminarEvaluacionUsuario(0,tipoResultado);
-        }
         if(lang == "c")
             calificaciones << "\t(gcc)";
         else if(lang == "c++")
@@ -387,15 +314,15 @@
         else if(lang == "java")
             calificaciones << "\t(gcj)";
         calificaciones << endl;
-        ratingsList.push_back(rating);
     }
-    string resultsFile = "calificaciones.csv";
-    ofstream outputResults(resultsFile.c_str());         //Archivo de los resultados en csv
+
+    //Archivo de los resultados en csv
+    ofstream outputResults((outputFile + ".csv").c_str());
 
     if (outputResults.fail()) {
-        cout << "No se pudo abrtir el archivo";
+        cerr << "No se pudo abrtir el archivo";
     }
-    //cout << "Se supone que ya abri el archivo";
+
     while (!ratingsList.empty()) {
 
         rating = ratingsList.front();

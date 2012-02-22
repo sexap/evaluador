@@ -38,7 +38,7 @@ list<string> testCases, sourceFiles;
 	// Valores por default
 	confArg.setValue("s", 24); // 24kB de código (por revisar)
 	confArg.setValue("S", 8); // 8KB de salida (por revisar)
-	confArg.setValue("o", "calificaciones.txt");
+	confArg.setValue("o", "calificaciones");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 

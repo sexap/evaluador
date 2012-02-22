@@ -12,7 +12,6 @@
 				<Option object_output="obj/debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option parameters="eval lucas -f lucas -v" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -59,6 +58,14 @@
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="src/build_params.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/juezEspecial.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/juezEspecial.h">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
