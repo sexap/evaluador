@@ -3,8 +3,14 @@
 
 #include <string>
 #include <fstream>
-using namespace std;
+#include <sys/types.h>
+#include <sys/wait.h>
 
-bool juezEspecial(string archSalidaEsperada);
+#include "utils/validation.h"
+
+using namespace std;
+using namespace seap_implement;
+
+bool juezEspecial(string archSalidaEsperada, string judgeExe);
 
 #endif // JUEZ_ESPECIAL_H

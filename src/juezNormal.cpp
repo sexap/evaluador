@@ -1,6 +1,6 @@
 #include "juezNormal.h"
 
-bool juezNormal(bool strictEval, string archSalidaEsperada)
+bool juezNormal(bool compareWhite, string archSalidaEsperada)
 {
     ofstream cout("logJN.txt", fstream::app);
     bool accepted = true;
@@ -53,7 +53,7 @@ bool juezNormal(bool strictEval, string archSalidaEsperada)
     respCorrecta.open(archSalidaEsperada.c_str());
     respAlumno.open(archAlum.c_str());
 
-    if(strictEval)
+    if(compareWhite)
     {
         char caracterEsp, caracterAlum;
         cout << endl << endl << "Comparo en modo estricto " << archSalidaEsperada << " con " << archAlum << endl << endl;

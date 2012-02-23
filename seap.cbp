@@ -54,9 +54,6 @@
 		<Linker>
 			<Add library="/usr/local/lib/libconfig++.a" />
 		</Linker>
-		<Unit filename="src/JE/set.cpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="src/build_params.h">
 			<Option target="Debug" />
 			<Option target="Release" />
