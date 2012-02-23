@@ -10,9 +10,9 @@ int main()
 
 	//Checa que el resultado sea correcto
 
-/*	ifstream respCorrecta(archSalidaEsperada.c_str());
-    ifstream respAlumno(archAlum.c_str());
 	string archAlum = "salida_exec_alumno";
+    ifstream respAlumno(archAlum.c_str());
+
 
 	if(!respAlumno.good())
         cout << "No se puede leer el archivo de resultado del alumno." << endl;

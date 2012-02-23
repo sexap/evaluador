@@ -23,18 +23,18 @@ bool juezEspecial(string casoDePrueba, string judgeExe)
 		//Ejecuto el JE
 		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
 		if (programa == -1) {
-					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
-					cout << "Error de ejecución del JE" << endl;
-					return 0;
-				}
-		return 0;
+            //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
+            cout << "Error de ejecución del JE" << endl;
+            return 0;
+        }
 	}
 
 	waitpid(pID, &status, 0);
+	cout << "Terminó la evaluación especial del caso " << casoDePrueba << endl;
 
 	ifstream veredictoJE("veredictoJE");
 
-	if(veredictoJE >> accepted
+	if(veredictoJE >> accepted)
 	{
 		if(accepted) cout << "Caso " << getFileName(casoDePrueba) << " correcto" << endl;
 		else         cout << "Caso " << getFileName(casoDePrueba) << " mal" << endl;

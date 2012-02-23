@@ -3,6 +3,8 @@
 
 #include <string>
 #include <fstream>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "utils/validation.h"
 
