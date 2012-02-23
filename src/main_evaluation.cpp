@@ -304,7 +304,7 @@
 		rating.push_back (str);
 		ratingsList.push_back(rating);
 
-		reporte.terminarEvaluacionUsuario(califFinal, "-");
+		reporte.terminarEvaluacionUsuario(califFinal);
 		calificaciones << "  Calificación  " << califFinal;
 
         if(lang == "c")
@@ -337,5 +337,5 @@
     }
     cout << endl;
     //Salida de los resultados
-    //reporte.imprimirResultadoAmigable();
+    reporte.imprimirResultadoAmigable();
 }
