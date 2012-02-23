@@ -1,6 +1,6 @@
 #include "juezEspecial.h"
 
-int juezEspecial(string casoDePrueba, string judgeExe)
+int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 {
     ofstream cout("logJE.txt", fstream::app);
 
@@ -14,10 +14,14 @@ int juezEspecial(string casoDePrueba, string judgeExe)
 	}
 	else if (pID == 0) {
 		//Redirijo Caso de Prueba --> Entrada juez especial
-		freopen("casoDePrueba", "r", stdin);
+		if (freopen(casoDePrueba.c_str(), "r", stdin) == NULL) {
+			cout << "Falló freopen 1 JE" << endl;
+		}
 
 		//Redirijo Salida JE --> archivo de veredictoJE
-		freopen("veredictoJE", "w", stdout);
+		if (freopen("veredictoJE", "w", stdout) == NULL) {
+			cout << "Falló freopen 2 JE" << endl;
+		}
 
 		//Ejecuto el JE
 		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
@@ -26,12 +30,16 @@ int juezEspecial(string casoDePrueba, string judgeExe)
             cout << "Error de ejecución del JE" << endl;
             return 0;
         }
-	}
+	} // Termina el hijo
 
 	waitpid(pID, &status, 0);
 	cout << "Terminó la evaluación especial del caso " << casoDePrueba << endl;
 
 	ifstream veredictoJE("veredictoJE");
+
+	if (veredictoJE.fail()) {
+		cout << "No pudo abrir veredictoJE" << endl;
+	}
 
 	if(veredictoJE >> calif)
 	{

@@ -11,6 +11,6 @@
 using namespace std;
 using namespace seap_implement;
 
-int juezEspecial(string archSalidaEsperada, string judgeExe);
+int juezEspecial(const string& archSalidaEsperada, const string& judgeExe);
 
 #endif // JUEZ_ESPECIAL_H

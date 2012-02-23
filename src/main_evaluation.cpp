@@ -240,7 +240,7 @@
 
 				if (judgeType == "standard") {
 					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
-					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION)))
+					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION) ))
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
@@ -257,7 +257,7 @@
 				{
 					clog << "  Ejecutando juez especial" << endl;
 					//TODO: Jueces especiales califican de 0 a 100
-					if (juezEspecial(*itTC, judgeExe) == 100)
+					if (juezEspecial( (*itTC + "." + CASE_EXTENSION), judgeExe) == 100)
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
