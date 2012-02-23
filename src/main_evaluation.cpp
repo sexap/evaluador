@@ -87,6 +87,7 @@
             cerr << "No se pudo hacer el fork para la compilacion" << endl;
         }
         else if (pID == 0) {
+        	//Enviar stderr a pipe
             close(fd_pipe_comp[0]);
             dup2(fd_pipe_comp[1], STDERR_FILENO);
             close(fd_pipe_comp[1]);
