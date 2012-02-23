@@ -183,7 +183,7 @@
 				comando = "exec_alumno";
 				clog << "  Ejecuto el programa " << comando << endl;
 				programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
-				if (programa == -1) {
+				if (programa < 0) {
 					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
 					rating.push_back ("RE");
 					cerr << "Error de ejecución" << endl;
@@ -251,16 +251,13 @@
 				strs << usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0);
 				str = strs.str();
 
-				//el programa ya fue compilado y esta listo para ejecutarse
-				clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
-
 				/**
 				*   Juez Normal
 				**/
 
 				if (judgeType == "standard") {
-					clog << "  Caso " << *itTC << " estuvo ";
-					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION))) //Envío el pipe donde está la salida de la ejecución.
+					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION)))
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
@@ -277,7 +274,7 @@
 				**/
 				else if (judgeType == "special")
 				{
-					clog << "  Caso " << *itTC << " estuvo ";
+					clog << "  Ejecutando juez especial" << endl;
 					if (juezEspecial(*itTC, judgeExe))
 					{
 						clog << "bien" << endl;

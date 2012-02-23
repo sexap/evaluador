@@ -13,7 +13,6 @@ bool juezEspecial(string casoDePrueba, string judgeExe)
 		cout << "No se pudo hacer el fork para correr el juez especial" << endl;
 	}
 	else if (pID == 0) {
-
 		//Redirijo Caso de Prueba --> Entrada juez especial
 		freopen("casoDePrueba", "r", stdin);
 
@@ -22,7 +21,7 @@ bool juezEspecial(string casoDePrueba, string judgeExe)
 
 		//Ejecuto el JE
 		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
-		if (programa == -1) {
+		if (programa < 0) {
             //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
             cout << "Error de ejecución del JE" << endl;
             return 0;
