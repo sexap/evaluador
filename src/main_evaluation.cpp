@@ -256,7 +256,8 @@
 				else if (judgeType == "special")
 				{
 					clog << "  Ejecutando juez especial" << endl;
-					if (juezEspecial(*itTC, judgeExe))
+					//TODO: Jueces especiales califican de 0 a 100
+					if (juezEspecial(*itTC, judgeExe) == 100)
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;

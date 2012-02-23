@@ -11,6 +11,6 @@
 using namespace std;
 using namespace seap_implement;
 
-bool juezEspecial(string archSalidaEsperada, string judgeExe);
+int juezEspecial(string archSalidaEsperada, string judgeExe);
 
 #endif // JUEZ_ESPECIAL_H

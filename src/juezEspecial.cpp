@@ -1,10 +1,10 @@
 #include "juezEspecial.h"
 
-bool juezEspecial(string casoDePrueba, string judgeExe)
+int juezEspecial(string casoDePrueba, string judgeExe)
 {
     ofstream cout("logJE.txt", fstream::app);
 
-    bool accepted = true;
+    int calif;
     pid_t pID;
     int status, programa;
 
@@ -33,10 +33,9 @@ bool juezEspecial(string casoDePrueba, string judgeExe)
 
 	ifstream veredictoJE("veredictoJE");
 
-	if(veredictoJE >> accepted)
+	if(veredictoJE >> calif)
 	{
-		if(accepted) cout << "Caso " << getFileName(casoDePrueba) << " correcto" << endl;
-		else         cout << "Caso " << getFileName(casoDePrueba) << " mal" << endl;
+		cout << "Caso " << getFileName(casoDePrueba) << " sacó " << calif << endl;
 	}
 	else
 	{
@@ -44,5 +43,5 @@ bool juezEspecial(string casoDePrueba, string judgeExe)
 	}
 
 	cout.close();
-    return accepted;
+    return calif;
 }
