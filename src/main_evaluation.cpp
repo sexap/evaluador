@@ -1,27 +1,18 @@
 // Variables accesibles desde el exterior
 // -- AQUI
 {
-    //Comento las variables que use para CVS. (Eventualmente quitar)
-    list<list <string> > ratingsList;
-    list<string> rating;
-    ostringstream strs;
-    string str;
-
 	// Variables internas (no existen fuera de esta sección)
     string tipoResultado;
     int programa, status, fd_pipe_comp[2];
     pid_t pID;
     char buffer[512];
-    string comando, lang;
+    string comando, lang, compiler;
     unsigned int casosCorrectos, califFinal;
     bool goodComp, goodRun;
 
     resource_t usedResources;
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
     int limitExceded;
-
-	//Archivo de los resultados en txt
-    ofstream calificaciones((outputFile + ".txt").c_str());
 
     // logJE
     ofstream clogJE("logJE.txt", fstream::app);
@@ -30,7 +21,7 @@
     ofstream clogJN("logJN.txt", fstream::app);
 
     //Se inicializa el reporte
-    Reporte reporte((outputFile + ".txt").c_str(),problem,judgeType);
+    Reporte reporte(outputFile.c_str(),problem,judgeType);
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
@@ -41,8 +32,6 @@
     clog << "Resultados se guardarán en: " << outputFile << ".xxx" << endl;
     clog << endl;
 
-    calificaciones << "Calificaciones de " << problem << " con SEAP\n\n";
-
     //Ciclo para cada programa de alumno. (Fuentes con su ruta relativa)
     for (list<string>::iterator itSF = sourceFiles.begin(); itSF != sourceFiles.end(); itSF++) {
 
@@ -51,28 +40,24 @@
         casosCorrectos = 0;
         tipoResultado = "";
 
-        //La lista de calificacion es borrada para cada alumno
-        rating.clear();
-
         clog << "Evaluando el codigo " << *itSF << endl;
         if(judgeType == "standard")
         	clogJN << "\tEvaluando el codigo " << *itSF << endl;
         else if(judgeType == "special")
 			clogJE << "\tEvaluando el codigo " << *itSF << endl;
 
-		if (ZARAGOZA_NAME_CONVENTION) {
-			//TODO: Hacer solo muestre los numeros
-			calificaciones << "Estudiante " << getFileName(removeExtension(*itSF)) << "  ";
-			rating.push_back (getFileName(removeExtension(*itSF)));
-			reporte.nuevoAlumno(getFileName(removeExtension(*itSF)));
-		}
-		else {
-			calificaciones << "Programa " << *itSF << "  ";
-			rating.push_back (*itSF);
-			reporte.nuevoAlumno(*itSF);
-		}
-
         forceValidLang(lang, *itSF);
+
+        if(lang == "c")
+            compiler = "gcc";
+        else if(lang == "c++")
+            compiler = "g++";
+        else if(lang == "java")
+            compiler = "gcj";
+
+        //TODO: Hacer solo muestre los numeros
+		if (ZARAGOZA_NAME_CONVENTION)   reporte.nuevoAlumno(getFileName(removeExtension(*itSF)),compiler);
+		else reporte.nuevoAlumno(*itSF,compiler);
 
         /*******************
 		 *   Compilación   *
@@ -161,7 +146,7 @@
 		for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
 
 			if (!goodComp) {
-				rating.push_back ("CE");
+				reporte.terminarEvaluacionUsuario("CE");
 				continue;
 			}
 
@@ -185,7 +170,7 @@
 				programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
 				if (programa == -1) {
 					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
-					rating.push_back ("RE");
+					reporte.terminarEvaluacionUsuario("RE");
 					cerr << "Error de ejecución" << endl;
 					return 0;
 				}
@@ -213,32 +198,32 @@
 			else {
 				goodRun = false;
 				if (WIFEXITED(status)) {
-					rating.push_back ("BAD RET");
+					reporte.agregarResultadoCasoPrueba("BAD RET");
 					clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
 				}
 				else if (WIFSIGNALED(status)) {
 					if (limitExceded == LIMIT_TIME) {
-						rating.push_back ("LIM TIME");
+						reporte.agregarResultadoCasoPrueba("LIM TIME");
 						clog << "  Exceso de tiempo" << endl;
 					}
 					else if (limitExceded == LIMIT_MEM) {
-						rating.push_back ("LIM MEM");
+						reporte.agregarResultadoCasoPrueba("LIM MEM");
 						clog << "  Exceso de memoria" << endl;
 					}
 					else if (WTERMSIG(status) == SIGSEGV) {
-						rating.push_back ("ERR MEM");
+						reporte.agregarResultadoCasoPrueba("ERR MEM");
 						clog << "  Violación de segmento (SIGSEGV)" << endl;
 					}
 					else if (WTERMSIG(status) == SIGBUS) {
-						rating.push_back ("ERR MEM");
+						reporte.agregarResultadoCasoPrueba("ERR MEM");
 						clog << "  Error de bus (SIGBUS)" << endl;
 					}
 					else if (WTERMSIG(status) == SIGFPE) {
-						rating.push_back ("ERR MATH");
+						reporte.agregarResultadoCasoPrueba("ERR MATH");
 						clog << "  Excepción de punto flotante (SIGFPE)" << endl;
 					}
 					else {
-						rating.push_back ("SIG ?");
+						reporte.agregarResultadoCasoPrueba("SIG ?");
 						clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
 					}
 				}
@@ -247,10 +232,6 @@
 
 			// Si merece la pena evaluarlo
 			if (goodRun) {
-				strs.str("");
-				strs << usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0);
-				str = strs.str();
-
 				//el programa ya fue compilado y esta listo para ejecutarse
 				clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
 
@@ -264,12 +245,10 @@
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
-						rating.push_back ("1 (" + str +" ms)");
-						reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
+						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					} else {
 						clog << "mal" << endl;
-						rating.push_back ("0 (" + str +" ms)");
-						reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
+						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
 				}
 				/**
@@ -282,13 +261,11 @@
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
-						reporte.agregarResultadoCasoPrueba(1,usedResources.time / sysconf(_SC_CLK_TCK));
-						rating.push_back ("1 (" + str +" ms)");
+						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					} else
 					{
 						clog << "mal" << endl;
-						reporte.agregarResultadoCasoPrueba(0,usedResources.time / sysconf(_SC_CLK_TCK));
-						rating.push_back ("0 (" + str +" ms)");
+						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
 				}
 				/**
@@ -307,46 +284,10 @@
 		clog << "Tuvo " << casosCorrectos << "/" << testCases.size() << " casos correctos." << endl;
 		califFinal = (double)casosCorrectos / testCases.size() * 100.0;
 		if (strictEval && califFinal < 100) califFinal = 0;
-
-		strs.str("");
-		strs.clear();
-		strs << califFinal;
-		str = strs.str();
-		rating.push_back (str);
-		ratingsList.push_back(rating);
-
 		reporte.terminarEvaluacionUsuario(califFinal);
-		calificaciones << "  Calificación  " << califFinal;
-
-        if(lang == "c")
-            calificaciones << "\t(gcc)";
-        else if(lang == "c++")
-            calificaciones << "\t(g++)";
-        else if(lang == "java")
-            calificaciones << "\t(gcj)";
-        calificaciones << endl;
-    }
-
-    //Archivo de los resultados en csv
-    ofstream outputResults((outputFile + ".csv").c_str());
-
-    if (outputResults.fail()) {
-        cerr << "No se pudo abrtir el archivo";
-    }
-
-    while (!ratingsList.empty()) {
-
-        rating = ratingsList.front();
-
-        while (!rating.empty()) {
-            //cout << ".";
-            outputResults << rating.front() << ","; //modificar la coma para que pueda ser otro operador
-            rating.pop_front();
-        }
-        outputResults << endl;
-        ratingsList.pop_front();
     }
     cout << endl;
     //Salida de los resultados
+    reporte.imprimirResultadoCVS();
     reporte.imprimirResultadoAmigable();
 }

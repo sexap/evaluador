@@ -2,6 +2,7 @@
 #include "calificacion.h"
 #include "casoPrueba.h"
 #include <ctime> //Para obtener la fecha y hora de evaluacion
+#include <fstream>
 #include <iostream>
 
 using namespace seap_implement;
@@ -48,8 +49,8 @@ string Reporte::getHora(){
     return hora;
 }
 
-void Reporte::nuevoAlumno(const string& nombreDelUsuario){
-    calificacionTemporal = Calificacion(nombreDelUsuario);
+void Reporte::nuevoAlumno(const string& nombreDelUsuario, const string& compilador){
+    calificacionTemporal = Calificacion(nombreDelUsuario,compilador);
 }
 
 void Reporte::agregarResultadoCasoPrueba(const int resultado, const double tiempo){
@@ -60,70 +61,69 @@ void Reporte::agregarResultadoCasoPrueba(const string& resultado){
     calificacionTemporal.agregarCasoPrueba(resultado);
 }
 
-void Reporte::terminarEvaluacionUsuario(const int resultado,const string& veredicto){
-    calificacionTemporal.setCalificacion(resultado);
-    calificacionTemporal.setVeredicto(veredicto);
+void Reporte::terminarEvaluacionUsuario(const int veredictoFinal){
+    calificacionTemporal.setVeredicto(veredictoFinal);
+    calificaciones.push_back(calificacionTemporal);
+}
+
+void Reporte::terminarEvaluacionUsuario(const string& veredictoFinal){
+    calificacionTemporal.setVeredicto(veredictoFinal);
     calificaciones.push_back(calificacionTemporal);
 }
 
 void Reporte::imprimirResultadoAmigable(){
 
+    seap_implement::CasoPrueba casoPrueba;
     list<seap_implement::CasoPrueba> casosPrueba;
+    list<seap_implement::CasoPrueba>::iterator ita;
+    list<seap_implement::Calificacion>::iterator it;
 
-    cout << "Nombre del archivo: " << nombreArchivo <<endl;
-    cout << "Nombre del problema: " << nombreProblema <<endl;
-    cout << "Fecha: " << fecha << endl;
-    cout << "Hora: " << hora << endl;
-    cout << "Juez: " << juez << endl;
+    //Archivo de los resultados en csv
+    ofstream outputResults((nombreArchivo + ".txt").c_str());
 
-    while (!calificaciones.empty()) {
-
-        calificacionTemporal = calificaciones.front();
-
-        cout << "Nombre Alumno: " << calificacionTemporal.getNombreUsuario() << endl;
-
-        casosPrueba = calificacionTemporal.getCasosPrueba();
-
-        while (!casosPrueba.empty()) {
-            cout << "Calificacion: " << casosPrueba.front().getEvaluacionCasoPrueba() << endl;
-            casosPrueba.pop_front();
-        }
-
-        cout << "Calificacion: " << calificacionTemporal.getCalificacion() << endl;
-        cout << "Veredicto: " << calificacionTemporal.getVeredicto() << endl;
-
-        cout << endl;
-        calificaciones.pop_front();
+    if (outputResults.fail()) {
+        cerr << "No se pudo abrtir el archivo";
     }
+
+    outputResults << "Calificaciones de " << nombreProblema << " con SEAP.\n\n";
+
+    for( it=calificaciones.begin() ; it != calificaciones.end(); it++ ){
+        calificacionTemporal = *it;
+
+        outputResults << "Estudiante " << calificacionTemporal.getNombreUsuario();
+        outputResults << "\t\tCalificación  " << calificacionTemporal.getVeredicto() << "\t(" << calificacionTemporal.getCompilador() << ")" << endl;
+    }
+    outputResults << endl << fecha << " " << hora;
+
+    outputResults.close();
 }
 
 void Reporte::imprimirResultadoCVS(){
 
+    seap_implement::CasoPrueba casoPrueba;
     list<seap_implement::CasoPrueba> casosPrueba;
+    list<seap_implement::CasoPrueba>::iterator ita;
+    list<seap_implement::Calificacion>::iterator it;
 
-    cout << "Nombre del archivo: " << nombreArchivo <<endl;
-    cout << "Nombre del problema: " << nombreProblema <<endl;
-    cout << "Fecha: " << fecha << endl;
-    cout << "Hora: " << hora << endl;
-    cout << "Juez: " << juez << endl;
+    //Archivo de los resultados en csv
+    ofstream outputResults((nombreArchivo + ".csv").c_str());
 
-    while (!calificaciones.empty()) {
+    if (outputResults.fail()) {
+        cerr << "No se pudo abrtir el archivo";
+    }
 
-        calificacionTemporal = calificaciones.front();
+    for( it=calificaciones.begin() ; it != calificaciones.end(); it++ ){
+        calificacionTemporal = *it;
 
-        cout << "Nombre Alumno: " << calificacionTemporal.getNombreUsuario() << endl;
+        outputResults << calificacionTemporal.getNombreUsuario() << "," << calificacionTemporal.getVeredicto() << ",";
 
         casosPrueba = calificacionTemporal.getCasosPrueba();
 
-        while (!casosPrueba.empty()) {
-            cout << "Calificacion: " << casosPrueba.front().getEvaluacionCasoPrueba() << endl;
-            casosPrueba.pop_front();
+        for(ita=casosPrueba.begin() ; ita != casosPrueba.end(); ita++){
+            casoPrueba = *ita;
+            outputResults << casoPrueba.getEvaluacionCasoPrueba() << ",";
         }
-
-        cout << "Calificacion: " << calificacionTemporal.getCalificacion() << endl;
-        cout << "Veredicto: " << calificacionTemporal.getVeredicto() << endl;
-
-        cout << endl;
-        calificaciones.pop_front();
+        outputResults << endl;
     }
+    outputResults.close();
 }

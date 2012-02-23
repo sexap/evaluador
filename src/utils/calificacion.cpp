@@ -6,8 +6,9 @@ using namespace seap_implement;
 
 // FUNCIONES DE CALIFICACION
 
-Calificacion::Calificacion(const string& nombreDelUsuario){
+Calificacion::Calificacion(const string& nombreDelUsuario, const string& compiler){
     nombreUsuario = nombreDelUsuario;
+    compilador = compiler;
     casosPrueba.clear();
 }
 
@@ -27,16 +28,20 @@ void Calificacion::setVeredicto(const string& veredictoFinal){
     veredicto = veredictoFinal;
 }
 
-void Calificacion::setCalificacion(const int resultadoFinal){
-    calificacion = resultadoFinal;
+void Calificacion::setVeredicto(const int veredictoFinal){
+    veredicto = toString(veredictoFinal);
+}
+
+void Calificacion::setCompilador(const string& compiladorUsado){
+    compilador = compiladorUsado;
 }
 
 string Calificacion::getNombreUsuario(){
     return nombreUsuario;
 }
 
-int Calificacion::getCalificacion(){
-    return calificacion;
+string Calificacion::getCompilador(){
+    return compilador;
 }
 
 string Calificacion::getVeredicto(){
@@ -45,4 +50,20 @@ string Calificacion::getVeredicto(){
 
 list<seap_implement::CasoPrueba> Calificacion::getCasosPrueba(){
     return casosPrueba;
+}
+
+string Calificacion::toString(const double numero){
+    ostringstream strs;
+    string str;
+    strs.str("");
+    strs << numero;
+    return strs.str();
+}
+
+string Calificacion::toString(const int numero){
+    ostringstream strs;
+    string str;
+    strs.str("");
+    strs << numero;
+    return strs.str();
 }

@@ -30,3 +30,7 @@ CasoPrueba::CasoPrueba(const string& evaluacion){
 string CasoPrueba::getEvaluacionCasoPrueba(){
     return evaluacionCasoPrueba;
 }
+
+string CasoPrueba::getMemoria(){
+    return memoria;
+}

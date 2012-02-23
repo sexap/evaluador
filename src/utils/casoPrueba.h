@@ -7,6 +7,7 @@ namespace seap_implement{
 
     class CasoPrueba{
             private:
+                string memoria;
                 string evaluacionCasoPrueba;
                 //CasoPrueba(){};
 
@@ -15,6 +16,7 @@ namespace seap_implement{
                 CasoPrueba(const string& evaluacion);
                 CasoPrueba(const int resultado, const double tiempo);
                 string getEvaluacionCasoPrueba();
+                string getMemoria();
     };
 
 }

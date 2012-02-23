@@ -31,10 +31,14 @@ namespace seap_implement {
                 string getJuez();
                 string getFecha();
                 string getHora();
-                void nuevoAlumno(const string& nombreDelUsuario);
+                void nuevoAlumno(const string& nombreDelUsuario,const string& compilador);
                 void agregarResultadoCasoPrueba(const int resultado, const double tiempo);
                 void agregarResultadoCasoPrueba(const string& resultado);
-                void terminarEvaluacionUsuario(const int resultado,const string& veredicto);
+                //void terminarEvaluacionUsuario(const int resultado,const string& veredicto);
+
+                void terminarEvaluacionUsuario(const int veredictoFinal);
+                void terminarEvaluacionUsuario(const string& veredictoFinal);
+
                 void imprimirResultadoAmigable();
                 void imprimirResultadoCVS();
     };
