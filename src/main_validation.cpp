@@ -70,6 +70,7 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("o", outputFile);
 	confArg.getValue("v", verbose);
 	confArg.getValue("nb",showProgress);
+
 	showProgress = !showProgress;
 
 	clog << "verboso: " << (verbose?"sí":"no") << endl;
@@ -123,6 +124,8 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("strict_eval", strictEval);
 	confFile.getValue("compare_white", compareWhite);
 
+	judgeExe = problem + "/" + judgeExe;
+
 	hasError = false;
 	if (!isBetween(maxCompTime, 1, 90000))
 	{
@@ -151,9 +154,8 @@ list<string> testCases, sourceFiles;
 	}
 	else if (judgeNeedsExe(judgeType))
 	{
-		if (!isExec(problem + "/" + judgeExe))
-		{
-			cerr << "No se pudo abrir '" << problem << "/" << judgeExe  << "' como ejecutable" << endl;
+		if (!isExec(judgeExe)) {
+			cerr << "No se pudo abrir '" << judgeExe  << "' como ejecutable" << endl;
 			hasError = true;
 		}
 	}

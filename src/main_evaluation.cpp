@@ -72,6 +72,7 @@
             cerr << "No se pudo hacer el fork para la compilacion" << endl;
         }
         else if (pID == 0) {
+        	//Enviar stderr a pipe
             close(fd_pipe_comp[0]);
             dup2(fd_pipe_comp[1], STDERR_FILENO);
             close(fd_pipe_comp[1]);
@@ -168,7 +169,7 @@
 				comando = "exec_alumno";
 				clog << "  Ejecuto el programa " << comando << endl;
 				programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
-				if (programa == -1) {
+				if (programa < 0) {
 					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
 					reporte.terminarEvaluacionUsuario("RE");
 					cerr << "Error de ejecución" << endl;
@@ -232,16 +233,14 @@
 
 			// Si merece la pena evaluarlo
 			if (goodRun) {
-				//el programa ya fue compilado y esta listo para ejecutarse
-				clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
 
 				/**
 				*   Juez Normal
 				**/
 
 				if (judgeType == "standard") {
-					clog << "  Caso " << *itTC << " estuvo ";
-					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION))) //Envío el pipe donde está la salida de la ejecución.
+					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION)))
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
@@ -256,7 +255,7 @@
 				**/
 				else if (judgeType == "special")
 				{
-					clog << "  Caso " << *itTC << " estuvo ";
+					clog << "  Ejecutando juez especial" << endl;
 					if (juezEspecial(*itTC, judgeExe))
 					{
 						clog << "bien" << endl;
