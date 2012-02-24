@@ -21,11 +21,3 @@ Indica que se mostrará información extra.
 
 -nb
 Indica que no debe mostrarse barra de progreso
-
-** RESTRICCIONES **
-
--s valor
-Tamaño máximo del archivo de código fuente en kiB.
-
--S valor
-Tamaño máximo de la salida del programa del usuario en kiB

@@ -11,6 +11,7 @@
     bool goodComp, goodRun;
 
     resource_t usedResources;
+    rlimit limitVar;
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
     int limitExceded;
 
@@ -172,6 +173,10 @@
 				freopen("salida_exec_alumno", "w", stdout); //Redirigir salida -> archivo
 				freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin); //Redirigir entrada <- caso
 
+				// Restricciones de ejecuación (parte 1)
+				limitVar.rlim_cur = limitVar.rlim_max = maxOutSize * 1024;
+				setrlimit(RLIMIT_FSIZE, &limitVar);
+
 				//Ejecución
 				comando = "exec_alumno";
 				clog << "  Ejecuto el programa " << comando << endl;
@@ -185,7 +190,7 @@
 				return 1;
 			} // Termina el hijo de ejecución
 
-			// Restricciones de ejecución
+			// Restricciones de ejecución (parte 2)
 			initResource(usedResources);
 			limitExceded = LIMIT_NONE;
 			while(waitpid(pID, &status, WNOHANG) == 0) {
@@ -218,6 +223,10 @@
 					else if (limitExceded == LIMIT_MEM) {
 						reporte.agregarResultadoCasoPrueba("LIM MEM");
 						clog << "  Exceso de memoria" << endl;
+					}
+					else if (WTERMSIG(status) == SIGXFSZ) {
+						reporte.agregarResultadoCasoPrueba("LIM OUT");
+						clog << "  Exceso de salida (SIGXFSZ)" << endl;
 					}
 					else if (WTERMSIG(status) == SIGSEGV) {
 						reporte.agregarResultadoCasoPrueba("ERR MEM");

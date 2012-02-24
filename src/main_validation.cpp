@@ -17,9 +17,6 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgFixVar("action", Config::T_STRING);
 	confArg.registerArgFixVar("problem", Config::T_STRING);
 
-	confArg.registerArgVar("s", Config::T_INT, false);
-	confArg.registerArgVar("S", Config::T_INT, false);
-
 	confArg.registerArgVar("f", Config::T_LIST, true);
 	confArg.registerArgVar("c", Config::T_LIST, false);
 	confArg.registerArgVar("o", Config::T_STRING, false);
@@ -30,14 +27,15 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("comp_mem", Config::T_INT, false);
 	confFile.registerFileVar("run_time", Config::T_INT, false);
 	confFile.registerFileVar("run_mem", Config::T_INT, false);
+	confFile.registerFileVar("source_size", Config::T_INT, false);
+	confFile.registerFileVar("output_size", Config::T_INT, false);
+
 	confFile.registerFileVar("judge_type", Config::T_STRING, false);
 	confFile.registerFileVar("judge_exe", Config::T_STRING, false);
 	confFile.registerFileVar("strict_eval", Config::T_BOOL, false);
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
 
 	// Valores por default
-	confArg.setValue("s", 24); // 24kB de código (por revisar)
-	confArg.setValue("S", 8); // 8KB de salida (por revisar)
 	confArg.setValue("o", "calificaciones");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
@@ -46,6 +44,9 @@ list<string> testCases, sourceFiles;
 	confFile.setValue("comp_mem", 256); // 256MB para compilar
 	confFile.setValue("run_time", 5000); // 5 s para ejecutarse
 	confFile.setValue("run_mem", 128); // 128 MiB para ser ejecutado
+	confFile.setValue("source_size", 32); // 32 kiB de código
+	confFile.setValue("output_size", 256); // 256 kiB de salida
+
 	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
 	confFile.setValue("strict_eval", false); // No es estricto
@@ -62,9 +63,6 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("action", action);
 	confArg.getValue("problem", problem);
 
-	confArg.getValue("s", maxSourceSize);
-	confArg.getValue("S", maxOutSize);
-
 	confArg.getValue("f", sourceFiles);
 	confArg.getValue("c", testCases);
 	confArg.getValue("o", outputFile);
@@ -77,7 +75,6 @@ list<string> testCases, sourceFiles;
 	clog << "barra de progreso: " << (showProgress?"sí":"no") << endl;
 	clog << endl;
 
-	//TODO Revisar valores cuando las restricciones funcionen
 	hasError = false;
 	if (!isValidAction(action))
 	{
@@ -87,17 +84,6 @@ list<string> testCases, sourceFiles;
 	if (!isDir(problem))
 	{
 		cerr << "No se pudo abrir la carpeta del problema " << problem << endl;
-		hasError = true;
-	}
-
-	if (!isBetween(maxSourceSize, 1, 512))
-	{
-		cerr << "el parametro -s debe estar entre 1kB y 512kB" << endl;
-		hasError = true;
-	}
-	if (!isBetween(maxOutSize, 1, 256))
-	{
-		cerr << "el parametro -S debe estar entre 1kB y 256kB" << endl;
 		hasError = true;
 	}
 	if (hasError) return 1;
@@ -119,6 +105,9 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("comp_mem", maxCompMem);
 	confFile.getValue("run_time", maxRunTime);
 	confFile.getValue("run_mem", maxRunMem);
+	confFile.getValue("source_size", maxSourceSize);
+	confFile.getValue("output_size", maxOutSize);
+
 	confFile.getValue("judge_type", judgeType);
 	confFile.getValue("judge_exe", judgeExe);
 	confFile.getValue("strict_eval", strictEval);
@@ -147,6 +136,17 @@ list<string> testCases, sourceFiles;
 		cerr << "En '" << problem << "/eval.conf': run_mem debe estar entre 1 MiB y 2048 MiB" << endl;
 		hasError = true;
 	}
+	if (!isBetween(maxSourceSize, 1, 1024*1024))
+	{
+		cerr << "En '" << problem << "/eval.conf': source_size debe estar entre 1 KiB y 1 048 576 KiB" << endl;
+		hasError = true;
+	}
+	if (!isBetween(maxOutSize, 1, 1024*1024))
+	{
+		cerr << "En '" << problem << "/eval.conf': output_size debe estar entre 1 KiB y 1 048 576 KiB" << endl;
+		hasError = true;
+	}
+
 	if (!isValidJudgeType(judgeType))
 	{
 		cerr << "En '" << problem << "/eval.conf': " << judgeType << " no es un tipo de juez válido" << endl;
