@@ -124,7 +124,7 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("strict_eval", strictEval);
 	confFile.getValue("compare_white", compareWhite);
 
-	judgeExe = problem + "/" + judgeExe;
+	judgeExe = "_judges_/" + judgeExe;
 
 	hasError = false;
 	if (!isBetween(maxCompTime, 1, 90000))
