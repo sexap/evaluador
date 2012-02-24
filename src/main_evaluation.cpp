@@ -63,13 +63,16 @@
 		 *   Compilación   *
 		 *******************/
         if (pipe(fd_pipe_comp) < 0) {
-            cerr << "No se pudo hacer pipe para la compilacion" << endl;
+            cerr << "Falló pipe() para la compilación" << endl;
+            perror("Error");
             return 1;
         }
 
         pID = fork();
         if (pID < 0) {
-            cerr << "No se pudo hacer el fork para la compilacion" << endl;
+            cerr << "Falló fork() para la compilación" << endl;
+            perror("Error");
+            return 1;
         }
         else if (pID == 0) {
         	//Enviar stderr a pipe
@@ -78,6 +81,7 @@
             close(fd_pipe_comp[1]);
 
 			//TODO: Agregar Werror=main
+			//TODO: Mejorar exec
             if (lang == "c") {
                 comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
                 clog << "Compilando con el comando " << comando << endl;
@@ -96,6 +100,8 @@
                 if (execl("/usr/bin/gcj", "gcj", (*itSF).c_str(), segundoParam.c_str(), "-o", "exec_alumno", (char *) 0) < 0)
                     perror("exec");
             }
+
+            return 1;
         } // Termina el hijo
 
         close(fd_pipe_comp[1]); // El padre no necesita mandarle datos al hijo
@@ -139,8 +145,7 @@
 				else clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
         	}
         } // Fin de las restricciones
-        fclose(child_error);
-
+        fclose(child_error); /// !!!!!!!!!!!!!!!!!!!!!!!!!
         clog << endl;
 
 		//Ciclo para cada caso de prueba. (Casos)
@@ -158,12 +163,14 @@
 			 *****************/
 			pID = fork();
 			if (pID < 0) {
-				cerr << "No se pudo hacer el fork para la ejecución" << endl;
+				cerr << "Falló pipe() para la ejecución" << endl;
+				perror("Error");
+				return 1;
 			}
 			else if (pID == 0) {
-				freopen("/dev/null", "w", stderr); //Redirigir error -> vacio
+				freopen("/dev/null", "w", stderr); //Redirigir error -> al vacio
 				freopen("salida_exec_alumno", "w", stdout); //Redirigir salida -> archivo
-				freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin); //Redirigir caso -> entrada
+				freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin); //Redirigir entrada <- caso
 
 				//Ejecución
 				comando = "exec_alumno";
@@ -172,9 +179,10 @@
 				if (programa < 0) {
 					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
 					reporte.terminarEvaluacionUsuario("RE");
-					cerr << "Error de ejecución" << endl;
-					return 0;
+					cerr << "Falló exec() para la ejecución" << endl;
+					perror("Error");
 				}
+				return 1;
 			} // Termina el hijo de ejecución
 
 			// Restricciones de ejecución
@@ -230,14 +238,15 @@
 				}
 			} // Fin de restricciones
 
-
+			/******************
+			 *   Evaluación   *
+			 ******************/
 			// Si merece la pena evaluarlo
 			if (goodRun) {
 
 				/**
 				*   Juez Normal
 				**/
-
 				if (judgeType == "standard") {
 					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
 					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION) ))
@@ -250,6 +259,7 @@
 						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
 				}
+
 				/**
 				*   Juez Especial
 				**/
@@ -268,6 +278,7 @@
 						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
 				}
+
 				/**
 				*   Juez Interactivo
 				**/

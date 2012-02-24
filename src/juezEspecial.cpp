@@ -2,54 +2,69 @@
 
 int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 {
-    ofstream cout("logJE.txt", fstream::app);
-
     int calif;
     pid_t pID;
     int status, programa;
+    bool goodRun;
 
 	pID = fork();
 	if (pID < 0) {
-		cout << "No se pudo hacer el fork para correr el juez especial" << endl;
+		cerr << "Falló fork() para Juez Especial" << endl;
+        perror("Error");
+        return 1;
 	}
 	else if (pID == 0) {
 		//Redirijo Caso de Prueba --> Entrada juez especial
-		if (freopen(casoDePrueba.c_str(), "r", stdin) == NULL) {
-			cout << "Falló freopen 1 JE" << endl;
-		}
-
+		freopen(casoDePrueba.c_str(), "r", stdin);
 		//Redirijo Salida JE --> archivo de veredictoJE
-		if (freopen("veredictoJE", "w", stdout) == NULL) {
-			cout << "Falló freopen 2 JE" << endl;
-		}
+		freopen("veredictoJE", "w", stdout);
 
 		//Ejecuto el JE
 		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
 		if (programa < 0) {
-            //Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
-            cout << "Error de ejecución del JE" << endl;
-            return 0;
+            cerr << "Falló exec() para la ejecución" << endl;
+			perror("Error");
         }
+        return 1;
 	} // Termina el hijo
 
+	// Esperar hijo
 	waitpid(pID, &status, 0);
-	cout << "Terminó la evaluación especial del caso " << casoDePrueba << endl;
+	// Verificar que haya finalizado correctamente
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+		clog << "  Ejecución de Juez Especial correcta..." << endl;
+		goodRun = true;
+	}
+	else {
+		clog << "  Falló la ejecución del Juez Especial." << endl;
+		goodRun = false;
+
+		if (WIFEXITED(status)) {
+			clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
+		}
+		else if (WIFSIGNALED(status)) {
+			clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
+		}
+	}
+	// Si no acabó bien devolver calif 0
+	if (!goodRun) return 0;
+
+	clog << "  Analizando veredicto..." << endl;
 
 	ifstream veredictoJE("veredictoJE");
-
 	if (veredictoJE.fail()) {
-		cout << "No pudo abrir veredictoJE" << endl;
+		clog << "  No pudo abrir veredictoJE" << endl;
 	}
 
 	if(veredictoJE >> calif)
 	{
-		cout << "Caso " << getFileName(casoDePrueba) << " sacó " << calif << endl;
+		clog << "  Caso " << getFileName(casoDePrueba) << " sacó " << calif << endl;
 	}
 	else
 	{
-		cout << "El JE no dio veredicto..." << endl;
+		clog << "  El JE no dio veredicto..." << endl;
 	}
 
-	cout.close();
+	remove("veredictoJE");
     return calif;
 }
