@@ -29,4 +29,63 @@ namespace seap_implement {
 		}
 	}
 
+	//////////////////////////
+	// Parametros para exec //
+	//////////////////////////
+
+	ParamHolder::ParamHolder() {
+		paramList[0] = NULL;
+		pos = 0;
+	}
+
+	void ParamHolder::add(const char* s) {
+		if (pos+1 < MAX_EXEC_PARAMS) {
+			paramList[pos] = s;
+			paramList[pos+1] = NULL;
+			needsClean[pos] = false;
+			++pos;
+		}
+	}
+
+	void ParamHolder::add(const std::string& s) {
+		char* aux;
+
+		if (pos+1 < MAX_EXEC_PARAMS) {
+			aux = new char[s.length()+1];
+			strcpy(aux, s.c_str());
+
+			paramList[pos] = aux;
+			paramList[pos+1] = NULL;
+			needsClean[pos] = true;
+			++pos;
+		}
+	}
+
+	char* const* ParamHolder::params() {
+		return (char* const*) paramList;
+	}
+
+	const char* ParamHolder::exe() {
+		return paramList[0];
+	}
+
+	void ParamHolder::clear() {
+		for (int i = 0; i < pos; ++i) {
+			if (needsClean[i]) delete paramList[i];
+		}
+		paramList[0] = NULL;
+		pos = 0;
+	}
+
+	ParamHolder::~ParamHolder() {
+		clear();
+	}
+
+	std::ostream& operator<< (std::ostream& os, const ParamHolder& ph) {
+		for (int i = 0; i < ph.pos; ++i) {
+			os << (i>0?" ":"") << ph.paramList[i];
+		}
+		return os;
+	}
+
 }

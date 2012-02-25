@@ -2,13 +2,13 @@
 // -- AQUI
 {
 	// Variables internas (no existen fuera de esta sección)
-    string tipoResultado;
-    int programa, status, fd_pipe_comp[2];
+    int status, fd_pipe_comp[2];
     pid_t pID;
     char buffer[512];
-    string comando, lang, compiler;
+    string comando, lang;
     unsigned int casosCorrectos, califFinal;
     bool goodComp, goodRun;
+    ParamHolder compParams, runParams;
 
     resource_t usedResources;
     rlimit limitVar;
@@ -39,7 +39,6 @@
         if(showProgress) cout << "* " << flush;
 
         casosCorrectos = 0;
-        tipoResultado = "";
 
         clog << "Evaluando el codigo " << *itSF << endl;
         if(judgeType == "standard")
@@ -47,18 +46,42 @@
         else if(judgeType == "special")
 			clogJE << "\tEvaluando el codigo " << *itSF << endl;
 
-        forceValidLang(lang, *itSF);
+		/******************
+		 *   Parámetros   *
+		 ******************/
+		compParams.clear();
+		runParams.clear();
 
-        if(lang == "c")
-            compiler = "gcc";
-        else if(lang == "c++")
-            compiler = "g++";
-        else if(lang == "java")
-            compiler = "gcj";
+		forceValidLang(lang, *itSF);
+		if (lang == "c") {
+			compParams.add("gcc");
+			compParams.add(*itSF);
+			compParams.add("-o");
+			compParams.add("exec_alumno");
+			compParams.add("-Werror=main");
 
-        //TODO: Hacer solo muestre los numeros
-		if (ZARAGOZA_NAME_CONVENTION)   reporte.nuevoAlumno(getFileName(removeExtension(*itSF)),compiler);
-		else reporte.nuevoAlumno(*itSF,compiler);
+			runParams.add("exec_alumno");
+		} else if (lang == "c++") {
+			compParams.add("g++");
+			compParams.add(*itSF);
+			compParams.add("-o");
+			compParams.add("exec_alumno");
+			compParams.add("-Werror=main");
+
+			runParams.add("exec_alumno");
+		} else if (lang == "java") {
+			compParams.add("gcj");
+			compParams.add(*itSF);
+			compParams.add("--main=" + removeExtension(getFileName(*itSF)));
+			compParams.add("-o");
+			compParams.add("exec_alumno");
+
+			runParams.add("exec_alumno");
+		}
+
+		//TODO: Hacer solo muestre los numeros
+		if (ZARAGOZA_NAME_CONVENTION)   reporte.nuevoAlumno(getFileName(removeExtension(*itSF)), compParams.exe());
+		else reporte.nuevoAlumno(*itSF, compParams.exe());
 
         /*******************
 		 *   Compilación   *
@@ -81,26 +104,12 @@
             dup2(fd_pipe_comp[1], STDERR_FILENO);
             close(fd_pipe_comp[1]);
 
-			//TODO: Agregar Werror=main
-			//TODO: Mejorar exec
-            if (lang == "c") {
-                comando = "execl(\"/usr/bin/gcc\", \"gcc\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
-                clog << "Compilando con el comando " << comando << endl;
-                if (execl("/usr/bin/gcc", "gcc", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
-                    perror("exec");
-            } else if (lang == "c++") {
-                comando = "execl(\"/usr/bin/g++\", \"g++\", \"" + *itSF + "\", \"-o\", \"exec_alumno\", \"-lm\", (char *) 0);";
-                clog << "Compilando con el comando " << comando << endl;
-                if (execl("/usr/bin/g++", "g++", (*itSF).c_str(), "-o", "exec_alumno", "-lm", (char *) 0) < 0)
-                    perror("exec");
-            } else if (lang == "java") {
-                comando = "execl(\"/usr/bin/gcj\", \"gcj\", \"--main=\"" + *itSF + ").c_string(), (" + *itSF + ").c_string(), \"-o\", \"exec_alumno\", (char *) 0);";
-                clog << "Compilando con el comando " << comando << endl;
-
-                string segundoParam = "--main=" + removeExtension(getFileName(*itSF));
-                if (execl("/usr/bin/gcj", "gcj", (*itSF).c_str(), segundoParam.c_str(), "-o", "exec_alumno", (char *) 0) < 0)
-                    perror("exec");
-            }
+			// Compilación
+			clog << "Compilando con comando '" << compParams << "'" << endl;
+			if (execvp(compParams.exe(), compParams.params()) < 0) {
+				cerr << "Falló execvp() para la compilación" << endl;
+				perror("Error");
+			}
 
             return 1;
         } // Termina el hijo
@@ -146,14 +155,14 @@
 				else clog << "Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
         	}
         } // Fin de las restricciones
-        fclose(child_error); /// !!!!!!!!!!!!!!!!!!!!!!!!!
+        fclose(child_error); //TODO: Revisar documentación (por el pipe)
         clog << endl;
 
 		//Ciclo para cada caso de prueba. (Casos)
 		for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
 
 			if (!goodComp) {
-				reporte.terminarEvaluacionUsuario("CE");
+				reporte.agregarResultadoCasoPrueba("CE");
 				continue;
 			}
 
@@ -177,14 +186,12 @@
 				limitVar.rlim_cur = limitVar.rlim_max = maxOutSize * 1024;
 				setrlimit(RLIMIT_FSIZE, &limitVar);
 
-				//Ejecución
-				comando = "exec_alumno";
-				clog << "  Ejecuto el programa " << comando << endl;
-				programa = execl(comando.c_str(), comando.c_str(), (char *)NULL);
-				if (programa < 0) {
+				// Ejecución
+				clog << "  Ejecutando con comando '" << runParams << "'" << endl;
+				if (execv(runParams.exe(), runParams.params()) < 0) {
 					//Si no se logra ejecutar correctamente el programa, se guarda un RE (runtime error)
-					reporte.terminarEvaluacionUsuario("RE");
-					cerr << "Falló exec() para la ejecución" << endl;
+					reporte.agregarResultadoCasoPrueba("RE");
+					cerr << "Falló execv() para la ejecución" << endl;
 					perror("Error");
 				}
 				return 1;
@@ -307,6 +314,7 @@
 		reporte.terminarEvaluacionUsuario(califFinal);
     }
     cout << endl;
+
     //Salida de los resultados
     reporte.imprimirResultadoCVS();
     reporte.imprimirResultadoAmigable();

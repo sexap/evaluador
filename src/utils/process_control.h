@@ -3,6 +3,11 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <cstring>
+#include <string>
+#include <iostream>
+
+#include "../build_params.h"
 
 namespace seap_implement {
 
@@ -14,6 +19,32 @@ namespace seap_implement {
 	void initResource(resource_t& res);
 
 	void getMaxResourceUsage(pid_t pid, resource_t& res);
+
+	//////////////////////////
+	// Parametros para exec //
+	//////////////////////////
+
+	class ParamHolder
+	{
+		public:
+			ParamHolder();
+			~ParamHolder();
+
+			void add(const char* s);
+			void add(const std::string& s);
+			void clear();
+
+			char* const* params();
+			const char*  exe();
+
+			friend std::ostream& operator<< (std::ostream& os, const ParamHolder& ph);
+		private:
+			const char* paramList[MAX_EXEC_PARAMS];
+			bool needsClean[MAX_EXEC_PARAMS];
+			int pos;
+	};
+
+	std::ostream& operator<< (std::ostream& os, const ParamHolder& ph);
 
 }
 
