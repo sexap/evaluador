@@ -19,18 +19,21 @@ namespace seap_implement {
                 string fecha;
                 string hora;
                 string juez;
+                list<string> testCases;
                 list<seap_implement::Calificacion> calificaciones;
                 Calificacion calificacionTemporal;
 
                 Reporte(){};
             public:
                 Reporte(const string& nombreDelArchivo, const string& nombreDelProblema,const string& nombreJuez);
+                Reporte(const string& nombreDelArchivo, const string& nombreDelProblema,const string& nombreJuez, const list<string> testCasesList);
                 void setNombreProblema(const string& nombreDelProblema);
                 void setJuez(const string& nombreJuez);
                 string getNombreProblema();
                 string getJuez();
                 string getFecha();
                 string getHora();
+                list<string> getTestCases();
                 void nuevoAlumno(const string& nombreDelUsuario,const string& compilador);
                 void agregarResultadoCasoPrueba(const int resultado, const double tiempo);
                 void agregarResultadoCasoPrueba(const string& resultado);

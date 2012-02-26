@@ -22,7 +22,7 @@
     ofstream clogJN("logJN.txt", fstream::app);
 
     //Se inicializa el reporte
-    Reporte reporte(outputFile.c_str(),problem,judgeType);
+    Reporte reporte(outputFile.c_str(),problem,judgeType,testCases);
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;

@@ -1,6 +1,7 @@
 #include "reporte.h"
 #include "calificacion.h"
 #include "casoPrueba.h"
+#include "string_manip.h"
 #include <ctime> //Para obtener la fecha y hora de evaluacion
 #include <fstream>
 #include <iostream>
@@ -23,6 +24,25 @@ Reporte::Reporte(const string& nombreDelArchivo,const string& nombreDelProblema,
     nombreArchivo = nombreDelArchivo;
     hora = string (timeNow);
     fecha = string (dateNow);
+}
+
+Reporte::Reporte(const string& nombreDelArchivo,const string& nombreDelProblema,const string& nombreJuez, const list<string> testCasesList){
+    //Se obtienen la fecha y hora de la evaluación
+    char dateNow [10];
+    char timeNow [10];
+    time_t now = time(NULL);
+
+    strftime(dateNow, 50, "%d-%m-%Y", localtime(&now));
+    strftime(timeNow, 50, "%I:%M %p", localtime(&now));
+
+    //inicialización de variables
+
+    nombreProblema = nombreDelProblema;
+    juez = nombreJuez;
+    nombreArchivo = nombreDelArchivo;
+    hora = string (timeNow);
+    fecha = string (dateNow);
+    testCases = testCasesList;
 }
 
 void Reporte::setNombreProblema(const string& nombreDelProblema){
@@ -112,10 +132,19 @@ void Reporte::imprimirResultadoCVS(){
         cerr << "No se pudo abrtir el archivo";
     }
 
+    outputResults << "Alumno,";
+
+    for(list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++){
+        outputResults << getFileName((*itTC).c_str()) << "," ;
+    }
+
+    outputResults << "Calificación" << endl;
+
     for( it=calificaciones.begin() ; it != calificaciones.end(); it++ ){
+
         calificacionTemporal = *it;
 
-        outputResults << calificacionTemporal.getNombreUsuario() << "," << calificacionTemporal.getVeredicto() << ",";
+        outputResults << calificacionTemporal.getNombreUsuario() << ",";
 
         casosPrueba = calificacionTemporal.getCasosPrueba();
 
@@ -123,7 +152,8 @@ void Reporte::imprimirResultadoCVS(){
             casoPrueba = *ita;
             outputResults << casoPrueba.getEvaluacionCasoPrueba() << ",";
         }
-        outputResults << endl;
+
+        outputResults << calificacionTemporal.getVeredicto() << endl;
     }
     outputResults.close();
 }
