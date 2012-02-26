@@ -177,7 +177,7 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "<!DOCTYPE html>" << endl;
     outputResults << "<html lang=\"es\">" << endl;
     outputResults << "\t<head>" << endl;
-    outputResults << "\t\t<meta charset=\"utf-8\">" << endl;
+    outputResults << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html charset=utf-8\">" << endl;
     outputResults << "\t\t<title>" << "Calificaciones de " << nombreProblema << " con SEAP"<< "</title>" << endl;
     outputResults << "\t\t<link href=\"http://rafaelvargas.me/seap/css/bootstrap.min.css\" rel=\"stylesheet\">" << endl;
     outputResults << "\t</head>" << endl << endl;
@@ -191,7 +191,7 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t\t\t\t\t<tr>" << endl;
     outputResults << "\t\t\t\t\t\t<th>Alumno</th>" << endl;
     outputResults << "\t\t\t\t\t\t<th>Compilador</th>" << endl;
-    outputResults << "\t\t\t\t\t\t<th>Calificaci&oacute;n</th>" << endl;
+    outputResults << "\t\t\t\t\t\t<th>Calificación</th>" << endl;
     outputResults << "\t\t\t\t\t\t<th>Observaciones</th>" << endl;
     outputResults << "\t\t\t\t\t</tr>" << endl;
     outputResults << "\t\t\t\t</thead>" << endl;
