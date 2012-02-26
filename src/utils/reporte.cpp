@@ -118,7 +118,7 @@ void Reporte::imprimirResultadoAmigable(){
     outputResults.close();
 }
 
-void Reporte::imprimirResultadoCVS(){
+void Reporte::imprimirResultadoCSV(){
 
     seap_implement::CasoPrueba casoPrueba;
     list<seap_implement::CasoPrueba> casosPrueba;

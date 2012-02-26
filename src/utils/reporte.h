@@ -43,7 +43,7 @@ namespace seap_implement {
                 void terminarEvaluacionUsuario(const string& veredictoFinal);
 
                 void imprimirResultadoAmigable();
-                void imprimirResultadoCVS();
+                void imprimirResultadoCSV();
     };
 }
 #endif

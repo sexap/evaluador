@@ -22,7 +22,7 @@
     ofstream clogJN("logJN.txt", fstream::app);
 
     //Se inicializa el reporte
-    Reporte reporte(outputFile.c_str(),problem,judgeType,testCases);
+    Reporte reporte(removeExtension(getFileName(outputFile.c_str())),problem,judgeType,testCases);
 
     clog << "Iniciando evaluación..." << endl;
     clog << "El problema es: " << problem << endl;
@@ -316,6 +316,12 @@
     cout << endl;
 
     //Salida de los resultados
-    reporte.imprimirResultadoCVS();
-    reporte.imprimirResultadoAmigable();
+
+    if(hasExtension(outputFile,"txt"))  reporte.imprimirResultadoAmigable();
+    else if(hasExtension(outputFile,"csv")) reporte.imprimirResultadoCSV();
+    else{
+        reporte.imprimirResultadoAmigable();
+        reporte.imprimirResultadoCSV();
+    }
+
 }
