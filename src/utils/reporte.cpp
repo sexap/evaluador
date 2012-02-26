@@ -234,7 +234,7 @@ void Reporte::imprimirResultadoHTML(){
 
 
             for(list<string>::iterator itOB = observaciones.begin() ; itOB != observaciones.end() ; itOB++){
-                outputResults << *itOB << " " <<endl;
+                outputResults << *itOB << " ";
             }
 
             outputResults << "</td>" << endl;
