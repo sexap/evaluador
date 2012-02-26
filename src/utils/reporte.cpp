@@ -164,6 +164,8 @@ void Reporte::imprimirResultadoHTML(){
     list<seap_implement::CasoPrueba> casosPrueba;
     list<seap_implement::CasoPrueba>::iterator ita;
     list<seap_implement::Calificacion>::iterator it;
+    list<string> observaciones;
+
 
     //Archivo de los resultados en csv
     ofstream outputResults((nombreArchivo + ".html").c_str());
@@ -202,7 +204,45 @@ void Reporte::imprimirResultadoHTML(){
         outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getNombreUsuario() <<"</td>" << endl;
         outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getCompilador() <<"</td>" << endl;
         outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getVeredicto() <<"</td>" << endl;
-        outputResults << "\t\t\t\t\t\t<td>"<< "" <<"</td>" << endl;
+
+        if(calificacionTemporal.getVeredicto() != "100"){
+            observaciones.clear();
+
+            outputResults << "\t\t\t\t\t\t<td>";
+
+            casosPrueba = calificacionTemporal.getCasosPrueba();
+
+            for(ita=casosPrueba.begin() ; ita != casosPrueba.end(); ita++){
+                casoPrueba = *ita;
+
+                if(casoPrueba.getEvaluacionCasoPrueba() == "CE" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "RE" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "BAD RET" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "LIM TIME" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "LIMIT_MEM" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "LIM OUT" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "ERR MEM" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "ERR MATH" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "SIG ?"){
+                       observaciones.push_back(casoPrueba.getEvaluacionCasoPrueba());
+                }
+
+            }
+
+            observaciones.sort();
+            observaciones.unique();
+
+
+            for(list<string>::iterator itOB = observaciones.begin() ; itOB != observaciones.end() ; itOB++){
+                outputResults << *itOB << " " <<endl;
+            }
+
+            outputResults << "</td>" << endl;
+        }
+        else{
+            outputResults << "\t\t\t\t\t\t<td>"<< "" <<"</td>" << endl;
+        }
+
         outputResults << "\t\t\t\t\t</tr>" << endl;
     }
 
