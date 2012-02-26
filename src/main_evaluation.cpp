@@ -319,9 +319,11 @@
 
     if(hasExtension(outputFile,"txt"))  reporte.imprimirResultadoAmigable();
     else if(hasExtension(outputFile,"csv")) reporte.imprimirResultadoCSV();
+    else if(hasExtension(outputFile,"html")) reporte.imprimirResultadoHTML();
     else{
         reporte.imprimirResultadoAmigable();
         reporte.imprimirResultadoCSV();
+        reporte.imprimirResultadoHTML();
     }
 
 }

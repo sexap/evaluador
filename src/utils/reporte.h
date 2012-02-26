@@ -44,6 +44,7 @@ namespace seap_implement {
 
                 void imprimirResultadoAmigable();
                 void imprimirResultadoCSV();
+                void imprimirResultadoHTML();
     };
 }
 #endif

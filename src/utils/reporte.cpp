@@ -157,3 +157,79 @@ void Reporte::imprimirResultadoCSV(){
     }
     outputResults.close();
 }
+
+void Reporte::imprimirResultadoHTML(){
+
+    seap_implement::CasoPrueba casoPrueba;
+    list<seap_implement::CasoPrueba> casosPrueba;
+    list<seap_implement::CasoPrueba>::iterator ita;
+    list<seap_implement::Calificacion>::iterator it;
+
+    //Archivo de los resultados en csv
+    ofstream outputResults((nombreArchivo + ".html").c_str());
+
+    if (outputResults.fail()) {
+        cerr << "No se pudo abrtir el archivo";
+    }
+
+    outputResults << "<!DOCTYPE html>" << endl;
+    outputResults << "<html lang=\"es\">" << endl;
+    outputResults << "\t<head>" << endl;
+    outputResults << "\t\t<meta charset=\"utf-8\">" << endl;
+    outputResults << "\t\t<title>" << "Calificaciones de " << nombreProblema << " con SEAP"<< "</title>" << endl;
+    outputResults << "\t\t<link href=\"http://rafaelvargas.me/seap/css/bootstrap.min.css\" rel=\"stylesheet\">" << endl;
+    outputResults << "\t</head>" << endl << endl;
+    outputResults << "\t<body>" << endl;
+    outputResults << "\t\t<h2>Calificaciones de " << nombreProblema << " con SEAP.</h2>" << endl;
+    outputResults << "\t\t<br>" << endl;
+    outputResults << "\t\t<br>" << endl;
+    outputResults << "\t\t<div class=\"span10\">" << endl;
+    outputResults << "\t\t\t<table class=\"table table-striped table-bordered table-condensed\">" << endl;
+    outputResults << "\t\t\t\t<thead>" << endl;
+    outputResults << "\t\t\t\t\t<tr>" << endl;
+    outputResults << "\t\t\t\t\t\t<th>Alumno</th>" << endl;
+    outputResults << "\t\t\t\t\t\t<th>Compilador</th>" << endl;
+    outputResults << "\t\t\t\t\t\t<th>Calificaci&oacute;n</th>" << endl;
+    outputResults << "\t\t\t\t\t\t<th>Observaciones</th>" << endl;
+    outputResults << "\t\t\t\t\t</tr>" << endl;
+    outputResults << "\t\t\t\t</thead>" << endl;
+    outputResults << "\t\t\t\t<tbody>" << endl;
+
+    for( it=calificaciones.begin() ; it != calificaciones.end(); it++ ){
+        calificacionTemporal = *it;
+
+        outputResults << "\t\t\t\t\t<tr>" << endl;
+        outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getNombreUsuario() <<"</td>" << endl;
+        outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getCompilador() <<"</td>" << endl;
+        outputResults << "\t\t\t\t\t\t<td>"<< calificacionTemporal.getVeredicto() <<"</td>" << endl;
+        outputResults << "\t\t\t\t\t\t<td>"<< "" <<"</td>" << endl;
+        outputResults << "\t\t\t\t\t</tr>" << endl;
+    }
+
+    outputResults << "\t\t\t\t</tbody>" << endl;
+    outputResults << "\t\t\t</table>" << endl;
+    outputResults << "\t\t</div>" << endl;
+    outputResults << "\t\t<br>" << endl;
+    outputResults << "\t\t<br>" << endl;
+    outputResults << "\t\t<div class=\"span12\">" << endl;
+    outputResults << "\t\t\t<ul>" << endl;
+    outputResults << "\t\t\t\t<li><strong>CE</strong>: Error de compilaci&oacute;n.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>RE</strong>: Error en tiempo de ejecuci&oacute;n.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>BAD RET</strong>: El programa regresa un valor no reconocido.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>LIM TIME</strong>: Exceso de tiempo.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>LIMIT_MEM</strong>: Exceso de memoria.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>LIM OUT</strong>: Exceso de salida.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>ERR MEM</strong>: Violaci&oacute;n de segmento o error de bus.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>ERR MATH</strong>: Excepci&oacute;n de punto flotante.</li>" << endl;
+    outputResults << "\t\t\t</ul>" << endl;
+    outputResults << "\t\t\t<br>" << endl;
+    outputResults << "\t\t\t<p>Si tu calificaci&oacute;n no aparece es porque no recibi tu programa o porque no compila con gcc, g++ o gcj.</p>" << endl;
+    outputResults << "\t\t\t<p>Si tu calificacion es menor a lo que esperabas es probable que tu programa este mal o que imprima letreros o que no separe la salida de la forma pedida (es decir, esta mal).</p>" << endl;
+    outputResults << "\t\t\t<p>Generado el " << fecha <<" a las " << hora <<".</p>" << endl;
+    outputResults << "\t\t</div>" << endl;
+    outputResults << "\t\t" << endl;
+    outputResults << "\t</body>" << endl;
+    outputResults << "<html>" << endl;
+
+    outputResults.close();
+}
