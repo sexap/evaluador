@@ -183,7 +183,7 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t\t<h2>Calificaciones de " << nombreProblema << " con SEAP.</h2>" << endl;
     outputResults << "\t\t<br>" << endl;
     outputResults << "\t\t<br>" << endl;
-    outputResults << "\t\t<div class=\"span10\">" << endl;
+    outputResults << "\t\t<div class=\"span9\">" << endl;
     outputResults << "\t\t\t<table class=\"table table-striped table-bordered table-condensed\">" << endl;
     outputResults << "\t\t\t\t<thead>" << endl;
     outputResults << "\t\t\t\t\t<tr>" << endl;
@@ -209,9 +209,7 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t\t\t\t</tbody>" << endl;
     outputResults << "\t\t\t</table>" << endl;
     outputResults << "\t\t</div>" << endl;
-    outputResults << "\t\t<br>" << endl;
-    outputResults << "\t\t<br>" << endl;
-    outputResults << "\t\t<div class=\"span12\">" << endl;
+    outputResults << "\t\t<div class=\"span5\">" << endl;
     outputResults << "\t\t\t<ul>" << endl;
     outputResults << "\t\t\t\t<li><strong>CE</strong>: Error de compilaci&oacute;n.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>RE</strong>: Error en tiempo de ejecuci&oacute;n.</li>" << endl;
