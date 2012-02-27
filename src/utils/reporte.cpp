@@ -219,7 +219,7 @@ void Reporte::imprimirResultadoHTML(){
                    casoPrueba.getEvaluacionCasoPrueba() == "RE" ||
                    casoPrueba.getEvaluacionCasoPrueba() == "BAD RET" ||
                    casoPrueba.getEvaluacionCasoPrueba() == "LIM TIME" ||
-                   casoPrueba.getEvaluacionCasoPrueba() == "LIMIT_MEM" ||
+                   casoPrueba.getEvaluacionCasoPrueba() == "LIM MEM" ||
                    casoPrueba.getEvaluacionCasoPrueba() == "LIM OUT" ||
                    casoPrueba.getEvaluacionCasoPrueba() == "ERR MEM" ||
                    casoPrueba.getEvaluacionCasoPrueba() == "ERR MATH" ||
@@ -234,7 +234,13 @@ void Reporte::imprimirResultadoHTML(){
 
 
             for(list<string>::iterator itOB = observaciones.begin() ; itOB != observaciones.end() ; itOB++){
-                outputResults << *itOB << " ";
+
+
+                if(itOB = observaciones.begin())
+                    outputResults << *itOB;
+
+                else
+                    outputResults << ", " << *itOB;
             }
 
             outputResults << "</td>" << endl;
