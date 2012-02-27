@@ -179,10 +179,10 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t<head>" << endl;
     outputResults << "\t\t<meta http-equiv=\"Content-Type\" content=\"text/html charset=utf-8\">" << endl;
     outputResults << "\t\t<title>" << "Calificaciones de " << nombreProblema << " con SEAP"<< "</title>" << endl;
-    outputResults << "\t\t<link href=\"http://rafaelvargas.me/seap/css/bootstrap.min.css\" rel=\"stylesheet\">" << endl;
+    outputResults << "\t\t<link href=\"bootstrap.min.css\" rel=\"stylesheet\">" << endl;
     outputResults << "\t</head>" << endl << endl;
     outputResults << "\t<body>" << endl;
-    outputResults << "\t\t<h2>Calificaciones de " << nombreProblema << " con SEAP.</h2>" << endl;
+    outputResults << "\t\t<h2>Calificaciones de " << nombreProblema << " con SEAP</h2>" << endl;
     outputResults << "\t\t<br>" << endl;
     outputResults << "\t\t<br>" << endl;
     outputResults << "\t\t<div class=\"span9\">" << endl;
@@ -267,9 +267,9 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t\t\t\t<li><strong>ERR MATH</strong>: Excepci&oacute;n de punto flotante.</li>" << endl;
     outputResults << "\t\t\t</ul>" << endl;
     outputResults << "\t\t\t<br>" << endl;
-    outputResults << "\t\t\t<p>Si tu calificaci&oacute;n no aparece es porque no recibi tu programa o porque no compila con gcc, g++ o gcj.</p>" << endl;
-    outputResults << "\t\t\t<p>Si tu calificacion es menor a lo que esperabas es probable que tu programa este mal o que imprima letreros o que no separe la salida de la forma pedida (es decir, esta mal).</p>" << endl;
-    outputResults << "\t\t\t<p>Generado el " << fecha <<" a las " << hora <<".</p>" << endl;
+    outputResults << "\t\t\t<p>Si tu calificaci&oacute;n no aparece es porque no recib&iacute; tu programa o porque no compila con gcc, g++ o gcj.</p>" << endl;
+    outputResults << "\t\t\t<p>Si tu calificaci&oacute;n es menor a lo que esperabas es probable que tu programa est&eacute; mal o que imprima letreros o que no separe la salida de la forma pedida (es decir, est&aacute; mal).</p>" << endl;
+    outputResults << "\t\t\t<p>Generado el " << fecha << " a las " << hora << ".</p>" << endl;
     outputResults << "\t\t</div>" << endl;
     outputResults << "\t\t" << endl;
     outputResults << "\t</body>" << endl;

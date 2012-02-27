@@ -27,7 +27,7 @@ Tiempo máximo de compilación en ms.
 Rango: [1,90 000]
 Default: 10 000
 
-comp_mem valor
+comp_mem = valor
 Memoria máxima de compilación en MiB
 Rango: [1,2 048]
 Default: 256
