@@ -1,0 +1,4 @@
+** NO EVALUAR DIRECTAMENTE EN ESTA CARPETA **
+Por que se generarán muchos archivos que cambiarán seguido, que no queremos estar manteniendo en el repositorio y que podrían causar conflictos al hacer merge.
+
+Lo que yo hice es que tengo una carpeta /home/ernesto/zaragoza donde hice un elace simbólico a los binarios de seap y allí ejecuto todo.
