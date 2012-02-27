@@ -236,7 +236,7 @@ void Reporte::imprimirResultadoHTML(){
             for(list<string>::iterator itOB = observaciones.begin() ; itOB != observaciones.end() ; itOB++){
 
 
-                if(itOB = observaciones.begin())
+                if(itOB == observaciones.begin())
                     outputResults << *itOB;
 
                 else
@@ -261,7 +261,7 @@ void Reporte::imprimirResultadoHTML(){
     outputResults << "\t\t\t\t<li><strong>RE</strong>: Error en tiempo de ejecuci&oacute;n.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>BAD RET</strong>: El programa regresa un valor no reconocido.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>LIM TIME</strong>: Exceso de tiempo.</li>" << endl;
-    outputResults << "\t\t\t\t<li><strong>LIMIT_MEM</strong>: Exceso de memoria.</li>" << endl;
+    outputResults << "\t\t\t\t<li><strong>LIM MEM</strong>: Exceso de memoria.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>LIM OUT</strong>: Exceso de salida.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>ERR MEM</strong>: Violaci&oacute;n de segmento o error de bus.</li>" << endl;
     outputResults << "\t\t\t\t<li><strong>ERR MATH</strong>: Excepci&oacute;n de punto flotante.</li>" << endl;
