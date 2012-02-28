@@ -7,7 +7,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
+#include "utils/validation.h"
 #include "utils/string_manip.h"
+#include "utils/process_control.h"
 
 using namespace std;
 using namespace seap_implement;

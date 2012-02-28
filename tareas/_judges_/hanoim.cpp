@@ -5,25 +5,23 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
 	//Checa que cada paso sea movimiento legal
 		//No haya discos grandes sobre chicos.
 		//Sólo sean movimientos que pasen por el centro
 
-	//Checa que el resultado sea correcto
-	ifstream respAlumno("salida_exec_alumno");
-
     int desde, hacia, numDiscos;
 	int correcto = 100;
 	stack<int> torres[4];
+	ifstream caso(argv[1]);
 
-	if(!respAlumno.good())
-        cerr << "No se puede leer el archivo de resultado del alumno." << endl;
+	if(!caso.good())
+        cerr << "No se puede leer el archivo de caso de prueba." << endl;
     else
-        cerr << "Abrí el archivo del alumno." << endl;
+        cerr << "Abrí el archivo de caso de prueba: " << argv[1] << endl;
 
-	cin >> numDiscos;
+	caso >> numDiscos;
 
 	//Coloco los discos en la primera torre
 	for(int I = 0; I < numDiscos; I++)
@@ -32,7 +30,7 @@ int main()
 	}
 
 	//Leo cada uno de los movimientos del alumno y los simulo
-	while(respAlumno >> desde >> hacia)
+	while(cin >> desde >> hacia)
 	{
 		if(desde == 0 && hacia == 0)
 			break;
@@ -91,6 +89,6 @@ int main()
 
 	cout << correcto << endl;
 
-	respAlumno.close();
+	caso.close();
 	return 0;
 }

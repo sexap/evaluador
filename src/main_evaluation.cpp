@@ -283,7 +283,7 @@
 				{
 					clog << "  Ejecutando juez especial" << endl;
 					//TODO: Jueces especiales califican de 0 a 100
-					if (juezEspecial( (*itTC + "." + CASE_EXTENSION), judgeExe) == 100)
+					if (juezEspecial( (*itTC), judgeExe) == 100)
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;

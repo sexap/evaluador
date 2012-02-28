@@ -4,8 +4,9 @@ int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 {
     int calif;
     pid_t pID;
-    int status, programa;
+    int status;
     bool goodRun;
+	ParamHolder jeParams;
 
 	pID = fork();
 	if (pID < 0) {
@@ -15,13 +16,16 @@ int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 	}
 	else if (pID == 0) {
 		//Redirijo Caso de Prueba --> Entrada juez especial
-		freopen(casoDePrueba.c_str(), "r", stdin);
+		freopen("salida_exec_alumno", "r", stdin);
 		//Redirijo Salida JE --> archivo de veredictoJE
 		freopen("veredictoJE", "w", stdout);
 
+		jeParams.add(judgeExe);
+		jeParams.add(casoDePrueba + "." + CASE_EXTENSION);
+		if(isFile(casoDePrueba + "." + OUTPUT_EXTENSION)) jeParams.add(casoDePrueba + "." + OUTPUT_EXTENSION);
+
 		//Ejecuto el JE
-		programa = execl(judgeExe.c_str(), judgeExe.c_str(), (char *)NULL);
-		if (programa < 0) {
+		if (execvp(jeParams.exe(), jeParams.params()) < 0) {
             cerr << "Falló exec() para la ejecución" << endl;
 			perror("Error");
         }
