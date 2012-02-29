@@ -1,23 +1,40 @@
-posición 1
-Determina la acción que se va a realizar. Actualmente sólo se reconoce la acción 'eval'
+El seap se ejecuta desde la linea de comandos o terminal. Se debe invocar con el siguiente formato
 
-posición 2
-Nombre del problema que se va a evaluar.
+seap acción problema [opciones]
+
+** ACCIÓN **
+
+Determina la acción que se va a realizar sobre el problema.
+Actualmente sólo se reconoce la acción 'eval'.
+
+** PROBLEMA **
+
+Un problema es una carpeta que puede contener:
+	- Un archivo de configuración nombrado 'eval.conf'
+	- Casos de prueba
+	- Subcarpetas con más casos de prueba
+En esta opción especifique el nombre de dicha carpeta.
 
 ** OPCIONES **
 
 -f lista
-Lista de archivos de código fuente que se evaluarán. Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente). Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios archivos.
+Lista de archivos de código fuente que se evaluarán. 
+Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos dentro de ella (pero no otras carpetas, recursivamente). 
+Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios archivos.
 
 -c lista
-Lista de casos de prueba que se usarán para evaluar los códigos. Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos de caso de prueba dentro de ella (pero no otras carpetas, recursivamente). Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios casos, sin embargo puede ser que las expresiones no sean reconocidas como se espera, entonces rodee cada expresión en 'comillas simples'.
+Lista de casos de prueba que se usarán para evaluar los códigos. 
+Si un elemento de esta lista es una carpeta se expandirá para incluir los archivos de caso de prueba dentro de ella (pero no otras carpetas, recursivamente). 
+Se pueden usar los comodines propios de bash (*,?,{},[]) para listar más facilmente varios casos, sin embargo puede ser que las expresiones no sean reconocidas como se espera, entonces rodee cada expresión en 'comillas simples'.
+Si no se especifica esta opción se incluirán por defecto todos los casos de prueba del problema (pero no los que estén en subcarpetas).
 
 -o valor
-Indica un nombre de archivo donde se guardarán los resultados de la evaluación en formato csv.
-(actualmente el csv tiene nombre fijo)
+Indica un nombre de archivo donde se guardará un reporte de los resultados de la evaluación.
+Dependiendo de la extensión se generará un reporte en txt, csv o html.
+Si se indica un nombre sin extensión o con extensión no reconocida se generarán todos los reportes.
 
 -v
 Indica que se mostrará información extra.
 
 -nb
-Indica que no debe mostrarse barra de progreso
+Indica que no debe mostrarse la barra de progreso

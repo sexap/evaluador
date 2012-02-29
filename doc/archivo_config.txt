@@ -1,0 +1,74 @@
+Puede existir un archivo de configuración en el directorio de cada problema (no debe estar en subdirectorios) y debe de llamarse 'eval.conf'.
+Si no existe se usarán valores por default.
+
+Este archivo permite configurar el tipo de evaluación y las restricciones de evaluación.
+El archivo deberá tener el siguiente formato
+
+clave_1 = valor;
+clave_2 = valor;
+clave_n = valor;
+
+El punto y coma es opcional. 
+Pueden haber líneas en blanco y espacios de más.
+Las claves se detallan abajo y cualquiera puede ser omitida, en cuyo caso se utilizará su valor por default.
+Pueden incluirse comentarios estilo script, c o c++
+
+# Comentario script
+// Comentario c++
+/* Comentario c */
+
+
+** OPCIONES DE EVALUACIÓN **
+
+judge_type = {"standard", "special", "interactive"}
+Indica el tipo de juez a usar durante la evaluación.
+Default: "standard"
+
+judge_exe = "valor"
+Nombre del ejecutable que evaluará el problema en caso de que el juez sea "special" o "interactive".
+El ejecutable debe estar presente en la carpeta '_judges_' que es una librería de jueces especiales e interactivos.
+
+strict_eval = {true, false}
+Indica si se empleará la evaluación estricta. 
+Evaluación estricta significa que si algún caso está mal se tiene 0% de calificación, únicamente si todos los casos están correctos se tiene 100% de calificación.
+Evaluación normal (no estricta) significa que la clificación es (casos_buenos/casos_total)*100.
+Default: false
+
+compare_white = {true, false}
+Indica si se compararán o ignorarán los espacios en blanco para la evaluación de casos.
+Comparar espacios en blanco significa que las respuestas '1 2' y '1    2' se consideran distintas.
+Ignorar espacios en blanco significa que las respuestas '1 2' y '1    2' se consideran iguales.
+Default: false
+(Por el momento sólo afecta al juez "standard")
+
+** RESTRICCIONES **
+
+comp_time = valor
+Tiempo máximo de compilación en ms.
+Rango: [1,90 000]
+Default: 10 000
+
+comp_mem = valor
+Memoria máxima de compilación en MiB
+Rango: [1,2 048]
+Default: 256
+
+run_time = valor
+Tiempo máximo de ejecución por caso de prueba en ms.
+Rango: [1,90 000]
+Default: 5 000
+
+run_mem = valor
+Memoria máxima de ejecución por caso de prueba en MiB.
+Rango: [1,2 048]
+Default: 128
+
+source_size =  valor
+Tamaño máximo del archivo de código fuente en kiB.
+Rango: [1,1 048 576]
+Default: 32
+
+output_size = valor
+Tamaño máximo de la salida del programa del usuario en kiB
+Rango: [1,1 048 576]
+Default: 256
