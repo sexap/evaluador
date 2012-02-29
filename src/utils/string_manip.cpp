@@ -23,4 +23,10 @@ namespace seap_implement {
 		else return s;
 	}
 
+	const string cleanDirName(const string& s) {
+		if (s.length() == 0) return s;
+		if (s[s.length()-1] == '/') return s.substr(0, s.length()-1);
+		return s;
+	}
+
 }

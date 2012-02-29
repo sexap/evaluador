@@ -33,6 +33,12 @@ namespace seap_implement {
 	*/
 	const string getFileName(const string& s);
 
+	/*! Devuelve la cadena \c s sin el '/' final. Si la cadena no termina con '/' se devuelve igual.
+		\param s la cadena a modificar
+		\return La cadena sin '/'.
+	*/
+	const string cleanDirName(const string& s);
+
 }
 
 #endif // STRING_MANIP_H

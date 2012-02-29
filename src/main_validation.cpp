@@ -36,7 +36,7 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("compare_white", Config::T_BOOL, false);
 
 	// Valores por default
-	confArg.setValue("o", "calificaciones");
+	confArg.setValue("o", "");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
 
@@ -69,6 +69,8 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("v", verbose);
 	confArg.getValue("nb",showProgress);
 
+	problem = cleanDirName(problem);
+	if(outputFile == "") outputFile = getFileName(problem);
 	showProgress = !showProgress;
 
 	clog << "verboso: " << (verbose?"sí":"no") << endl;
@@ -212,7 +214,7 @@ list<string> testCases, sourceFiles;
 			else if (isDir(*it)) {
 				tmpList = Config::getDirFiles(*it, CASE_EXTENSION);
 				for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); ++tmp_it) {
-					testCases.push_back(*it + "/" + removeExtension(*tmp_it));
+					testCases.push_back(cleanDirName(*it) + "/" + removeExtension(*tmp_it));
 				}
 				toErase.push(it);
 			}
@@ -244,7 +246,7 @@ list<string> testCases, sourceFiles;
 		if (isDir(*it)) {
 			tmpList = Config::getDirFiles(*it);
 			for (tmp_it = tmpList.begin(); tmp_it != tmpList.end(); ++tmp_it) {
-				sourceFiles.push_back(*it + "/" + *tmp_it);
+				sourceFiles.push_back(cleanDirName(*it) + "/" + *tmp_it);
 			}
 			toErase.push(it);
 		}
@@ -293,4 +295,5 @@ clog << "  Memoria: " << maxCompMem << " MiB" << endl;
 clog << "Restricciones ejecución" << endl;
 clog << "  Tiempo:  " << maxRunTime << " ms" << endl;
 clog << "  Memoria: " << maxRunMem << " MiB" << endl;
+clog << "  Salida:  " << maxOutSize << " KiB" << endl;
 clog << endl;

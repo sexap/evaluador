@@ -16,33 +16,16 @@
 					<Add option="-g" />
 				</Compiler>
 			</Target>
-			<Target title="Release (32bits)">
-				<Option output="run/seap_r_32" prefix_auto="1" extension_auto="1" />
+			<Target title="Release">
+				<Option output="run/seap_r" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="run" />
-				<Option object_output="obj/release_32" />
+				<Option object_output="obj/release" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-fexpensive-optimizations" />
 					<Add option="-Os" />
 					<Add option="-O3" />
-					<Add option="-m32" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
-			<Target title="Release (64bits)">
-				<Option output="run/seap_r_64" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="run" />
-				<Option object_output="obj/release_64" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-fexpensive-optimizations" />
-					<Add option="-Os" />
-					<Add option="-O3" />
-					<Add option="-m64" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -73,101 +56,102 @@
 		</Linker>
 		<Unit filename="src/build_params.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/juezEspecial.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/juezEspecial.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/juezNormal.cpp">
-			<Option target="Release (32bits)" />
+			<Option target="Release" />
 			<Option target="Debug" />
-			<Option target="Release (64bits)" />
 		</Unit>
 		<Unit filename="src/juezNormal.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main_evaluation.cpp">
 			<Option compile="0" />
 			<Option link="0" />
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/main_validation.cpp">
 			<Option compile="0" />
 			<Option link="0" />
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/utils/calificacion.cpp" />
-		<Unit filename="src/utils/calificacion.h" />
-		<Unit filename="src/utils/casoPrueba.cpp" />
-		<Unit filename="src/utils/casoPrueba.h" />
+		<Unit filename="src/utils/calificacion.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/calificacion.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/casoPrueba.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/casoPrueba.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/utils/config.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/config.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/config_exceptions.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/expandparam.cpp">
 			<Option target="Aux expandparam" />
 		</Unit>
 		<Unit filename="src/utils/process_control.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/process_control.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
-		<Unit filename="src/utils/reporte.cpp" />
-		<Unit filename="src/utils/reporte.h" />
+		<Unit filename="src/utils/reporte.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/utils/reporte.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/utils/string_manip.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/string_manip.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/validation.cpp">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Unit filename="src/utils/validation.h">
 			<Option target="Debug" />
-			<Option target="Release (32bits)" />
-			<Option target="Release (64bits)" />
+			<Option target="Release" />
 		</Unit>
 		<Extensions>
 			<code_completion />
