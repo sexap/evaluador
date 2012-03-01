@@ -45,7 +45,7 @@ int i,j;
 
 int main(){
 	int x,i,j,y,Saltos=0;
-	scanf("%d %d %d",&n,&y,&x);
+	scanf("%d %d %d",&n,&x,&y);
     Inicializa(A);
     Inicializa(Mejor);
 	Caballo(x,y,1,Saltos+1);

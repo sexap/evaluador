@@ -20,7 +20,7 @@ int main(void)
   flojo(tablero,2,C-1,R-1);
     for (j = 0; j < N; j++) {
       for (i = 0; i < N; i++)
-        printf("%3d ", tablero[i][j]);
+        printf("%3d ", tablero[j][i]);
       putchar('\n');
     }
 //scanf("%d %d %d",&N,&R,&C);

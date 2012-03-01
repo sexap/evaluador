@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 	int leidos[401][3] = {}; //0 (leido o no), 1 (ren), 2 (col)
 	int tablero[20][20];
 	int vecinos[8][2] = {{+2,+1}, {+1,+2}, {-1,+2}, {-2,+1}, {-2,-1}, {-1,-2}, {+1, -2}, {+2, -1}};
+	char dumb;
 
 	//Leo los datos del caso
 	casoent >> n >> ri >> ci;
@@ -97,6 +98,12 @@ int main(int argc, char* argv[])
 	if(cin.fail())
 	{
 		cerr << "Algo no era número." << endl;
+		calif = 0;
+	}
+	cin >> dumb;
+	if(!cin.fail())
+	{
+		cerr << "Imprimió datos de más" << endl;
 		calif = 0;
 	}
 
