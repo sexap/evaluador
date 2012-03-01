@@ -48,7 +48,7 @@ list<string> testCases, sourceFiles;
 	confFile.setValue("output_size", 256); // 256 kiB de salida
 
 	confFile.setValue("judge_type", "standard"); // Juez estándar
-	confFile.setValue("judge_exe", "judge"); // Ejecutable del juez
+	confFile.setValue("judge_exe", ""); // Ejecutable del juez
 	confFile.setValue("strict_eval", false); // No es estricto
 	confFile.setValue("compare_white", false); // Ignora espacios extra
 
@@ -115,7 +115,8 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("strict_eval", strictEval);
 	confFile.getValue("compare_white", compareWhite);
 
-	judgeExe = "_judges_/" + judgeExe;
+	if (judgeExe == "") judgeExe = "_judges_/" + getFileName(problem);
+	else judgeExe = "_judges_/" + judgeExe;
 
 	hasError = false;
 	if (!isBetween(maxCompTime, 1, 90000))
