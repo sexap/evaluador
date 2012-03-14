@@ -25,6 +25,7 @@ using namespace std;
 #include "utils/process_control.h"
 #include "juezNormal.h"
 #include "juezEspecial.h"
+#include "juezInteractivo.h"
 
 using namespace seap_implement;
 

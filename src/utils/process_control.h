@@ -2,10 +2,14 @@
 #define PROCESS_CONTROL_H
 
 #include <stdio.h>
-#include <unistd.h>
 #include <cstring>
 #include <string>
 #include <iostream>
+using namespace std;
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 #include "../build_params.h"
 
@@ -13,6 +17,7 @@ namespace seap_implement {
 
 	struct resource_t {
 		unsigned long long time;
+		unsigned long long io_time;
 		unsigned long mem;
 	};
 

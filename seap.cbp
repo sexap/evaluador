@@ -66,6 +66,14 @@
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
+		<Unit filename="src/juezInteractivo.cpp">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="src/juezInteractivo.h">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Unit filename="src/juezNormal.cpp">
 			<Option target="Release" />
 			<Option target="Debug" />

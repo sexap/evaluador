@@ -4,8 +4,6 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-#include <sys/types.h>
-#include <sys/wait.h>
 
 #include "utils/validation.h"
 #include "utils/string_manip.h"

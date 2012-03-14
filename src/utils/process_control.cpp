@@ -15,7 +15,7 @@ namespace seap_implement {
 		sprintf(path, "/proc/%d/stat", pid);
 		fd = fopen(path, "r");
 		if (fd == NULL) {
-			printf ("ERRORROORORORO\n");
+			cerr << "No se puedo abrir " << path << endl;
 		}
 		else {
 			// Leer ignorando casi todo, exepto memoria y tiempo

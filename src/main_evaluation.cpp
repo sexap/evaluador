@@ -2,8 +2,8 @@
 // -- AQUI
 {
 	// Variables internas (no existen fuera de esta sección)
-    int status, fd_pipe_comp[2];
-    pid_t pID;
+    int status, fd_pipe_comp[2], pipe_run_in[2], pipe_run_out[2];
+    pid_t pID, jID;
     char buffer[512];
     string comando, lang;
     unsigned int casosCorrectos, califFinal;
@@ -99,8 +99,9 @@
             return 1;
         }
         else if (pID == 0) {
-        	//Enviar stderr a pipe
+        	// Cerrar pipe de lectura
             close(fd_pipe_comp[0]);
+            //Enviar stderr a pipe escritura
             dup2(fd_pipe_comp[1], STDERR_FILENO);
             close(fd_pipe_comp[1]);
 
@@ -171,18 +172,42 @@
 			/*****************
 			 *   Ejecución   *
 			 *****************/
+			//Juez Interactivo
+			if (judgeType == "interactive") {
+				// Crear pipes
+				if (pipe(pipe_run_in) < 0 || pipe(pipe_run_out) < 0) {
+					cerr << "Falló pipe() para la ejecución" << endl;
+					perror("Error");
+					return 1;
+				}
+				// Ejecutar
+				jID = juezInteractivoStart(*itTC + "." + CASE_EXTENSION, judgeExe, pipe_run_in[1], pipe_run_out[0]);
+			}
+
 			pID = fork();
 			if (pID < 0) {
-				cerr << "Falló pipe() para la ejecución" << endl;
+				cerr << "Falló fork() para la ejecución" << endl;
 				perror("Error");
 				return 1;
 			}
 			else if (pID == 0) {
-				freopen("/dev/null", "w", stderr); //Redirigir error -> al vacio
-				freopen("salida_exec_alumno", "w", stdout); //Redirigir salida -> archivo
-				freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin); //Redirigir entrada <- caso
+				//Redirigir error -> al vacio
+				freopen("/dev/null", "w", stderr);
 
-				// Restricciones de ejecuación (parte 1)
+				if (judgeType == "interactive") {
+					// Redirige salida -> pipe out
+					dup2(pipe_run_out[1], STDOUT_FILENO);
+					// Redirige entrada <- pipe in
+					dup2(pipe_run_in[0], STDIN_FILENO);
+				}
+				else {
+					// Redirigir salida -> archivo
+					freopen("salida_exec_alumno", "w", stdout);
+					// Redirigir entrada <- caso
+					freopen((*itTC + "." CASE_EXTENSION).c_str(), "r", stdin);
+				}
+
+				// Restricciones de ejecución (parte 1)
 				limitVar.rlim_cur = limitVar.rlim_max = maxOutSize * 1024;
 				setrlimit(RLIMIT_FSIZE, &limitVar);
 
@@ -212,6 +237,7 @@
 				}
 			}
 
+			// Verifica estado final de programa alumno
 			if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
 				clog << "  Ejecución correcta...." << endl;
 				goodRun = true;
@@ -254,6 +280,12 @@
 				}
 			} // Fin de restricciones
 
+			// Finaliza y espera juez interactivo
+			if (judgeType == "interactive") {
+				if (!goodRun) kill(jID, SIGKILL);
+				juezInteractivoEnd(jID);
+			}
+
 			/******************
 			 *   Evaluación   *
 			 ******************/
@@ -283,7 +315,7 @@
 				{
 					clog << "  Ejecutando juez especial" << endl;
 					//TODO: Jueces especiales califican de 0 a 100
-					if (juezEspecial( (*itTC), judgeExe) == 100)
+					if (juezEspecial(*itTC, judgeExe) == 100)
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
@@ -299,7 +331,17 @@
 				*   Juez Interactivo
 				**/
 				else if (judgeType == "interactive") {
-
+					//TODO: Jueces especiales califican de 0 a 100
+					if (juezInteractivoResult() == 100)
+					{
+						clog << "bien" << endl;
+						casosCorrectos++;
+						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
+					} else
+					{
+						clog << "mal" << endl;
+						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
+					}
 				}
 			}
 
