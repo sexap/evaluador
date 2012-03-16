@@ -15,11 +15,13 @@
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
     int limitExceded;
 
-    // logJE
-    ofstream clogJE("logJE.txt", fstream::app);
-
     // logJN
+    remove("logJN.txt");
     ofstream clogJN("logJN.txt", fstream::app);
+
+    // logJE
+    remove("logJE.txt");
+    ofstream clogJE("logJE.txt", fstream::app);
 
     //Se inicializa el reporte
     Reporte reporte(removeExtension(getFileName(outputFile.c_str())),problem,judgeType,testCases);
@@ -42,9 +44,24 @@
 
         clog << "Evaluando el codigo " << *itSF << endl;
         if(judgeType == "standard")
-        	clogJN << "\tEvaluando el codigo " << *itSF << endl;
+        {
+            clogJN << endl;
+            clogJN << "*******************************************************" << endl;
+            clogJN << "*" << endl;
+            clogJN << "*\tEvaluando el codigo " << *itSF << endl;
+            clogJN << "*" << endl;
+            clogJN << "*******************************************************" << endl;
+        }
         else if(judgeType == "special")
-			clogJE << "\tEvaluando el codigo " << *itSF << endl;
+        {
+            clogJE << endl;
+            clogJE << "*******************************************************" << endl;
+            clogJE << "*" << endl;
+            clogJE << "Evaluando el codigo " << *itSF << endl;
+            clogJE << "*" << endl;
+            clogJE << "*******************************************************" << endl;
+        }
+
 
 		/******************
 		 *   Parámetros   *
@@ -167,6 +184,14 @@
 			}
 
 			clog << "  Probando con caso " << *itTC << endl;
+			if(judgeType == "standard")
+			{
+			    clogJN << "\n\n****************   Caso " << *itTC << "   ****************\n";
+			}
+            else if(judgeType == "special")
+            {
+                clogJE << "\n\n****************   Caso " << *itTC << "   ****************\n";
+            }
 
 			/*****************
 			 *   Ejecución   *
@@ -264,7 +289,9 @@
 				*   Juez Normal
 				**/
 				if (judgeType == "standard") {
-					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					clog << "\tComparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					clogJN.flush();
+
 					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION) ))
 					{
 						clog << "bien" << endl;
@@ -282,7 +309,9 @@
 				else if (judgeType == "special")
 				{
 					clog << "  Ejecutando juez especial" << endl;
-					//TODO: Jueces especiales califican de 0 a 100
+
+					clogJN.flush();
+
 					if (juezEspecial( (*itTC), judgeExe) == 100)
 					{
 						clog << "bien" << endl;
@@ -326,4 +355,8 @@
         reporte.imprimirResultadoHTML();
     }
 
+    if (judgeType == "standard")
+        remove("logJE.txt");
+    else if (judgeType == "special")
+        remove("logJN.txt");
 }
