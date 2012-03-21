@@ -4,12 +4,14 @@ namespace seap_implement {
 
 	void initResource(resource_t& res) {
 		res.time = 0;
+		res.sleep_time = 0;
 		res.mem = 0;
 	}
 
 	void getMaxResourceUsage (pid_t pid, resource_t& res) {
 		char path[128];
 		unsigned long utime, stime, vsize;
+		char state;
 		FILE* fd;
 
 		sprintf(path, "/proc/%d/stat", pid);
@@ -20,9 +22,13 @@ namespace seap_implement {
 		else {
 			// Leer ignorando casi todo, exepto memoria y tiempo
 			// (http://www.kernel.org/doc/man-pages/online/pages/man5/proc.5.html)
-			fscanf(fd, "%*d %*s %*c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %lu %lu %*d %*d %*d %*d %*d %*d %*u %lu", &utime, &stime, &vsize);
+			fscanf(fd, "%*d %*s %c %*d %*d %*d %*d %*d %*u %*u %*u %*u %*u %lu %lu %*d %*d %*d %*d %*d %*d %*u %lu",
+				   &state, &utime, &stime, &vsize);
 			// Asignar el tiempo
 			res.time = utime + stime;
+			// Calcular el tiempo de E/S
+			if (state == 'S' || state == 'D') res.sleep_time += 1;
+			else res.sleep_time = 0;
 			// Asignar la memoria máxima
 			if (vsize > res.mem) res.mem = vsize;
 			fclose(fd);

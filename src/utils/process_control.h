@@ -17,7 +17,7 @@ namespace seap_implement {
 
 	struct resource_t {
 		unsigned long long time;
-		unsigned long long io_time;
+		unsigned long long sleep_time;
 		unsigned long mem;
 	};
 

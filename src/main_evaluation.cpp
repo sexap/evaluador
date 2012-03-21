@@ -12,7 +12,7 @@
 
     resource_t usedResources;
     rlimit limitVar;
-    enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM};
+    enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM, LIMIT_SLEEP};
     int limitExceded;
 
     // logJE
@@ -222,19 +222,35 @@
 				return 1;
 			} // Termina el hijo de ejecución
 
-			// Restricciones de ejecución (parte 2)
 			initResource(usedResources);
 			limitExceded = LIMIT_NONE;
-			while(waitpid(pID, &status, WNOHANG) == 0) {
+			while(true) {
+				// Espera a los hijos
+				if (waitpid(pID, &status, WNOHANG) != 0) {
+					cerr << "Terminó usuario. Matando JI" << endl; //!
+					if (judgeType == "interactive") kill(jID, SIGKILL);
+					break;
+				}
+				if (judgeType == "interactive" && waitpid(jID, &status, WNOHANG) != 0) {
+					cerr << "Terminó JI. Matando a usuario" << endl; //!
+					kill(pID, SIGKILL);
+					break;
+				}
+				// Restricciones de ejecución (parte 2)
 				getMaxResourceUsage(pID, usedResources);
 				if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
 					limitExceded = LIMIT_TIME;
+					kill(pID, SIGKILL);
+				}
+				if (usedResources.sleep_time > 50000) {
+					limitExceded = LIMIT_SLEEP;
 					kill(pID, SIGKILL);
 				}
 				else if (usedResources.mem > maxRunMem * 1024 * 1024) {
 					limitExceded = LIMIT_MEM;
 					kill(pID, SIGKILL);
 				}
+
 			}
 
 			// Verifica estado final de programa alumno
@@ -252,6 +268,10 @@
 					if (limitExceded == LIMIT_TIME) {
 						reporte.agregarResultadoCasoPrueba("LIM TIME");
 						clog << "  Exceso de tiempo" << endl;
+					}
+					else if (limitExceded == LIMIT_SLEEP) {
+						reporte.agregarResultadoCasoPrueba("LIM SLP");
+						clog << "  Exceso de inactividad" << endl;
 					}
 					else if (limitExceded == LIMIT_MEM) {
 						reporte.agregarResultadoCasoPrueba("LIM MEM");
