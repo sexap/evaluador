@@ -58,6 +58,11 @@ Tiempo máximo de ejecución por caso de prueba en ms.
 Rango: [1,90 000]
 Default: 5 000
 
+sleep_time = valor
+Tiempo máximo que el programa puede estar inactivo durante su ejecución, medido en miles de ciclos
+Rango: [1,10 000]
+Default: 50
+
 run_mem = valor
 Memoria máxima de ejecución por caso de prueba en MiB.
 Rango: [1,2 048]

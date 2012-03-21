@@ -1,6 +1,6 @@
 // Variables accesibles desde el exterior
 string judgeType, judgeExe, action, problem, outputFile;
-unsigned maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxRunMem;
+unsigned maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxSleepTime, maxRunMem;
 bool verbose, showProgress, strictEval, compareWhite;
 list<string> testCases, sourceFiles;
 
@@ -26,6 +26,7 @@ list<string> testCases, sourceFiles;
 	confFile.registerFileVar("comp_time", Config::T_INT, false);
 	confFile.registerFileVar("comp_mem", Config::T_INT, false);
 	confFile.registerFileVar("run_time", Config::T_INT, false);
+	confFile.registerFileVar("sleep_time", Config::T_INT, false);
 	confFile.registerFileVar("run_mem", Config::T_INT, false);
 	confFile.registerFileVar("source_size", Config::T_INT, false);
 	confFile.registerFileVar("output_size", Config::T_INT, false);
@@ -43,9 +44,10 @@ list<string> testCases, sourceFiles;
 	confFile.setValue("comp_time", 10000); // 10s para compilar
 	confFile.setValue("comp_mem", 256); // 256MB para compilar
 	confFile.setValue("run_time", 5000); // 5 s para ejecutarse
+	confFile.setValue("sleep_time", 50); // 50 kCiclos para estar dormido
 	confFile.setValue("run_mem", 128); // 128 MiB para ser ejecutado
-	confFile.setValue("source_size", 32); // 32 kiB de código
-	confFile.setValue("output_size", 256); // 256 kiB de salida
+	confFile.setValue("source_size", 32); // 32 KiB de código
+	confFile.setValue("output_size", 256); // 256 KiB de salida
 
 	confFile.setValue("judge_type", "standard"); // Juez estándar
 	confFile.setValue("judge_exe", ""); // Ejecutable del juez
@@ -106,6 +108,7 @@ list<string> testCases, sourceFiles;
 	confFile.getValue("comp_time", maxCompTime);
 	confFile.getValue("comp_mem", maxCompMem);
 	confFile.getValue("run_time", maxRunTime);
+	confFile.getValue("sleep_time", maxSleepTime);
 	confFile.getValue("run_mem", maxRunMem);
 	confFile.getValue("source_size", maxSourceSize);
 	confFile.getValue("output_size", maxOutSize);
@@ -132,6 +135,11 @@ list<string> testCases, sourceFiles;
 	if (!isBetween(maxRunTime, 1, 90000))
 	{
 		cerr << "En '" << problem << "/eval.conf': run_time debe estar entre 1 ms y 90 000 ms" << endl;
+		hasError = true;
+	}
+	if (!isBetween(maxSleepTime, 1, 10000))
+	{
+		cerr << "En '" << problem << "/eval.conf': sleep_time debe estar entre 1 kCiclos y 10 000 kCiclos" << endl;
 		hasError = true;
 	}
 	if (!isBetween(maxRunMem, 1, 2048))

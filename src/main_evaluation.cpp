@@ -242,7 +242,7 @@
 					limitExceded = LIMIT_TIME;
 					kill(pID, SIGKILL);
 				}
-				if (usedResources.sleep_time > 50000) {
+				if (usedResources.sleep_time > maxSleepTime * 1000) {
 					limitExceded = LIMIT_SLEEP;
 					kill(pID, SIGKILL);
 				}
