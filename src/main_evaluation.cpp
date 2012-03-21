@@ -15,11 +15,13 @@
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM, LIMIT_SLEEP};
     int limitExceded;
 
-    // logJE
-    ofstream clogJE("logJE.txt", fstream::app);
-
     // logJN
+    remove("logJN.txt");
     ofstream clogJN("logJN.txt", fstream::app);
+
+    // logJE
+    remove("logJE.txt");
+    ofstream clogJE("logJE.txt", fstream::app);
 
     //Se inicializa el reporte
     Reporte reporte(removeExtension(getFileName(outputFile.c_str())),problem,judgeType,testCases);
@@ -42,9 +44,24 @@
 
         clog << "Evaluando el codigo " << *itSF << endl;
         if(judgeType == "standard")
-        	clogJN << "\tEvaluando el codigo " << *itSF << endl;
+        {
+            clogJN << endl;
+            clogJN << "*******************************************************" << endl;
+            clogJN << "*" << endl;
+            clogJN << "*\tEvaluando el codigo " << *itSF << endl;
+            clogJN << "*" << endl;
+            clogJN << "*******************************************************" << endl;
+        }
         else if(judgeType == "special")
-			clogJE << "\tEvaluando el codigo " << *itSF << endl;
+        {
+            clogJE << endl;
+            clogJE << "*******************************************************" << endl;
+            clogJE << "*" << endl;
+            clogJE << "Evaluando el codigo " << *itSF << endl;
+            clogJE << "*" << endl;
+            clogJE << "*******************************************************" << endl;
+        }
+
 
 		/******************
 		 *   Parámetros   *
@@ -61,7 +78,8 @@
 			compParams.add("-Werror=main");
 
 			runParams.add("exec_alumno");
-		} else if (lang == "c++") {
+		}
+		else if (lang == "c++") {
 			compParams.add("g++");
 			compParams.add(*itSF);
 			compParams.add("-o");
@@ -69,7 +87,8 @@
 			compParams.add("-Werror=main");
 
 			runParams.add("exec_alumno");
-		} else if (lang == "java") {
+		}
+		else if (lang == "java") {
 			compParams.add("gcj");
 			compParams.add(*itSF);
 			compParams.add("--main=" + removeExtension(getFileName(*itSF)));
@@ -168,6 +187,14 @@
 			}
 
 			clog << "  Probando con caso " << *itTC << endl;
+			if(judgeType == "standard")
+			{
+			    clogJN << "\n\n****************   Caso " << *itTC << "   ****************\n";
+			}
+            else if(judgeType == "special")
+            {
+                clogJE << "\n\n****************   Caso " << *itTC << "   ****************\n";
+            }
 
 			/*****************
 			 *   Ejecución   *
@@ -316,13 +343,16 @@
 				*   Juez Normal
 				**/
 				if (judgeType == "standard") {
-					clog << "  Comparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					clog << "\tComparo con el archivo: " << (*itTC + "." + OUTPUT_EXTENSION) << endl;
+					clogJN.flush();
+
 					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION) ))
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
 						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					} else {
+					}
+					else {
 						clog << "mal" << endl;
 						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
@@ -334,13 +364,16 @@
 				else if (judgeType == "special")
 				{
 					clog << "  Ejecutando juez especial" << endl;
+					clogJN.flush();
+
 					//TODO: Jueces especiales califican de 0 a 100
 					if (juezEspecial(*itTC, judgeExe) == 100)
 					{
 						clog << "bien" << endl;
 						casosCorrectos++;
 						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					} else
+					}
+					else
 					{
 						clog << "mal" << endl;
 						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
@@ -357,7 +390,8 @@
 						clog << "bien" << endl;
 						casosCorrectos++;
 						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					} else
+					}
+					else
 					{
 						clog << "mal" << endl;
 						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
@@ -388,4 +422,8 @@
         reporte.imprimirResultadoHTML();
     }
 
+    if (judgeType == "standard")
+        remove("logJE.txt");
+    else if (judgeType == "special")
+        remove("logJN.txt");
 }

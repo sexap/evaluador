@@ -9,14 +9,13 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     ifstream respCorrecta(archSalidaEsperada.c_str());
     ifstream respAlumno(archAlum.c_str());
 
-    cout << "******************************" << endl;
     if(!respAlumno.good())
     {
         cout << "No se puede leer el archivo de resultado del alumno." << endl;
     }
     else
     {
-        cout << "Abrí el archivo del alumno." << endl;
+        //cout << "Abrí el archivo del alumno." << endl;
     }
     if(!respCorrecta.good())
     {
@@ -25,27 +24,27 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     }
     else
     {
-        cout << "Abrí el archivo de salida esperada." << endl;
+        //cout << "Abrí el archivo de salida esperada." << endl;
     }
-    cout << "El archivo de respuesta esperada es:" << endl;
-    cout << "---" << endl;
+    cout << "\nLa respuesta esperada es:" << endl;
+    cout << "-----" << endl;
     while(respCorrecta.good())
     {
         char c;
         respCorrecta.get(c);
         cout << c;
     }
-    cout << "---" << endl;
+    cout << "-----" << endl;
 
-    cout << endl << "La salida del alumno fue:" << endl;
-    cout << "---" << endl;
+    cout << endl << "La respuesta del alumno fue:" << endl;
+    cout << "-----" << endl;
     while(respAlumno.good())
     {
         char c;
         respAlumno.get(c);
         cout << c;
     }
-    cout << "---" << endl;
+    cout << "-----" << endl << endl;
 
     respCorrecta.close();
     respAlumno.close();
@@ -56,7 +55,7 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     if(compareWhite)
     {
         char caracterEsp, caracterAlum;
-        cout << endl << endl << "Comparo en modo estricto " << archSalidaEsperada << " con " << archAlum << endl << endl;
+        //cout << endl << "\tComparo en modo estricto " << archSalidaEsperada << " con " << archAlum << endl;
         while(respCorrecta.good())
         {
             respCorrecta.get(caracterEsp);
@@ -123,21 +122,21 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     {
         string cadenaAlum, cadenaEsp;
 
-        cout << endl << endl << "Comparo en modo normal " << archSalidaEsperada << " con " << archAlum << endl << endl;
+        //cout << endl << "\tComparo en modo normal " << archSalidaEsperada << " con " << archAlum << endl;
 
         while(respCorrecta >> cadenaEsp)
         {
             if(respAlumno >> cadenaAlum)
             {
-                cout << "Comparo " << cadenaAlum << " con " << cadenaEsp << "\t";
+                //cout << "Comparo " << cadenaAlum << " con " << cadenaEsp << "\t";
                 if(cadenaAlum != cadenaEsp)
                 {
                     accepted = false;
-                    cout << "Mal" << endl;
+                    //cout << "Mal" << endl;
                 }
                 else
                 {
-                    cout << "Bien" << endl;
+                    //cout << "Bien" << endl;
                 }
             }
             else
@@ -152,9 +151,9 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
             cout << "La salida del alumno tiene más cadenas de caracteres de las que debe." << endl;
         }
     }
-    cout << endl;
-    if(accepted) cout << "Caso " << archSalidaEsperada << " correcto" << endl;
-    else         cout << "Caso " << archSalidaEsperada << " mal" << endl;
+
+    if(accepted) cout << "\tCaso " << archSalidaEsperada << " CORRECTO" << endl;
+    else         cout << "\n\tCaso " << archSalidaEsperada << " MAL" << endl;
 
     respCorrecta.close();
     respAlumno.close();

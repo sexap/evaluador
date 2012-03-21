@@ -2,6 +2,7 @@
 
 int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 {
+    ofstream clogJE("logJE.txt", fstream::app);
     int calif;
     pid_t pID;
     int status;
@@ -17,8 +18,12 @@ int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 	else if (pID == 0) {
 		//Redirijo Caso de Prueba --> Entrada juez especial
 		freopen("salida_exec_alumno", "r", stdin);
+
 		//Redirijo Salida JE --> archivo de veredictoJE
 		freopen("veredictoJE", "w", stdout);
+
+		//Redirijo Salida stderr del JE --> archivo de errJE.txt
+		freopen("errJE", "a", stderr);
 
 		jeParams.add(judgeExe);
 		jeParams.add(casoDePrueba + "." + CASE_EXTENSION);
@@ -36,38 +41,40 @@ int juezEspecial(const string& casoDePrueba, const string& judgeExe)
 	waitpid(pID, &status, 0);
 	// Verificar que haya finalizado correctamente
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
-		clog << "  Ejecución de Juez Especial correcta..." << endl;
+		clogJE << "  Ejecución de Juez Especial correcta..." << endl;
 		goodRun = true;
 	}
 	else {
-		clog << "  Falló la ejecución del Juez Especial." << endl;
+		clogJE << "  Falló la ejecución del Juez Especial." << endl;
 		goodRun = false;
 
 		if (WIFEXITED(status)) {
-			clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
+			clogJE << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
 		}
 		else if (WIFSIGNALED(status)) {
-			clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
+			clogJE << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
 		}
 	}
 	// Si no acabó bien devolver calif 0
 	if (!goodRun) return 0;
 
-	clog << "  Analizando veredicto..." << endl;
+	clogJE << "  Analizando veredicto..." << endl;
 
 	ifstream veredictoJE("veredictoJE");
 	if (veredictoJE.fail()) {
-		clog << "  No pudo abrir veredictoJE" << endl;
+		clogJE << "  No pudo abrir veredictoJE" << endl;
 	}
 
 	if(veredictoJE >> calif)
 	{
-		clog << "  Caso " << getFileName(casoDePrueba) << " sacó " << calif << endl;
+		clogJE << "  Caso " << getFileName(casoDePrueba) << " sacó " << calif << endl;
 	}
 	else
 	{
-		clog << "  El JE no dio veredicto..." << endl;
+		clogJE << "  El JE no dio veredicto..." << endl;
 	}
+
+	clogJE << "\n\t****************************" << endl << endl;
 
 	remove("veredictoJE");
     return calif;
