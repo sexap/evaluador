@@ -32,12 +32,9 @@ pid_t juezInteractivoStart(const string& caseFile, const string& judgeExe, int a
 	return pID; // Termina la función
 }
 
-bool juezInteractivoEnd(pid_t pID) {
-	int status;
+bool juezInteractivoEnd(int status) {
     bool goodRun;
 
-	// Esperar hijo
-	waitpid(pID, &status, 0);
 	// Verificar que haya finalizado correctamente
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
 		clog << "  Ejecución de Juez Interactivo correcta..." << endl;

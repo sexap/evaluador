@@ -10,7 +10,7 @@ using namespace std;
 using namespace seap_implement;
 
 pid_t juezInteractivoStart(const string& caseFile, const string& judgeExe, int alumno_in, int alumno_out);
-bool juezInteractivoEnd(pid_t pID);
+bool juezInteractivoEnd(int status);
 int juezInteractivoResult();
 
 #endif // JUEZ_INTERACTIVO_H

@@ -2,18 +2,20 @@
 // -- AQUI
 {
 	// Variables internas (no existen fuera de esta sección)
-    int status, fd_pipe_comp[2], pipe_run_in[2], pipe_run_out[2];
+    int status, jStatus, fd_pipe_comp[2], pipe_run_in[2], pipe_run_out[2];
     pid_t pID, jID;
     char buffer[512];
     string comando, lang;
     unsigned int casosCorrectos, califFinal;
     bool goodComp, goodRun;
+    bool userRunning, judgeRunning;
     ParamHolder compParams, runParams;
 
     resource_t usedResources;
     rlimit limitVar;
     enum {LIMIT_NONE, LIMIT_TIME, LIMIT_MEM, LIMIT_SLEEP};
     int limitExceded;
+    int graceCount;
 
     // logJN
     remove("logJN.txt");
@@ -249,35 +251,50 @@
 				return 1;
 			} // Termina el hijo de ejecución
 
+			userRunning = true;
+			judgeRunning = (judgeType == "interactive");
+			graceCount = 0;
 			initResource(usedResources);
 			limitExceded = LIMIT_NONE;
-			while(true) {
-				// Espera a los hijos
-				if (waitpid(pID, &status, WNOHANG) != 0) {
-					cerr << "Terminó usuario. Matando JI" << endl; //!
-					if (judgeType == "interactive") kill(jID, SIGKILL);
-					break;
-				}
-				if (judgeType == "interactive" && waitpid(jID, &status, WNOHANG) != 0) {
-					cerr << "Terminó JI. Matando a usuario" << endl; //!
-					kill(pID, SIGKILL);
-					break;
-				}
-				// Restricciones de ejecución (parte 2)
-				getMaxResourceUsage(pID, usedResources);
-				if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
-					limitExceded = LIMIT_TIME;
-					kill(pID, SIGKILL);
-				}
-				if (usedResources.sleep_time > maxSleepTime * 1000) {
-					limitExceded = LIMIT_SLEEP;
-					kill(pID, SIGKILL);
-				}
-				else if (usedResources.mem > maxRunMem * 1024 * 1024) {
-					limitExceded = LIMIT_MEM;
-					kill(pID, SIGKILL);
-				}
 
+			while(true) {
+				// Espera al hijo: programa de usuario
+				if (userRunning &&  waitpid(pID, &status, WNOHANG) != 0) {
+					userRunning = false;
+				}
+				// Espera al hijo: juez interactivo
+				if (judgeRunning && waitpid(jID, &jStatus, WNOHANG) != 0) {
+					juezInteractivoEnd(jStatus);
+					judgeRunning = false;
+
+					close(pipe_run_in[0]);
+					close(pipe_run_in[1]);
+					close(pipe_run_out[0]);
+					close(pipe_run_out[1]);
+					//kill(pID, SIGKILL);
+				}
+				if (judgeRunning && !userRunning) {
+					graceCount += 1;
+					if (graceCount >= 20000) kill(jID, SIGKILL);
+				}
+				if (!userRunning && !judgeRunning) break;
+
+				if (userRunning) {
+					// Restricciones de ejecución (parte 2)
+					getMaxResourceUsage(pID, usedResources);
+					if (usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0) > maxRunTime) {
+						limitExceded = LIMIT_TIME;
+						kill(pID, SIGKILL);
+					}
+					if (usedResources.sleep_time > maxSleepTime * 1000) {
+						limitExceded = LIMIT_SLEEP;
+						kill(pID, SIGKILL);
+					}
+					else if (usedResources.mem > maxRunMem * 1024 * 1024) {
+						limitExceded = LIMIT_MEM;
+						kill(pID, SIGKILL);
+					}
+				}
 			}
 
 			// Verifica estado final de programa alumno
@@ -325,13 +342,7 @@
 						clog << "  Matado misteriosamente por la señal " << WTERMSIG(status) << endl;
 					}
 				}
-			} // Fin de restricciones
-
-			// Finaliza y espera juez interactivo
-			if (judgeType == "interactive") {
-				if (!goodRun) kill(jID, SIGKILL);
-				juezInteractivoEnd(jID);
-			}
+			} // Fin verificar estado
 
 			/******************
 			 *   Evaluación   *
