@@ -295,6 +295,10 @@ list<string> testCases, sourceFiles;
 		cerr << "No hay códigos fuente que evaluar" << endl;
 		hasError = true;
 	}
+	if (action == "generate" && sourceFiles.size() > 1) {
+		cerr << "Sólo se debe especificar un archivo fuente para la acción \"generate\"" << endl;
+		hasError = true;
+	}
 	if (hasError) return 1;
 }
 
