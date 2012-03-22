@@ -43,7 +43,7 @@ namespace seap_implement {
 	}
 
 	bool isValidAction(const string& s) {
-		return (s == "eval");
+		return (s == "eval" || "generate");
 	}
 
 	bool isValidLang(const string& s) {

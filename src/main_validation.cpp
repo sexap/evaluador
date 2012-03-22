@@ -1,6 +1,7 @@
 // Variables accesibles desde el exterior
-string judgeType, judgeExe, action, problem, outputFile;
+string judgeType, judgeExe, action, problem, outputFile, generateExe;
 unsigned maxSourceSize, maxCompTime, maxCompMem, maxOutSize, maxRunTime, maxSleepTime, maxRunMem;
+unsigned paramN;
 bool verbose, showProgress, strictEval, compareWhite;
 list<string> testCases, sourceFiles;
 
@@ -22,6 +23,7 @@ list<string> testCases, sourceFiles;
 	confArg.registerArgVar("o", Config::T_STRING, false);
 	confArg.registerArgVar("v", Config::T_BOOL, false);
 	confArg.registerArgVar("nb", Config::T_BOOL, false);
+	confArg.registerArgVar("n", Config::T_INT, false);
 
 	confFile.registerFileVar("comp_time", Config::T_INT, false);
 	confFile.registerFileVar("comp_mem", Config::T_INT, false);
@@ -40,6 +42,7 @@ list<string> testCases, sourceFiles;
 	confArg.setValue("o", "");
 	confArg.setValue("v", false); // Es callado
 	confArg.setValue("nb", false); // Muestra la barra deprogreso
+	confArg.setValue("n", 1); // Solo genera un caso
 
 	confFile.setValue("comp_time", 10000); // 10s para compilar
 	confFile.setValue("comp_mem", 256); // 256MB para compilar
@@ -70,9 +73,11 @@ list<string> testCases, sourceFiles;
 	confArg.getValue("o", outputFile);
 	confArg.getValue("v", verbose);
 	confArg.getValue("nb",showProgress);
+	confArg.getValue("n", paramN);
 
 	problem = cleanDirName(problem);
 	if(outputFile == "") outputFile = getFileName(problem);
+	generateExe = problem + "/generator";
 	showProgress = !showProgress;
 
 	clog << "verboso: " << (verbose?"sí":"no") << endl;
@@ -88,6 +93,10 @@ list<string> testCases, sourceFiles;
 	if (!isDir(problem))
 	{
 		cerr << "No se pudo abrir la carpeta del problema " << problem << endl;
+		hasError = true;
+	}
+	if (action == "generate" && !isExec(generateExe)) {
+		cerr << "No se puedo abrir el ejecutable " << generateExe << endl;
 		hasError = true;
 	}
 	if (hasError) return 1;
@@ -241,12 +250,12 @@ list<string> testCases, sourceFiles;
 	testCases.sort();
 	testCases.unique();
 
-	if (testCases.size() == 0)
+	if (testCases.size() == 0 && action == "eval")
 	{
 		cerr << "No hay casos de prueba para evaluar" << endl;
 		hasError = true;
 	}
-	if (hasError) return 1;
+	if (hasError && action == "eval") return 1;
 
 	/// ** Genera lista de codigos fuente ***
 	hasError = false;
@@ -290,9 +299,11 @@ list<string> testCases, sourceFiles;
 }
 
 // Debug
-clog << "Los casos a evaluar son:" << endl;
-for (list<string>::iterator it = testCases.begin(); it != testCases.end(); ++it) clog << *it << endl;
-clog << endl;
+if (action == "eval") {
+	clog << "Los casos a evaluar son:" << endl;
+	for (list<string>::iterator it = testCases.begin(); it != testCases.end(); ++it) clog << *it << endl;
+	clog << endl;
+}
 
 clog << "Los archivos de código son:" << endl;
 for (list<string>::iterator it = sourceFiles.begin(); it != sourceFiles.end(); ++it) clog << *it << endl;
