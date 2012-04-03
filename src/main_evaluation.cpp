@@ -6,7 +6,7 @@
     pid_t pID, jID;
     char buffer[512];
     string comando, lang;
-    unsigned int casosCorrectos, califFinal;
+    unsigned int califSum, califFinal, califTmp;
     bool goodComp, goodRun;
     bool userRunning, judgeRunning;
     ParamHolder compParams, runParams;
@@ -42,7 +42,7 @@
 
         if(showProgress) cout << "* " << flush;
 
-        casosCorrectos = 0;
+        califSum = 0;
 
         clog << "Evaluando el codigo " << *itSF << endl;
         if(judgeType == "standard")
@@ -360,8 +360,8 @@
 					if (juezNormal(compareWhite, (*itTC + "." + OUTPUT_EXTENSION) ))
 					{
 						clog << "bien" << endl;
-						casosCorrectos++;
-						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
+						califSum += 100;
+						reporte.agregarResultadoCasoPrueba(100,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
 					}
 					else {
 						clog << "mal" << endl;
@@ -377,36 +377,20 @@
 					clog << "  Ejecutando juez especial" << endl;
 					clogJN.flush();
 
-					//TODO: Jueces especiales califican de 0 a 100
-					if (juezEspecial(*itTC, judgeExe) == 100)
-					{
-						clog << "bien" << endl;
-						casosCorrectos++;
-						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					}
-					else
-					{
-						clog << "mal" << endl;
-						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					}
+					califTmp = juezEspecial(*itTC, judgeExe);
+					califSum += califTmp;
+					reporte.agregarResultadoCasoPrueba(califTmp,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
+					clog << "calif: " << califTmp << "%" << endl;
 				}
 
 				/**
 				*   Juez Interactivo
 				**/
 				else if (judgeType == "interactive") {
-					//TODO: Jueces especiales califican de 0 a 100
-					if (juezInteractivoResult() == 100)
-					{
-						clog << "bien" << endl;
-						casosCorrectos++;
-						reporte.agregarResultadoCasoPrueba(1,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					}
-					else
-					{
-						clog << "mal" << endl;
-						reporte.agregarResultadoCasoPrueba(0,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
-					}
+					califTmp = juezInteractivoResult();
+					califSum += califTmp;
+					reporte.agregarResultadoCasoPrueba(califTmp,usedResources.time / (sysconf(_SC_CLK_TCK) / 1000.0));
+					clog << "calif: " << califTmp << "%" << endl;
 				}
 			}
 
@@ -415,10 +399,10 @@
 		remove("exec_alumno");
 		remove("salida_exec_alumno");
 
-		clog << "Tuvo " << casosCorrectos << "/" << testCases.size() << " casos correctos." << endl;
-		califFinal = (double)casosCorrectos / testCases.size() * 100.0;
+		califFinal = (double)califSum / testCases.size();
 		if (strictEval && califFinal < 100) califFinal = 0;
 		reporte.terminarEvaluacionUsuario(califFinal);
+		clog << "Sacó " << califFinal << "% (califs promediadas)" << endl;
     }
     cout << endl;
 
