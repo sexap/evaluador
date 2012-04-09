@@ -5,6 +5,7 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     ofstream cout("logJN.txt", fstream::app);
     bool accepted = true;
     string archAlum = "salida_exec_alumno";
+    char c;
 
     ifstream respCorrecta(archSalidaEsperada.c_str());
     ifstream respAlumno(archAlum.c_str());
@@ -28,20 +29,16 @@ bool juezNormal(bool compareWhite, string archSalidaEsperada)
     }
     cout << "\nLa respuesta esperada es:" << endl;
     cout << "-----" << endl;
-    while(respCorrecta.good())
+    while(respCorrecta.get(c))
     {
-        char c;
-        respCorrecta.get(c);
         cout << c;
     }
     cout << "-----" << endl;
 
     cout << endl << "La respuesta del alumno fue:" << endl;
     cout << "-----" << endl;
-    while(respAlumno.good())
+    while(respAlumno.get(c))
     {
-        char c;
-        respAlumno.get(c);
         cout << c;
     }
     cout << "-----" << endl << endl;
