@@ -26,6 +26,7 @@ using namespace std;
 #include "juezNormal.h"
 #include "juezEspecial.h"
 #include "juezInteractivo.h"
+#include "generador.h"
 
 using namespace seap_implement;
 
