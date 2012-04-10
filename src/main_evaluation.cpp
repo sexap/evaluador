@@ -4,7 +4,7 @@
 	// Variables internas (no existen fuera de esta sección)
     int status, jStatus, fd_pipe_comp[2], pipe_run_in[2], pipe_run_out[2];
     pid_t pID, jID;
-    char buffer[512];
+    char buffer[512],tempFile[256];
     string comando, lang;
     unsigned int califSum, califFinal, califTmp;
     bool goodComp, goodRun;
@@ -180,6 +180,14 @@
         fclose(child_error); //TODO: Revisar documentación (por el pipe)
         clog << endl;
 
+        if(action == "generate"){
+            for(unsigned iterations = 0; iterations < paramN; iterations++){
+                sprintf(tempFile,"tmp%d.%s",iterations,CASE_EXTENSION);
+                generator(generateExe,tempFile);
+                testCases.push_back(removeExtension(tempFile));
+            }
+        }
+
 		//Ciclo para cada caso de prueba. (Casos)
 		for (list<string>::iterator itTC = testCases.begin(); itTC != testCases.end(); itTC++) {
 
@@ -301,9 +309,21 @@
 			if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
 				clog << "  Ejecución correcta...." << endl;
 				goodRun = true;
+
+				if(action == "generate"){
+
+                    rename((*itTC + "." + CASE_EXTENSION).c_str(),"caso.ent");
+                    rename("salida_exec_alumno","caso.dat");
+				}
+
 			}
 			else {
 				goodRun = false;
+
+				if(action == "generate"){
+                    remove(itTC->c_str());
+                }
+
 				if (WIFEXITED(status)) {
 					reporte.agregarResultadoCasoPrueba("BAD RET");
 					clog << "  Terminó misteriosamente con valor de retorno " << WEXITSTATUS(status) << endl;
@@ -348,7 +368,7 @@
 			 *   Evaluación   *
 			 ******************/
 			// Si merece la pena evaluarlo
-			if (goodRun) {
+			if (goodRun && action == "eval") {
 
 				/**
 				*   Juez Normal
