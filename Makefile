@@ -12,5 +12,5 @@ expandparam :
 seap :
 	@mkdir -p bin
 	@echo 'Compilando seap...'
-	@g++ src/utils/*.cpp src/juez*.cpp src/main.cpp -o bin/seap ${LIB} ${FLAGS}
+	@g++ src/utils/*.cpp src/generador.cpp src/juez*.cpp src/main.cpp -o bin/seap ${LIB} ${FLAGS}
 	@echo 'Listo'
