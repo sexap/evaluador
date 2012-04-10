@@ -1,6 +1,7 @@
 doc/html/
 obj/
 run/
+bin/
 seap.depend
 seap.layout
 

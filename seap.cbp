@@ -54,6 +54,9 @@
 		<Linker>
 			<Add library="/usr/local/lib/libconfig++.a" />
 		</Linker>
+		<Unit filename="src/aux/expandparam.cpp">
+			<Option target="Aux expandparam" />
+		</Unit>
 		<Unit filename="src/build_params.h">
 			<Option target="Debug" />
 			<Option target="Release" />
@@ -125,9 +128,6 @@
 		<Unit filename="src/utils/config_exceptions.h">
 			<Option target="Debug" />
 			<Option target="Release" />
-		</Unit>
-		<Unit filename="src/utils/expandparam.cpp">
-			<Option target="Aux expandparam" />
 		</Unit>
 		<Unit filename="src/utils/process_control.cpp">
 			<Option target="Debug" />
